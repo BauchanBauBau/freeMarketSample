@@ -1,0 +1,26 @@
+.select h2 {
+    margin-top: 5%;
+    text-align: center;
+}
+
+.select h4 {
+    margin-top: 2%;
+    margin-bottom: 2%;
+    text-align: center;
+}
+
+.dealings {
+    border: 1px solid;
+    margin-top: 3%;
+}
+
+#table1 {
+    text-align: center;
+    border: solid 1px #000000;
+}
+
+#table2 {
+    text-align: center;
+    border-top: solid 1px #000000;
+    border-bottom: solid 1px #000000;
+}

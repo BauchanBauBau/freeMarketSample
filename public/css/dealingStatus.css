@@ -1,0 +1,114 @@
+/*
+このcssファイルはstatusSeller.balade.phpと
+statusBuyer.blade.php共同で使用している*/
+
+.shippingAddress { /*statusSeller用*/
+    text-align: center;
+    margin: 2%;
+}
+
+.Status form { /*statusSeller用*/
+    text-align: left;
+}
+
+.Status button { /*statusSeller用*/
+    margin-top: 2%;
+}
+
+.status h2 {
+    text-align: center;
+    margin-top: 5%;
+}
+
+.shipped { /*statusSeller用*/
+    text-align: center;
+    margin: 2%;
+}
+
+.shipped button{ /*statusSeller用*/
+    text-align: center;
+    margin: 2%;
+}
+
+.changeShippingNumber {
+    text-align: center;
+}
+
+.name h1 {
+    text-align: center;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.img {
+    text-align: center;
+}
+
+.img img {
+    height: 450px;
+}
+
+.noImage {
+    margin-top: 5%;
+    margin-bottom: 5%;
+    padding-bottom: 25%;
+    border: solid 1px #000000;
+}
+
+
+#noImage0 {
+    padding-top: 30%;
+    text-align: center;
+}
+
+#noImage1 {
+    padding: 0% 10% 5% 10%;
+    text-align: center;
+}
+
+.table h1 {
+    text-align: center;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.price {
+    text-align: center;
+    margin: 2%;
+}
+
+.dealingMessageArea h1 {
+    margin-bottom: 5%;
+    text-align: center;
+}
+
+.messageButton {
+    margin: 2%;
+    text-align: center;
+}
+
+.dealingMessages {
+    background-color: rgb(120, 190, 250);
+}
+
+.rightMessages h5 {
+    margin-top: 5%;
+    padding: 2%;
+    background-color: rgb(10, 240, 60);
+    text-align: left;
+}
+
+.rightMessages p {
+    text-align: center;
+}
+
+.leftMessages h5 {
+    margin-top: 5%;
+    padding: 2%;
+    background-color: white;
+    text-align: left;
+}
+
+.leftMessages p {
+    text-align: center;
+}
