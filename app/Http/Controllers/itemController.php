@@ -21,6 +21,13 @@ class itemController extends Controller
     {
         $items = Item::all();
         $categories = Category::all();
+        
+        if($request->input('order') == 0){
+            $items = Item::where('buyer_id', '<', 1)->get();
+        }elseif($request->input('order') == 1){
+            $items = Item::where('buyer_id', '>', 0)->get();
+        }
+        
         return view('item.itemIndex', ['items' => $items, 'categories' => $categories]);
     }
 
@@ -299,5 +306,12 @@ class itemController extends Controller
         }
         
         return view('item.itemSearch', ['items' => $items]);
+    }
+
+    public function category(){
+        $topCategories = Category::where('parentCategory_id', '=', 0)
+        ->orWhere('parentCategory_id', '=', null)->get();
+        $underCategories = Category::where('parentCategory_id', '!=', 0)
+        ->orWhere('parentCategory_id', '!=', null)->get();
     }
 }
