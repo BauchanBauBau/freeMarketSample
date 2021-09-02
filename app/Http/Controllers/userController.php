@@ -89,7 +89,9 @@ class userController extends Controller
     public function userGood()
     {
         $user = Auth::user();
-        $goodItems = Item_good::where('watcher_id', '=', $user->id)->get();
+        $goodItems = Item_good::where('watcher_id', '=', $user->id)
+        ->where('buyed', '<', 1)
+        ->get();
         return view('user.userGood', ['goodItems' => $goodItems]);
     }
 
@@ -97,7 +99,9 @@ class userController extends Controller
     {
         $user = Auth::user();
         $goodItems = Item_good::where('watcher_id', '!=', $user->id)
-        ->where('user_id', '=', $user->id)->get();
+        ->where('user_id', '=', $user->id)
+        ->where('buyed', '<', 1)
+        ->get();
         return view('user.userGoodByWatcher', ['goodItems' => $goodItems]);
     }
     
@@ -288,11 +292,14 @@ class userController extends Controller
         ->get()->unique('item_id'); //「->unique('item_id')」で重複を防止する．
         
         //「いいね」した商品
-        $goodItems = Item_good::where('watcher_id', '=', $user)->get();
+        $goodItems = Item_good::where('watcher_id', '=', $user)
+        ->where('buyed', '<', 1)
+        ->get();
 
         //「いいね」された商品
         $goodItemsByWatcher = Item_good::where('watcher_id', '!=', $user)
         ->where('user_id', '=', $user)
+        ->where('buyed', '<', 1)
         ->get();
 
         //取引中の商品（購入）

@@ -18,6 +18,7 @@ class CreateItemGoodsTable extends Migration
             $table->integer('watcher_id'); //「いいね」したユーザーのid
             $table->integer('user_id'); //出品者
             $table->integer('item_id');
+            $table->integer('buyed');
             $table->timestamps();
         });
     }

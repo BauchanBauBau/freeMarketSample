@@ -4,20 +4,27 @@
 <link href="{{ asset('css/item/itemIndex.css') }}" rel="stylesheet">
 
 @section('content')
-<div class="menu" style="margin-top: 3%">
+<div class="menu">
     <div class="row">
-        <div class="col-md-2 offset-md-4">
-            <a href="#">カテゴリーから選ぶ</a>
-        </div>
-        <div class="col-md-4">
-            <form action="{{ action('itemController@itemIndex') }}" method="GET">
-                <select id="order" name="order">
-                    <option value="">並び順を選択してください</option>
-                    <option value="0">販売中の商品</option>
-                    <option value="1">売り切れの商品</option>
-                    <option value="2">「いいね」が多い順</option>
-                </select>
-                <button type="submit">並替</button>
+        <div class="col-md-12">
+            <form action="{{ action('itemController@itemIndex') }}" class="col-md-6 offset-md-3" method="GET">
+                @csrf
+                    <div class="form-group">
+                        <label for="status">販売状況</label>
+                        <select class="form-control" name="status" id="status">
+                            <option value="" @if(old('status') == null) selected  @endif>>選択してください</option>
+                            <option value="0" @if(old('status') == 0) selected  @endif>販売中</option>
+                            <option value="1" @if(old('status') == 1) selected  @endif>販売済み</option>
+                        </select>
+                        <label for="category">カテゴリー</label>
+                        <select class="form-control" name="category" id="category">
+                            <option value="" @if(old('category') == null) selected  @endif>選択してください</option>
+                            @foreach($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                        <button type="submit" class="btn btn-block btn-dark">表示</button>
+                    </div>
             </form>
         </div>
     </div>

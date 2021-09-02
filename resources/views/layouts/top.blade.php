@@ -38,12 +38,15 @@
                                     </li>
                                 @endif
                             @else
-                                <li class="nav-item dropdown">
-                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                        {{ Auth::user()->nickName }} 様 <span class="caret"></span>
+                                <div class="dropdown">
+                                    <a class="btn btn-outline-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {{ Auth::user()->nickName }} 様
+                                        @if(Auth::user()->role_id == 1)
+                                            <br><strong>（管理ユーザー）</strong>
+                                        @endif
                                     </a>
-    
-                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                         @if(Auth::user()->role_id == 1)
                                             <a class="dropdown-item" href="/admin">管理画面（voyager）</a>
                                         @endif
@@ -53,12 +56,12 @@
                                                     document.getElementById('logout-form').submit();">
                                             ログアウト
                                         </a>
-    
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             @csrf
                                         </form>
                                     </div>
-                                </li>
+                                </div>
+
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ action('itemController@itemRegisterGet') }}">出品する</a>
                                 </li>

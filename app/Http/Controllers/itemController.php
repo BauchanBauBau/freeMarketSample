@@ -18,15 +18,30 @@ use Illuminate\Support\Facades\Mail;
 class itemController extends Controller
 {
     public function itemIndex(Request $request)
-    {
-        $items = Item::all();
-        $categories = Category::all();
+    {   
+        $category = $request->input('category');
         
-        if($request->input('order') == 0){
-            $items = Item::where('buyer_id', '<', 1)->get();
-        }elseif($request->input('order') == 1){
-            $items = Item::where('buyer_id', '>', 0)->get();
+        if($request->input('status') == null){
+            $items = Item::all();
+        }elseif($request->input('status') == 0){
+            if(isset($category)){
+                $items = Item::where('buyer_id', '<', 1)
+                ->where('category_id', '=', $request->input('category'))
+                ->get();
+            }else{
+                $items = Item::where('buyer_id', '<', 1)->get();  
+            }
+        }elseif($request->input('status') == 1){
+            if(isset($category)){
+                $items = Item::where('buyer_id', '>', 0)
+                ->where('category_id', '=', $request->input('category'))
+                ->get();
+            }else{
+                $items = Item::where('buyer_id', '>', 0)->get(); 
+            }
         }
+
+        $categories = Category::all();
         
         return view('item.itemIndex', ['items' => $items, 'categories' => $categories]);
     }
@@ -114,7 +129,7 @@ class itemController extends Controller
         Item_comment::where('item_id', '=', $itemDetail->id)->delete();
 
         $itemGood = Item_good::where('item_id', '=', $itemDetail->id)->get();
-        if(!is_null($itemGood)){
+        if(isset($itemGood)){
             Item_good::where('item_id', '=', $itemDetail->id)->delete();
         }
 
@@ -145,6 +160,7 @@ class itemController extends Controller
             $itemGood->watcher_id = $userId;
             $itemGood->user_id = $itemDetail->user_id;
             $itemGood->item_id = $itemDetail->id;
+            $itemGood->buyed = 0;
 
             $itemGood->save();
 
@@ -306,12 +322,5 @@ class itemController extends Controller
         }
         
         return view('item.itemSearch', ['items' => $items]);
-    }
-
-    public function category(){
-        $topCategories = Category::where('parentCategory_id', '=', 0)
-        ->orWhere('parentCategory_id', '=', null)->get();
-        $underCategories = Category::where('parentCategory_id', '!=', 0)
-        ->orWhere('parentCategory_id', '!=', null)->get();
     }
 }

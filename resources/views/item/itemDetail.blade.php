@@ -132,7 +132,7 @@
         @endif
       </h5>
       
-      @if($itemDetail->user_id != Auth::id())
+      @if($itemDetail->user_id != Auth::id() && Auth::user()->role_id != 1)
         @if($itemDetail->buyer_id < 1)
           <a href="{{ action('dealingBuyerController@buy',
             ['id' => $itemDetail->id]) }}" class="btn btn-danger btn-lg btn-block" onClick="buyAlert(event);return false;">購入する</a>
@@ -145,10 +145,22 @@
         @if($itemDetail->buyer_id < 1)
           <a href="{{ action('itemController@itemEditGet',
             ['id' => $itemDetail->id]) }}"
-            class="btn btn-success btn-lg btn-block">商品を編集する</a>
+            class="btn btn-success btn-lg btn-block">
+            @if(Auth::user()->role_id == 1)
+              <strong>管理者として</strong>商品を編集する
+            @else
+              商品を編集する
+            @endif
+          </a>
           <a id="delete" href="{{ action('itemController@itemDelete',
             ['id' => $itemDetail->id]) }}"
-            class="btn btn-danger" onClick="deleteAlert(event);return false;">商品を削除する</a>
+            class="btn btn-danger" onClick="deleteAlert(event);return false;">
+            @if(Auth::user()->role_id == 1)
+              <strong>管理者として</strong>商品を削除する
+            @else
+              商品を削除する
+            @endif
+          </a>
         @elseif($itemDetail->user_id == Auth::id())
           <a href="{{ action('dealingSellerController@statusSeller',
             ['id' => $dealingStatus->id]) }}"
@@ -240,7 +252,9 @@
                 <h5>コメントを削除しました．</h5>
               @endif
               {{-- 以下のuserはCapp\Item_comment.phpで定義したusersテーブルを参照するための
-              userメソッドであり，nickNameはusersテーブルのカラムである． --}}
+              userメソッドであり，nickNameはusersテーブルのカラムである．
+              なおユーザーが削除されても販売済みの商品は残るようにしてあるため，
+              以下の記載が必要になる． --}}
               @if(!isset($comment->watcher->nickName))
                 <p>このユーザーは削除されました．</p>
               @else
@@ -269,7 +283,9 @@
                 <h5>コメントを削除しました．</h5>
               @endif
               {{-- 以下のuserはCapp\Item_comment.phpで定義したusersテーブルを参照するための
-              userメソッドであり，nickNameはusersテーブルのカラムである． --}}
+              userメソッドであり，nickNameはusersテーブルのカラムである．
+              なおユーザーが削除されても販売済みの商品は残るようにしてあるため，
+              以下の記載が必要になる． --}}
               @if(!isset($comment->watcher->nickName))
                 <p>このユーザーは削除されました．</p>
               @else

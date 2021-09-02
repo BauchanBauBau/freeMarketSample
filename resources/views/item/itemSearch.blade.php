@@ -49,9 +49,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                            
-                            
+                </div>       
                 <button class="btn btn-block btn-success" type="submit">検索</button>
             </form>
         </div>

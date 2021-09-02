@@ -1,3 +1,8 @@
+.menu {
+    text-align: center;
+    margin-top: 3%;
+}
+
 #header1{ /*userCheckedItem～userGood用*/
     text-align: center;
     margin: 5%;

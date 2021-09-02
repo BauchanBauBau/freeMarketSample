@@ -37,6 +37,11 @@ class dealingBuyerController extends Controller
             $comment->buyed = 1;
             $comment->save();
         }
+        $goods = Item_good::where('item_id', '=', $item->id)->get();
+        foreach($goods as $good){
+            $good->buyed = 1;
+            $good->save();
+        }
 
             //メール送信
             $seller = User::find($dealingStatus->seller_id);
