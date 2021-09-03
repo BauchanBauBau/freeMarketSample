@@ -1,6 +1,7 @@
 @extends('layouts.top')
 
 <link href="{{ asset('css/auth.css') }}" rel="stylesheet">
+<title>ログイン</title>
 
 @section('content')
 <div class="login" id="header">

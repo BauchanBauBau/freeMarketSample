@@ -1,5 +1,7 @@
 @extends('layouts.top')
 
+<title>ユーザーページ</title>
+
 @section('content')
 <div class="userInfo" style="margin-top: 5%">
     <div class="row">

@@ -1,7 +1,7 @@
 @extends('layouts.top')
 
-<title>Home 商品一覧</title>
 <link href="{{ asset('css/item/itemIndex.css') }}" rel="stylesheet">
+<title>Home 商品一覧</title>
 
 @section('content')
 <div class="menu">

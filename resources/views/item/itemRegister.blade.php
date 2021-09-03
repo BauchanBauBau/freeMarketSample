@@ -1,6 +1,7 @@
 @extends('layouts.top')
 
 <script src="{{ asset('js/item.js') }}" defer></script>
+<title>商品登録</title>
 
 @section('content')
 

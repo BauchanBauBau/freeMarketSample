@@ -3,6 +3,7 @@
 <link href="{{ asset('css/auth.css') }}" rel="stylesheet">
 <script src="{{ asset('js/user.js') }}" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/fetch-jsonp@1.1.3/build/fetch-jsonp.min.js"></script>
+<title>ユーザー登録</title>
 
 @section('content')
 <div class="userRegister" id="header">

@@ -1,6 +1,7 @@
 @extends('layouts.top')
 
 <link rel="stylesheet" href="{{ asset('css/item/itemIndex.css') }}">
+<title>「いいね」した商品</title>
 
 @section('content')
 <br>

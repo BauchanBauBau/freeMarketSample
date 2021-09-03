@@ -1,6 +1,8 @@
 @extends('layouts.top')
 
 <link href="{{ asset('css/auth.css') }}" rel="stylesheet">
+<title>本登録のお願い</title>
+
 @section('content')
 <div class="verify" id="header">
     <div class="container">

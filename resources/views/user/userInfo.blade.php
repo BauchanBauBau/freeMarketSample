@@ -2,6 +2,7 @@
 
 <link rel="stylesheet" href="{{ asset('css/user/userInfo.css') }}">
 <script src="{{ asset('js/user.js') }}" defer></script>
+<title>ユーザー登録情報</title>
 
 @section('content')
 

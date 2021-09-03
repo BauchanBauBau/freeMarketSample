@@ -2,6 +2,7 @@
 
 <link href="{{ asset('css/dealingStatus.css') }}" rel="stylesheet">
 <script src="{{ asset('js/status.js') }}" defer></script>
+<title>取引状況</title>
 
 @section('content')
 

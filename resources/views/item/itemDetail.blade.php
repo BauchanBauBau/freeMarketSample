@@ -2,6 +2,7 @@
 
 <link href="{{ asset('css/item/itemDetail.css') }}" rel="stylesheet">
 <script src="{{ asset('js/item.js') }}" defer></script>
+<title>商品詳細</title>
 
 @section('content')
 <div class="name">
@@ -132,7 +133,7 @@
         @endif
       </h5>
       
-      @if($itemDetail->user_id != Auth::id() && Auth::user()->role_id != 1)
+      @if($itemDetail->user_id != Auth::id() && !isset(Auth::user()->role_id))
         @if($itemDetail->buyer_id < 1)
           <form action="{{ action('dealingBuyerController@buy', 
             ['id' => $itemDetail->id]) }}" method="post">

@@ -3,6 +3,7 @@
 <link rel="stylesheet" href="{{ asset('css/user/userEdit.css') }}">
 <script src="{{ asset('js/user.js') }}" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/fetch-jsonp@1.1.3/build/fetch-jsonp.min.js"></script>
+<title>ユーザー情報編集</title>
 
 @section('content')
 <form action="{{ action('userController@userEditPost', ['id' => Auth::id()]) }}" method="post" enctype="multipart/form-data">

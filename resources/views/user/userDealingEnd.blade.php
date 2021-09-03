@@ -1,6 +1,7 @@
 @extends('layouts.top')
 
 <link rel="stylesheet" href="{{ asset('css/user/userDealingEnd.css') }}">
+<title>終了した取引</title>
 
 @section('content')
 

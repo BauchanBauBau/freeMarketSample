@@ -1,6 +1,7 @@
 @extends('layouts.top')
 
 <link rel="stylesheet" href="{{ asset('css/user/userRegisteredItem.css') }}">
+<title>出品した商品</title>
 
 @section('content')
 @if(count($items) < 1 && ($status == "all" || $status == "selling" || $status = "soldOut"))
