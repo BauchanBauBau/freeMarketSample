@@ -39,11 +39,11 @@
     <div class="col-md-3">
       <label for="condition">商品の状態 <span class="badge badge-danger">必須</span></label>
       <select class="form-control" name="condition" id="condition">
-        <option value="0">新品・未使用</option>
-        <option value="1">新品・未使用に近い</option>
-        <option value="2">目立った傷や汚れ無し</option>
-        <option value="3">傷や汚れ有り</option>
-        <option value="4">全体的に状態が悪い</option>
+        <option value="0" @if(old('condition') == 0) selected @endif>新品・未使用</option>
+        <option value="1" @if(old('condition') == 1) selected @endif>新品・未使用に近い</option>
+        <option value="2" @if(old('condition') == 2) selected @endif>目立った傷や汚れ無し</option>
+        <option value="3" @if(old('condition') == 3) selected @endif>傷や汚れ有り</option>
+        <option value="4" @if(old('condition') == 4) selected @endif>全体的に状態が悪い</option>
       </select>
     </div>
   </div>
@@ -57,8 +57,8 @@
     <div class="col-md-3">
       <label for="shippingOption">送料 <span class="badge badge-danger">必須</span></label>
       <select class="form-control" name="shippingOption" id="shippingOption" onchange="change()">
-        <option value="0">送料込み</option>
-        <option value="1">着払い</option>
+        <option value="0" @if(old('shippingOption') == 0) selected @endif>送料込み</option>
+        <option value="1" @if(old('shippingOption') == 1) selected @endif>着払い</option>
       </select>
     </div>
   </div>
@@ -66,13 +66,13 @@
     <div class="col-md-4">
       <label for="shippingMethod">配送方法 <span class="badge badge-danger">必須</span></label>
       <select class="form-control" name="shippingMethod" id="shippingMethod" onchange="change2()">
-        <option value="0">普通郵便</option>
-        <option value="1">レターパック</option>
-        <option value="2">ゆうパック</option>
-        <option value="3">ヤマト運輸</option>
-        <option value="4">佐川急便</option>
-        <option value="5">その他(荷物の位置を特定できる伝票番号あり)</option>
-        <option value="6">その他(荷物の位置を特定できる伝票番号なし)</option>
+        <option value="0" @if(old('shippingMethod') == 0) selected @endif>普通郵便</option>
+        <option value="1" @if(old('shippingMethod') == 1) selected @endif>レターパック</option>
+        <option value="2" @if(old('shippingMethod') == 2) selected @endif>ゆうパック</option>
+        <option value="3" @if(old('shippingMethod') == 3) selected @endif>ヤマト運輸</option>
+        <option value="4" @if(old('shippingMethod') == 4) selected @endif>佐川急便</option>
+        <option value="5" @if(old('shippingMethod') == 5) selected @endif>その他(荷物の位置を特定できる伝票番号あり)</option>
+        <option value="6" @if(old('shippingMethod') == 6) selected @endif>その他(荷物の位置を特定できる伝票番号なし)</option>
       </select>
     </div>
   </div>
@@ -85,13 +85,13 @@
     <div class="col-md-2">
       <label for="days">発送までの日数 <span class="badge badge-danger">必須</span></label>
       <select class="form-control" name="days" id="days">
-        <option value="0">1日</option>
-        <option value="1">2日</option>
-        <option value="2">3日</option>
-        <option value="3">4日</option>
-        <option value="4">5日</option>
-        <option value="5">6日</option>
-        <option value="6">7日</option>
+        <option value="0" @if(old('days') == 0) selected @endif>1日</option>
+        <option value="1" @if(old('days') == 1) selected @endif>2日</option>
+        <option value="2" @if(old('days') == 2) selected @endif>3日</option>
+        <option value="3" @if(old('days') == 3) selected @endif>4日</option>
+        <option value="4" @if(old('days') == 4) selected @endif>5日</option>
+        <option value="5" @if(old('days') == 5) selected @endif>6日</option>
+        <option value="6" @if(old('days') == 6) selected @endif>7日</option>
       </select>
     </div>
   </div>

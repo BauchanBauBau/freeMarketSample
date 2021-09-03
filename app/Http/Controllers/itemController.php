@@ -302,10 +302,10 @@ class itemController extends Controller
 
         if(isset($status)) {
             if(intval($status) < 1){ //intvalで文字列を数値化
-                $query->where('buyer', '<', 1);
+                $query->where('buyer_id', '<', 1);
                 
             }else{
-                $query->where('buyer', '>', 0);
+                $query->where('buyer_id', '>', 0);
             }
         }
 
@@ -319,7 +319,9 @@ class itemController extends Controller
 
         if(isset($sellerName)) {
             $seller = User::where('nickName', 'like', '%'.$sellerName.'%')->first();
-            $query->where('user_id', '=', $seller->id);
+            if(isset($seller)){
+                $query->where('user_id', '=', $seller->id);
+            }
         }
 
         if(!isset($name) && !isset($condition) && !isset($status) && !isset($priceMin) && !isset($priceMax) && !isset($sellerName))

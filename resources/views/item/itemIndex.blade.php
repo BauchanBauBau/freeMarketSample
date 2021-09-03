@@ -12,13 +12,13 @@
                     <div class="form-group">
                         <label for="status">販売状況</label>
                         <select class="form-control" name="status" id="status">
-                            <option value="" @if(old('status') == null) selected @endif>選択してください</option>
-                            <option value="0" @if(old('status') == 0) selected @endif>販売中</option>
-                            <option value="1" @if(old('status') == 1) selected @endif>販売済み</option>
+                            <option value="" selected>選択してください</option>
+                            <option value="0">販売中</option>
+                            <option value="1">販売済み</option>
                         </select>
                         <label for="category">カテゴリー</label>
                         <select class="form-control" name="category" id="category">
-                            <option value="" @if(old('category') == null) selected  @endif>選択してください</option>
+                            <option value="">選択してください</option>
                             @foreach($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach

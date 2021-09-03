@@ -52,7 +52,7 @@
 
                         <div class="form-group">
                             <label for="sellerName">出品者名</label>
-                            <input class="form-control" type="search" name="sellerName" id="sellerName" value="{{ old('sellerName') }}" placeholder="出品者名">
+                            <input class="form-control" type="search" name="sellerName" id="sellerName" placeholder="出品者名">
                         </div>
                     </div>
                 </div>       
