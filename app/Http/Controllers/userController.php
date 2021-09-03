@@ -50,7 +50,7 @@ class userController extends Controller
         $userDel = User::find($request->id);
 
         Item::where('user_id', '=', $userDel->id)
-        ->where('buyer', '<', 1)
+        ->where('buyer_id', '<', 1)
         ->delete();
 
         Item_comment::where('user_id', '=', $userDel->id)->delete();

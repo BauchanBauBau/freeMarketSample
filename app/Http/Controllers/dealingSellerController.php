@@ -125,7 +125,7 @@ class dealingSellerController extends Controller
         
         if($userId == $dealingStatus->buyer_id){
             return redirect()->route('statusBuyer', ['id' => $dealingStatus->id]);
-        }else{
+        }elseif($userId == $dealingStatus->seller_id){
             return redirect()->route('statusSeller', ['id' => $dealingStatus->id]);
         }
     }
@@ -135,9 +135,9 @@ class dealingSellerController extends Controller
         $message->messageDelete = 1;
         $message->save();
 
-        if($message->buyer == Auth::id()){
+        if($message->buyer_id == Auth::id()){
             return redirect()->route('statusBuyer', ['id' => $message->dealingStatus_id]);
-        }else{
+        }elseif($message->seller_id == Auth::id()){
             return redirect()->route('statusSeller', ['id' => $message->dealingStatus_id]);
         }
     }

@@ -20,6 +20,11 @@ statusBuyer.blade.php共同で使用している*/
     margin-top: 5%;
 }
 
+.status p {
+    text-align: center;
+    margin-top: 3%;
+}
+
 .shipped { /*statusSeller用*/
     text-align: center;
     margin: 2%;

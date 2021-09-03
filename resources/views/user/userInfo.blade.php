@@ -55,7 +55,10 @@
             </table>
             <a href="{{ action('userController@userEditGet', ['id' => Auth::id()]) }}" class="btn btn-success btn-lg btn-block">ユーザー情報を編集する</a>
             @if($dealing < 1)
-                <a href="{{ action('userController@userDelete', ['id' => Auth::id()]) }}" class="btn btn-danger" onClick="deleteAlert(event);return false;">ユーザー情報を削除する</a>
+                <form action="{{ action('userController@userDelete', ['id' => Auth::id()]) }}" method="post">
+                    @csrf
+                    <button type="submit" class="btn btn-danger" onClick="deleteAlert(event);return false;">ユーザー情報を削除する</button>
+                </form>
             @else
                 <h2>取引中の商品があるためユーザー情報を削除することはできません．</h2>
             @endif

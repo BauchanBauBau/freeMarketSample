@@ -53,6 +53,10 @@ td{
     text-align: center;
 }
 
+.price form {
+    margin-top: 3%;
+}
+
 #delete {
     margin-top: 5%;
     margin-bottom: 5%;

@@ -134,8 +134,11 @@
       
       @if($itemDetail->user_id != Auth::id() && Auth::user()->role_id != 1)
         @if($itemDetail->buyer_id < 1)
-          <a href="{{ action('dealingBuyerController@buy',
-            ['id' => $itemDetail->id]) }}" class="btn btn-danger btn-lg btn-block" onClick="buyAlert(event);return false;">購入する</a>
+          <form action="{{ action('dealingBuyerController@buy', 
+            ['id' => $itemDetail->id]) }}" method="post">
+            @csrf
+            <button type="submit" class="btn btn-danger btn-lg btn-block" onClick="buyAlert(event);return false;">購入する></button>
+          </form>
         @elseif($itemDetail->buyer_id == Auth::id())
           <a href="{{ action('dealingBuyerController@statusBuyer',
             ['id' => $dealingStatus->id]) }}" class="btn btn-primary btn-lg btn-block">取引場面へ
@@ -152,15 +155,17 @@
               商品を編集する
             @endif
           </a>
-          <a id="delete" href="{{ action('itemController@itemDelete',
-            ['id' => $itemDetail->id]) }}"
-            class="btn btn-danger" onClick="deleteAlert(event);return false;">
-            @if(Auth::user()->role_id == 1)
-              <strong>管理者として</strong>商品を削除する
-            @else
-              商品を削除する
-            @endif
-          </a>
+          <form action="{{ action('itemController@itemDelete', 
+            ['id' => $itemDetail->id]) }}" method="post">
+            @csrf
+            <button type="submit" class="btn btn-danger" onClick="deleteAlert(event);return false;">
+              @if(Auth::user()->role_id == 1)
+                <strong>管理者として</strong>商品を削除する
+              @else
+                商品を削除する
+              @endif
+            </button>
+          </form>
         @elseif($itemDetail->user_id == Auth::id())
           <a href="{{ action('dealingSellerController@statusSeller',
             ['id' => $dealingStatus->id]) }}"
@@ -192,10 +197,16 @@
         @endif
       @else
         @if(count($goodCount) < 1 && $itemDetail->buyer_id < 1 && Auth::id() != $itemDetail->user_id)
-          <a href="{{ action('itemController@itemDetailGood', ['id' => $itemDetail->id]) }}" class="btn btn-danger">いいね（{{ count($goods) }}人が「いいね」をしています）</a>
+          <form action="{{ action('itemController@itemDetailGood', ['id' => $itemDetail->id]) }}" method="post">
+          @csrf
+            <button type="submit" class="btn btn-danger">いいね（{{ count($goods) }}人が「いいね」をしています）</button>
+          </form>
         @elseif(count($goodCount) > 0 && $itemDetail->buyer_id < 1)
           <p>（{{ count($goods) }}人が「いいね」をしています）</p>
-          <a href="{{ action('itemController@itemDetailGood', ['id' => $itemDetail->id]) }}" class="btn btn-danger">「いいね」を取り消す</a>
+          <form action="{{ action('itemController@itemDetailGood', ['id' => $itemDetail->id]) }}" method="post">
+            @csrf
+              <button type="submit" class="btn btn-danger">「いいね」を取り消す</button>
+          </form>
         @else
           <p>{{ count($goods) }}人が「いいね」をしました．</p>
         @endif
@@ -269,9 +280,10 @@
                 <p>{{ $comment->created_at }}</p>
               @if($itemDetail->buyer_id < 1 && $comment->commentDelete < 1 && $comment->watcher_id == Auth::id())
                 <p>
-                  <a class="btn btn-danger" href="{{ action('itemController@itemCommentDelete',
-                    ['id' => $comment->id]) }}" onClick="deleteAlert(event);return false;">コメントを削除する
-                  </a>
+                  <form action="{{ action('itemController@itemCommentDelete', ['id' => $comment->id]) }}" method="post">
+                  @csrf 
+                    <button type="submit" class="btn btn-danger" onClick="deleteAlert(event);return false;">コメントを削除する</button>
+                  </form>
                 </p>
               @endif
             </div>

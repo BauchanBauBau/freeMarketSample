@@ -10,11 +10,23 @@
         <div class="col-md-12">
 @if($dealingStatus->payed < 1)
             <h2>支払いをしてください</h2>
-            <p style="text-align: center">決済手段は今回は実装していません．</p>
-            <a href="{{ action('dealingBuyerController@statusBuyerPayed', ['id' => $dealingStatus->id]) }}" class="btn btn-danger btn-lg col-md-4 offset-md-4" onClick="confirmAlert(event);return false;">支払の完了を通知する．</a>
+            <p>決済手段は今回は実装していません．</p>
+            <form action="{{ action('dealingBuyerController@statusBuyerPayed', 
+                ['id' => $dealingStatus->id]) }}" method="post">
+                @csrf
+                <button type="submit" class="btn btn-danger btn-lg col-md-4 offset-md-4" 
+                    onClick="confirmAlert(event);return false;">支払の完了を通知する．
+                </button>
+            </form>
 @elseif($dealingStatus->payed > 0 && $dealingStatus->shipped < 1)
             <h2>発送をお待ちください</h2>
-            <a href="{{ action('dealingBuyerController@statusSkip', ['id' => $dealingStatus->id]) }}" class="btn btn-danger btn-lg col-md-4 offset-md-4" onClick="confirmAlert(event);return false;">スキップする</a>
+            <form action="{{ action('dealingBuyerController@statusSkip', 
+                ['id' => $dealingStatus->id]) }}" method="post">
+                @csrf
+                <button type="submit" class="btn btn-danger btn-lg col-md-4 offset-md-4" 
+                    onClick="confirmAlert(event);return false;">スキップする
+                </button>
+            </form>
 @elseif($dealingStatus->payed > 0 && $dealingStatus->shipped > 0 && $dealingStatus->evaluated < 1)
             <h2>到着までお待ちください</h2>
             <h2>荷物が到着したら出品者を評価してください．</h2>
@@ -51,7 +63,13 @@
 @elseif($dealingStatus->payed > 0 && $dealingStatus->shipped > 0 &&
 $dealingStatus->evaluated > 0 && $dealingStatus->evaluated < 2)
             <h2>出品者からの評価をお待ちください．</h2>
-            <a href="{{ action('dealingBuyerController@statusSkip', ['id' => $dealingStatus->id]) }}" class="btn btn-danger btn-lg col-md-4 offset-md-4" onClick="confirmAlert(event);return false;">スキップする</a>
+            <form action="{{ action('dealingBuyerController@statusSkip', 
+                ['id' => $dealingStatus->id]) }}" method="post">
+                @csrf
+                <button type="submit" class="btn btn-danger btn-lg col-md-4 offset-md-4" 
+                    onClick="confirmAlert(event);return false;">スキップする
+                </button>
+            </form>
 @else
             <h2>この商品の取引は終了しました．</h2>
 @endif
@@ -207,9 +225,11 @@ $dealingStatus->evaluated > 0 && $dealingStatus->evaluated < 2)
                                 <p>{{ $message->created_at }}</p>
                             @if($message->messageDelete < 1 && $dealingStatus->evaluated < 2 && $message->user_id == Auth::id())
                                 <p>
-                                  <a class="btn btn-danger" href="{{ action('dealingSellerController@dealingMessageDelete',
-                                    ['id' => $message->id]) }}" onClick="deleteAlert(event);return false;">メッセージを削除する
-                                  </a>
+                                    <form action="{{ action('dealingSellerController@dealingMessageDelete', 
+                                        ['id' => $message->id]) }}" method="post">
+                                        @csrf
+                                            <button type="submit" class="btn btn-danger offset-md-4" onClick="deleteAlert(event);return false;">メッセージを削除する</button>
+                                    </form> 
                                 </p>
                             @endif
                             </div>

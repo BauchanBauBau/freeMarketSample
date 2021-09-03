@@ -223,9 +223,11 @@
                                 <p>{{ $message->created_at }}</p>
                             @if($message->messageDelete < 1 && $dealingStatus->evaluated < 2 && $message->user_id == Auth::id())
                                 <p>
-                                  <a class="btn btn-danger" href="{{ action('dealingSellerController@dealingMessageDelete',
-                                    ['id' => $message->id]) }}" onClick="deleteAlert(event);return false;">メッセージを削除する
-                                  </a>
+                                    <form action="{{ action('dealingSellerController@dealingMessageDelete', 
+                                        ['id' => $message->id]) }}" method="post">
+                                        @csrf
+                                            <button type="submit" class="btn btn-danger offset-md-4" onClick="deleteAlert(event);return false;">メッセージを削除する</button>
+                                    </form> 
                                 </p>
                             @endif
                             </div>

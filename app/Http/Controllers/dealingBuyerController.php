@@ -10,6 +10,7 @@ use App\Dealing_message;
 use App\Evaluation;
 use App\User;
 use App\Item_comment;
+use App\Item_good;
 
 use Illuminate\Support\Facades\Mail;
 
