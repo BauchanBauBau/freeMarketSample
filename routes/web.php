@@ -81,6 +81,9 @@ Route::post('/statusSkip/{id}', 'dealingBuyerController@statusSkip')->name('stat
 Route::post('/buyerEvaluation/{id}', 'dealingEvaluationController@buyerEvaluation')->name('buyerEvaluation')->middleware('verified');
 Route::post('/sellerEvaluation/{id}', 'dealingEvaluationController@sellerEvaluation')->name('sellerEvaluation')->middleware('verified');
 
+//ユーザー一覧（管理者用）
+Route::get('/userIndex', 'userController@userIndex')->name('userIndex')->middleware('verified');
+
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });

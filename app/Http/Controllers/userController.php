@@ -15,9 +15,13 @@ use App\Item;
 
 class userController extends Controller
 {   
-    public function userInfo()
-    {
-        $user = Auth::user();
+    public function userInfo(Request $request)
+    {   
+        if(Auth::user()->role_id == 1){
+            $user = User::find($request->id);
+        }else{
+            $user = Auth::user();
+        }
         $dealingBuy = count(Dealing_status::where('evaluated', '<', 1)
         ->where('buyer_id', '=', $user->id)->get());
         $dealingSell = count(Dealing_status::where('evaluated', '<', 1)
@@ -29,16 +33,23 @@ class userController extends Controller
     }
 
     
-    public function userEditGet()
+    public function userEditGet(Request $request)
     {
-        $user = Auth::user();
+        if(Auth::user()->role_id == 1){
+            $user = User::find($request->id);       
+        }else{
+            $user = Auth::user();
+        }
         return view('user.userEdit', ['user' => $user]);
     }
 
     public function userEditPost(Request $request)
     {
-        $user = Auth::user();
-        
+        if(Auth::user()->role_id == 1){
+            $user = User::find($request->id);
+        }else{
+            $user = Auth::user();
+        }
         $form = $request->all();
 
         $user->fill($form)->save();
@@ -245,11 +256,11 @@ class userController extends Controller
         }elseif($request->input('selectStatus') == 1){
             $status = "selling";
             $items = Item::where('user_id', '=', $user->id)
-            ->where('buyer', '=', 0)->get();
+            ->where('buyer_id', '=', 0)->get();
         }elseif($request->input('selectStatus') == 2){
             $status = "soldOut";
             $items = Item::where('user_id', '=', $user->id)
-            ->where('buyer', '!=', 0)->get();
+            ->where('buyer_id', '!=', 0)->get();
         }
 
         $goodBuy = count(Evaluation::where('buyer_id', '=', $user->id)
@@ -320,5 +331,15 @@ class userController extends Controller
             'dealingStatusBuy' => count($dealingStatusBuy),
             'dealingStatusSell' => count($dealingStatusSell)
         ]);
+    }
+
+    public function userIndex(){ //管理ユーザー用
+        if(Auth::user()->role_id == 1){
+            $users = User::all();
+            return view('user.userIndex', ['users' => $users]);
+        }else{
+            return redirect('/');
+        }
+
     }
 }
