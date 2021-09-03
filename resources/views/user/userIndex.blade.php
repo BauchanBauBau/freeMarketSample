@@ -1,31 +1,39 @@
 @extends('layouts.top')
 
+<script src="{{ asset('js/user.js') }}" defer></script>
+<title>ユーザー管理</title>
 @section('content')
 
 <div class="userIndex" style="margin-top: 3%">
     <div class="row">
-        <table class="col-md-6 offset-md-3">
+        <table class="table table-bordered col-md-6 offset-md-3" style="text-align: center">
             <thead>
                 <tr>
                     <th>ユーザー名</th>
-                    <th>出品数</th>
+                    <th>出品数
+                        <br>
+                        （販売中）
+                    </th>
                     <th>編集</th>
                     <th>削除</th>
                 </tr>
             </thead>
             @foreach($users as $user)
             <tr>
-                <td class="col-md-6">
+                <td class="col-md-4">
                     <a href="{{ action('userController@userDealingEnd', ['id' => $user->id]) }}">{{ $user->nickName }}</a>
                 </td>
-                <td class="col-md-2">
-                    うんこ
+                <td class="col-md-4">
+                    <a href="{{ action('userController@userRegisteredItem', ['id' => $user->id]) }}">{{ $user->items }}個</a>
                 </td>
                 <td class="col-md-2">
                     <a href="{{ action('userController@userInfo', ['id' => $user->id]) }}" class="btn btn-success">編集</a>
                 </td>
                 <td class="col-md-2">
-                    削除
+                    <form action="{{ action('userController@userDelete', ['id' => $user->id]) }}" method="post">
+                        @csrf
+                        <button type="submit" class="btn btn-danger" onClick="deleteAlert(event);return false;">削除</button>
+                    </form>
                 </td>
             <tr>
             @endforeach

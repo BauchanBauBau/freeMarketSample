@@ -69,8 +69,12 @@ class userController extends Controller
         Item_good::where('user_id', '=', $userDel->id)->delete();
 
         $userDel->delete();
+        if(url('userIndex')){
+            return redirect('userIndex');
+        }else{
+            return redirect('/');
+        }
 
-        return redirect('/');
     }
 
 
@@ -336,6 +340,12 @@ class userController extends Controller
     public function userIndex(){ //管理ユーザー用
         if(Auth::user()->role_id == 1){
             $users = User::all();
+            foreach($users as $user){ //出品した商品の数を計算する．
+                $user->items = count(Item::where('user_id', '=', $user->id)
+                ->where('buyer_id', '<', 1)
+                ->get());
+                $user->save();
+            }
             return view('user.userIndex', ['users' => $users]);
         }else{
             return redirect('/');
