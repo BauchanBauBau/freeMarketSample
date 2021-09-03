@@ -20,10 +20,10 @@
             </thead>
             @foreach($users as $user)
             <tr>
-                <td class="col-md-4">
+                <td class="col-md-3">
                     <a href="{{ action('userController@userDealingEnd', ['id' => $user->id]) }}">{{ $user->nickName }}</a>
                 </td>
-                <td class="col-md-4">
+                <td class="col-md-3">
                     <a href="{{ action('userController@userRegisteredItem', ['id' => $user->id]) }}">{{ $user->items }}個</a>
                 </td>
                 <td class="col-md-2">
@@ -34,6 +34,9 @@
                         @csrf
                         <button type="submit" class="btn btn-danger" onClick="deleteAlert(event);return false;">削除</button>
                     </form>
+                </td>
+                <td class="col-md-2">
+                    <a href="{{ action('userController@userInquiryGet', ['id' => $user->id]) }}" class="btn btn-success">メ</a>
                 </td>
             <tr>
             @endforeach

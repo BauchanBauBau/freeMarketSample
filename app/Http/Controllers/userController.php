@@ -12,6 +12,8 @@ use App\Dealing_status;
 use App\Dealing_message;
 use App\Evaluation;
 use App\Item;
+use App\Inquiry;
+
 
 class userController extends Controller
 {   
@@ -346,10 +348,78 @@ class userController extends Controller
                 ->get());
                 $user->save();
             }
-            return view('user.userIndex', ['users' => $users]);
+            return view('user.admin.userIndex', ['users' => $users]);
         }else{
             return redirect('/');
         }
 
+    }
+
+    public function userInquiryGet(Request $request){
+        $user = User::find($request->id);
+        $superUser = User::where('role_id', '=', 1)->first();
+        $inquiries = Inquiry::where('user_id', '=', $user->id)
+        ->where('user_id', '=', $superUser->id)
+        ->get();
+
+        return view('user.admin.userInquiry', ['user' => $user, 'superUser' => $superUser, 'inquiries' => $inquiries]);
+    }
+
+    public function userInquiryPost(Request $request){
+        $inquiry = new Inquiry;
+        $form = $request->all();
+        $inquiry->fill($form);
+
+        //下段で$inquiryの要素を以下の変数の値に更新する．
+        $userId = Auth::id();
+
+        //$Messageの要素を上段の変数の値へ更新する．
+        $inquiry->user_id = $userId; 
+        $inquiry->save();
+
+            /*
+            //メール送信
+            $item = Item::find($dealingStatus->item_id);
+            $seller = User::find($Message->seller_id);
+            $buyer = User::find($Message->buyer_id);
+            if(Auth::id() == $buyer->id){ //sellerに対してメールを送信する
+                Mail::send('mail.messageMailSeller', [
+                    "buyer" => $buyer,
+                    "seller" => $seller,
+                    "item" => $item,
+                    "dealingStatus" => $dealingStatus,
+                    "Message" => $Message 
+                ], 
+                function($message) use($item, $seller, $buyer) { //無名関数に変数を渡すには，後ろにuse ($変数)と記載する．
+
+                    $message
+                    ->to($seller->email)
+                    ->subject("取引中の商品「" . $item->name . "」について" . 
+                    $buyer->nickName . "様からメッセージが届いています．");
+                });
+            }elseif(Auth::id() == $seller->id){ //buyerに対してメールを送信する
+                Mail::send('mail.messageMailBuyer', [
+                    "buyer" => $buyer,
+                    "seller" => $seller,
+                    "item" => $item,
+                    "dealingStatus" => $dealingStatus,
+                    "Message" => $Message 
+                ], 
+                function($message) use($item, $seller, $buyer) { //無名関数に変数を渡すには，後ろにuse ($変数)と記載する．
+
+                    $message
+                    ->to($buyer->email)
+                    ->subject("取引中の商品「" . $item->name . "」について" . 
+                    $seller->nickName . "様からメッセージが届いています．");
+                });
+
+            }
+            */
+        $superUser = User::where('role_id', '=', 1)->first();
+        if($inquiry->user_id == $superUser->id){
+            return redirect()->route('userIndex');
+        }elseif($userId == $dealingStatus->seller_id){
+            return redirect('/');
+        }
     }
 }

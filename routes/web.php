@@ -84,6 +84,10 @@ Route::post('/sellerEvaluation/{id}', 'dealingEvaluationController@sellerEvaluat
 //ユーザー一覧（管理者用）
 Route::get('/userIndex', 'userController@userIndex')->name('userIndex')->middleware('verified');
 
+//お問い合わせ用
+Route::get('/userInquiry/{id}', 'userController@userInquiryGet')->name('userInquiryGet')->middleware('verified');
+Route::post('/userInquiry/{id}', 'userController@userInquiryPost')->name('userInquiryPost')->middleware('verified');
+
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
