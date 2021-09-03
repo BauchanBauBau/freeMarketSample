@@ -290,6 +290,7 @@ class itemController extends Controller
         $status = $request->input('status');
         $priceMin = $request->input('priceMin');
         $priceMax = $request->input('priceMax');
+        $sellerName = $request->input('sellerName');
         $query = Item::query();
 
         if(isset($name)) {
@@ -316,7 +317,12 @@ class itemController extends Controller
             $query->where('price', '<', $priceMax + 1);
         }
 
-        if(!isset($name) && !isset($condition) && !isset($status) && !isset($priceMin) && !isset($priceMax))
+        if(isset($sellerName)) {
+            $seller = User::where('nickName', 'like', '%'.$sellerName.'%')->first();
+            $query->where('user_id', '=', $seller->id);
+        }
+
+        if(!isset($name) && !isset($condition) && !isset($status) && !isset($priceMin) && !isset($priceMax) && !isset($sellerName))
         {
             $items = null;
         }else{
