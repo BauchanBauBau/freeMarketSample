@@ -15,6 +15,8 @@ use App\Evaluation;
 
 use Illuminate\Support\Facades\Mail;
 
+use Storage;
+
 class itemController extends Controller
 {
     public function itemIndex(Request $request)
@@ -64,8 +66,8 @@ class itemController extends Controller
 
         //$itemの要素を更新（更新される値は条件による）．
         if(isset($item->image)){
-            $path = $request->file('image')->store('public/image');
-            $item->image = basename($path);
+            $path = Storage::disk('s3')->putFile('/', $form['image'],'public');
+            $item->image = Storage::disk('s3')->url($path);
         }else{
             $item->image = null;
         }
@@ -270,8 +272,8 @@ class itemController extends Controller
         if ($request->remove == 'true') {
             $form['image'] = null;
         } elseif ($request->file('image')) {
-            $path = $request->file('image')->store('public/image');
-            $form['image'] = basename($path);
+            $path = Storage::disk('s3')->putFile('/', $form['image'],'public');
+            $form['image'] = Storage::disk('s3')->url($path);
         } else {
             $form['image'] = $item->image;
         }

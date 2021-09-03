@@ -88,7 +88,7 @@
         <div class="col-md-6">
             <div class="img">
                 @if(isset($item->image))
-                <img class="img-thumbnail" src="{{ asset('storage/image/' . $item->image) }}">
+                <img class="img-thumbnail" src="{{ $item->image }}">
                 @else
                 <div class="noImage">
                     <h2 id="noImage0">No Image</h2>

@@ -22,7 +22,7 @@
     <div class="col-md-6">
       <div class="img">
         @if(isset($itemDetail->image))
-          <img class="img-thumbnail" src="{{ asset('storage/image/' . $itemDetail->image) }}">
+          <img class="img-thumbnail" src="{{ $itemDetail->image }}">
         @else
           <div class="noImage">
             <h2 id="noImage0">No Image</h2>
