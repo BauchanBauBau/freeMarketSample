@@ -296,6 +296,8 @@ class userController extends Controller
     public function userPage(Request $request){
         $user = Auth::id();
         
+        //お問い合わせ
+
         //コメントした商品
         $commentedItems = Item_comment::where('user_id', '!=', $user)
         ->where('watcher_id', '=', $user)
@@ -367,8 +369,28 @@ class userController extends Controller
         }
 
         $inquiries = Inquiry::where('user_id', '=', $user->id)
-        ->orWhere('user_id', '=', $superUser->id)
+        ->orWhere('inquiryTo_id', '=', $user->id)
         ->get();
+
+        if(count($inquiries) > 0){ //既読にする
+            if(Auth::id() == $superUser->id){
+                $latest = Inquiry::where('user_id', '=', $user->id)
+                ->orderBy('created_at', 'desc')->first();
+                if(isset($latest->kidoku)){
+                    $latest->kidoku = 1;
+                    $latest->save();
+                }
+
+            }elseif(Auth::id() == $user->id){
+                $latest = Inquiry::where('user_id', '=', $superUser->id)
+                ->orderBy('created_at', 'desc')->first();
+                if(isset($latest->kidoku)){
+                    $latest->kidoku = 1;
+                    $latest->save();
+                }
+            }
+        }
+
 
         return view('user.admin.userInquiry', ['user' => $user, 'superUser' => $superUser, 'inquiries' => $inquiries]);
     }
@@ -380,15 +402,21 @@ class userController extends Controller
 
         //下段で$inquiryの要素を以下の変数の値に更新する．
         $userId = Auth::id();
-
+        $superUser = User::where('role_id', '=', 1)->first();
+        $inquirer = User::find($request->id);
+        
         //$Messageの要素を上段の変数の値へ更新する．
+        if($userId == $superUser->id){
+            $inquiry->inquiryTo_id = $inquirer->id;
+        }elseif($userId == $inquirer->id){
+            $inquiry->inquiryTo_id = $superUser->id;
+        }
         $inquiry->user_id = $userId; 
+        $inquiry->kidoku = 0;
         $inquiry->save();
 
             
             //メール送信
-            $superUser = User::where('role_id', '=', 1)->first();
-            $inquirer = User::find($request->id);
             if(Auth::id() == $inquirer->id){ //superUserに対してメールを送信する
                 Mail::send('mail.inquiryMailSuperUser', [
                     "superUser" => $superUser,

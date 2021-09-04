@@ -23,25 +23,30 @@
                     @foreach($inquiries as $inquiry)
                         @if($inquiry->user_id == Auth::id())
                             <div class="rightInquiries col-md-6 offset-md-6">
-                            @if(isset($inquiry->user_id))
-                                <h5>{{ $inquiry->inquiry }}</h5>
-                            @else
-                                <h5>メッセージを削除しました．</h5>
-                            @endif
-                                {{-- 以下のuserはapp\Dealing_inquiry.phpで定義したusersテーブルを参照するための
-                                userメソッドであり，nickNameはusersテーブルのカラムである． --}}
-                            @if(!isset($inquiry->user->nickName))
-                                <p>このユーザーは削除されました．</p>
-                            @else
-                                <p>{{ $inquiry->user->nickName }}
-                                    <strong>
-                                        @if($inquiry->user_id == $superUser->id)（管理者）
-                                        @else（お客様）
-                                        @endif
-                                    </strong>
+                                @if(isset($inquiry->user_id))
+                                    <h5>{{ $inquiry->inquiry }}</h5>
+                                @else
+                                    <h5>メッセージを削除しました．</h5>
+                                @endif
+                                    {{-- 以下のuserはapp\Dealing_inquiry.phpで定義したusersテーブルを参照するための
+                                    userメソッドであり，nickNameはusersテーブルのカラムである． --}}
+                                @if(!isset($inquiry->user->nickName))
+                                    <p>このユーザーは削除されました．</p>
+                                @else
+                                    <p>{{ $inquiry->user->nickName }}
+                                        <strong>
+                                            @if($inquiry->user_id == $superUser->id)（管理者）
+                                            @else（お客様）
+                                            @endif
+                                        </strong>
+                                    </p>
+                                @endif
+                                <p>
+                                    @if($inquiry->kidoku > 0)
+                                        <strong>（既読）</strong>
+                                    @endif
+                                    {{ $inquiry->created_at }}
                                 </p>
-                            @endif
-                                <p>{{ $inquiry->created_at }}</p>
                             </div>
                         @else
                             <div class="leftInquiries col-md-6">
@@ -63,7 +68,12 @@
                                         </strong>
                                     </p>
                                 @endif
-                                <p>{{ $inquiry->created_at }}</p>
+                                <p>
+                                    @if($inquiry->kidoku > 0)
+                                        <strong>（既読）</strong>
+                                    @endif
+                                    {{ $inquiry->created_at }}
+                                </p>
                             </div>
                         @endif
                     @endforeach

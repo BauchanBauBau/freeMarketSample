@@ -8,6 +8,13 @@
         <div class="col-md-8 offset-md-4">
             <h1>ユーザー情報</h1>
             <ul style="font-size: 15pt">
+                @if(Auth::user()->role_id != 1)
+                <li>
+                    <a href="{{ action('userController@userInquiryGet', 
+                        ['id' => Auth::id()]) }}">お問い合わせ
+                    </a>
+                </li>
+                @endif
                 <li>
                     <a href="{{ action('userController@userInfo',
                         ['id' => Auth::id()]) }}">ユーザー登録情報

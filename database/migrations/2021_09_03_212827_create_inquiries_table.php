@@ -15,8 +15,10 @@ class CreateInquiriesTable extends Migration
     {
         Schema::create('inquiries', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('inquiryTo_id');
             $table->integer('user_id');
             $table->string('inquiry');
+            $table->integer('kidoku'); //既読
             $table->timestamps();
         });
     }
