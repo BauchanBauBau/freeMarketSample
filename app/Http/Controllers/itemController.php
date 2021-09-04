@@ -86,6 +86,33 @@ class itemController extends Controller
         $itemDetail = Item::find($request->id);
         $category = Category::find($itemDetail->category_id); //該当する商品のカテゴリー名を表示
         $comments = Item_comment::where('item_id','=', $itemDetail->id)->get(); //該当する商品の商品のコメントを表示
+
+        if(count($comments) > 0){ //既読にする
+            if(Auth::id() == $itemDetail->user_id){
+                //midokusは未読sである．
+                $midokus = Item_comment::where('item_id','=', $itemDetail->id)
+                ->where('watcher_id', '!=', $itemDetail->user_id)
+                ->where('kidoku', '<', 1)
+                ->where('commentDelete', '<', 1)
+                ->get();
+                foreach($midokus as $midoku){
+                    $midoku->kidoku = 1;
+                    $midoku->save();
+                }
+            }else{
+                $midokus = Item_comment::where('item_id','=', $itemDetail->id)
+                ->where('user_id', '=', $itemDetail->user_id)
+                ->where('commentTo_id', '=', Auth::id())
+                ->where('kidoku', '<', 1)
+                ->where('commentDelete', '<', 1)
+                ->get();
+                foreach($midokus as $midoku){
+                    $midoku->kidoku = 1;
+                    $midoku->save();
+                }
+            }
+        }
+        
         $watchers = Item_comment::where('item_id','=', $itemDetail->id)
         ->where('watcher_id', '!=', $itemDetail->user_id)->get()->unique('watcher_id');
         $goods = Item_good::where('item_id','=', $itemDetail->id)->get(); //該当する商品の「いいね」の情報を取得
@@ -196,6 +223,7 @@ class itemController extends Controller
         if($itemDetail->user_id != Auth::id()){
             $comment->commentTo_id = 0;
         }
+        $comment->kidoku = 0;
         $comment->commentDelete = 0;
         $comment->buyed = 0;
 
@@ -208,7 +236,8 @@ class itemController extends Controller
         $watcher = User::find($comment->watcher_id);
         $watcherMailAddress = $watcher->email;
 
-        $commentTo = User::find($comment->commentTo_id);
+        $commentTo = $request->input('commentTo_id');
+        $commentTo_id = User::find($commentTo);
 
             //メール送信
             if(Auth::id() != $itemDetail->user_id){ //sellerに対してメールを送信する
@@ -227,15 +256,15 @@ class itemController extends Controller
                 });
             }elseif(Auth::id() == $itemDetail->user_id){ //watcherに対してメールを送信する
                 Mail::send('mail.commentMailWatcher', [
-                    "commentTo" => $commentTo,
+                    "commentTo" => $commentTo_id,
                     "seller" => $seller,
                     "itemDetail" => $itemDetail,
                     "comment" => $comment 
                 ], 
-                function($message) use($itemDetail, $seller, $commentTo) { //無名関数に変数を渡すには，後ろにuse ($変数)と記載する．
+                function($message) use($itemDetail, $seller, $commentTo_id) { //無名関数に変数を渡すには，後ろにuse ($変数)と記載する．
 
                     $message
-                    ->to($commentTo->email)
+                    ->to($commentTo_id->email)
                     ->subject("商品「" . $itemDetail->name . "」について" . 
                     $seller->nickName . "様からコメントが届いています．");
                 });
@@ -247,10 +276,14 @@ class itemController extends Controller
 
     public function itemCommentDelete(Request $request){
         $comment = Item_comment::find($request->id);
-        $comment->commentDelete = 1;
-        $comment->save();
-        
-        return redirect()->route('itemDetail', ['id' => $comment->item_id]);
+        if($comment->kidoku < 1){
+            $comment->commentDelete = 1;
+            $comment->save();
+            return redirect()->route('itemDetail', ['id' => $comment->item_id]);
+        }else{
+            return redirect()->route('itemDetail', ['id' => $comment->item_id]);
+        }
+
     }
 
     public function itemEditGet(Request $request)

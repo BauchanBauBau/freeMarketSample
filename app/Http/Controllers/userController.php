@@ -71,6 +71,8 @@ class userController extends Controller
 
         Item_good::where('user_id', '=', $userDel->id)->delete();
 
+        Inquiry::where('user_id', '=', $userDel->id)->delete();
+
         $userDel->delete();
         if(url('userIndex')){
             return redirect('userIndex');
@@ -379,6 +381,7 @@ class userController extends Controller
 
         if(count($inquiries) > 0){ //既読にする
             if(Auth::id() == $superUser->id){
+                //midokusは未読sである．
                 $midokus = Inquiry::where('user_id', '=', $user->id)
                 ->where('inquiryTo_id', '=', $superUser->id)
                 ->where('kidoku', '<', 1)->get();

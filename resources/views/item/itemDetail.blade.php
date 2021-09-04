@@ -231,21 +231,23 @@
           @endif
         @else
           @if($itemDetail->buyer_id < 1)
-            @if(count($watchers) > 0 && $itemDetail->user_id == Auth::id() && isset($watcher->watcher->nickName))
+            @if(count($watchers) > 0 && $itemDetail->user_id == Auth::id())
               <div class="form-group row">
                 <div class="col-md-4">
                   <label for="commentTo_id">コメントの相手を選択してください <span class="badge badge-danger">必須</span></label>
                   <select class="form-control" name="commentTo_id" id="commentTo_id" required>
                     <option value="">選択してください</option>
                     @foreach($watchers as $watcher)
-                      <option value="{{ $watcher->watcher_id }}">{{ $watcher->watcher->nickName }}</option>
+                      @if(isset($watcher->watcher->nickName))
+                        <option value="{{ $watcher->watcher_id }}">{{ $watcher->watcher->nickName }}</option>
+                      @endif
                     @endforeach
                   </select>
                 </div>
               </div>
               <textarea class="form-control" name="comment" id="comment" rows="5" cols="5" placeholder="コメントを入力してください．" required></textarea>
               <button type="submit" class="btn btn-danger" onClick="postAlert(event);return false;">コメントを登録する</button>
-            @elseif($itemDetail->user_id != Auth::id())
+            @elseif($itemDetail->user_id != Auth::id() || count($watchers) > 0)
               <textarea class="form-control" name="comment" id="comment" rows="5" cols="5" placeholder="コメントを入力してください．" required></textarea>
               <button type="submit" class="btn btn-danger" onClick="postAlert(event);return false;">コメントを登録する</button>
             @endif
@@ -272,14 +274,24 @@
               @else
                 <p>{{ $comment->watcher->nickName }}
                   <strong>
-                    @if($comment->user_id == $comment->watcher_id)（出品者）
-                    @else（質問者）
+                    @if($comment->user_id == $comment->watcher_id)
+                      （出品者）
+                      @if(isset($comment->commentTo))
+                        ==>>{{ $comment->commentTo->nickName }}
+                      @endif
+                    @else
+                      （質問者）
                     @endif
                   </strong>
                 </p>
               @endif
-                <p>{{ $comment->created_at }}</p>
-              @if($itemDetail->buyer_id < 1 && $comment->commentDelete < 1 && $comment->watcher_id == Auth::id())
+                <p>
+                  @if($comment->kidoku > 0)
+                    <strong>（既読）</strong>
+                  @endif
+                  {{ $comment->created_at }}
+                </p>
+              @if($itemDetail->buyer_id < 1 && $comment->kidoku < 1 && $comment->commentDelete < 1 && $comment->watcher_id == Auth::id())
                 <p>
                   <form action="{{ action('itemController@itemCommentDelete', ['id' => $comment->id]) }}" method="post">
                   @csrf 
@@ -304,13 +316,23 @@
               @else
                 <p>{{ $comment->watcher->nickName }}
                   <strong>
-                    @if($comment->user_id == $comment->watcher_id)（出品者）
-                    @else（質問者）
+                    @if($comment->user_id == $comment->watcher_id)
+                    （出品者）
+                      @if(isset($comment->commentTo))
+                        ==>>{{ $comment->commentTo->nickName }}
+                      @endif
+                    @else
+                      （質問者）
                     @endif
                   </strong>
                 </p>
               @endif
-              <p>{{ $comment->created_at }}</p>
+              <p>
+                @if($comment->kidoku > 0)
+                  <strong>（既読）</strong>
+                @endif
+                {{ $comment->created_at }}
+              </p>
             </div>
           @endif
         @endforeach

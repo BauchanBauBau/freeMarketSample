@@ -20,6 +20,7 @@ class CreateItemCommentsTable extends Migration
             $table->integer('watcher_id'); //コメントしたユーザーのid
             $table->integer('commentTo_id')->nullable(); //出品者が誰に対してコメントを送るか
             $table->string('comment');
+            $table->integer('kidoku');
             $table->integer('commentDelete');
             $table->integer('buyed'); //販売済みの場合は1
             $table->timestamps();

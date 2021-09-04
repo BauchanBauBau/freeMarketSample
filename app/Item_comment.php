@@ -16,6 +16,10 @@ class Item_comment extends Model
         return $this->belongsTo('App\Item');
     }
 
+    public function commentTo(){
+        return $this->belongsTo('App\User', 'commentTo_id');
+    }
+
     /*
     （補足）
     もし外部キーのカラム名を任意のものにする場合，
