@@ -133,7 +133,7 @@
         @endif
       </h5>
       
-      @if($itemDetail->user_id != Auth::id() && !isset(Auth::user()->role_id))
+      @if($itemDetail->user_id != Auth::id())
         @if($itemDetail->buyer_id < 1)
           <form action="{{ action('dealingBuyerController@buy', 
             ['id' => $itemDetail->id]) }}" method="post">

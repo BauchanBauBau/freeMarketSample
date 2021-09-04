@@ -86,7 +86,7 @@ Route::get('/userIndex', 'userController@userIndex')->name('userIndex')->middlew
 
 //お問い合わせ用
 Route::get('/userInquiry/{id}', 'userController@userInquiryGet')->name('userInquiryGet')->middleware('verified');
-Route::post('/userInquiry/{id}', 'userController@userInquiryPost')->name('userInquiryPost')->middleware('verified');
+Route::post('/userInquiry/{id}', 'userController@userInquiryPost')->name('userInquiryPost')->middleware('auth');
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
