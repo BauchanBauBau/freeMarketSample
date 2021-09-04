@@ -340,8 +340,9 @@ class userController extends Controller
     }
 
     public function userIndex(){ //管理ユーザー用
-        if(Auth::user()->role_id == 1){
-            $users = User::all();
+        $superUser = User::where('role_id', '=', 1)->first();
+        if(Auth::id() == $superUser->id){
+            $users = User::where('id', '!=', $superUser->id)->get();
             foreach($users as $user){ //出品した商品の数を計算する．
                 $user->items = count(Item::where('user_id', '=', $user->id)
                 ->where('buyer_id', '<', 1)
@@ -356,10 +357,16 @@ class userController extends Controller
     }
 
     public function userInquiryGet(Request $request){
-        $user = User::find($request->id);
         $superUser = User::where('role_id', '=', 1)->first();
+
+        if(Auth::id() == $superUser->id){
+            $user = User::find($request->id);
+        }else{
+            $user = Auth::user();
+        }
+
         $inquiries = Inquiry::where('user_id', '=', $user->id)
-        ->where('user_id', '=', $superUser->id)
+        ->orWhere('user_id', '=', $superUser->id)
         ->get();
 
         return view('user.admin.userInquiry', ['user' => $user, 'superUser' => $superUser, 'inquiries' => $inquiries]);
@@ -416,10 +423,11 @@ class userController extends Controller
             }
             */
         $superUser = User::where('role_id', '=', 1)->first();
+        $inquirer = User::find($request->id);
         if($inquiry->user_id == $superUser->id){
-            return redirect()->route('userIndex');
-        }elseif($userId == $dealingStatus->seller_id){
-            return redirect('/');
+            return redirect()->route('userInquiryGet', ['id' => $inquirer->id]);
+        }else{
+            return redirect()->route('userInquiryGet', ['id' => $userId]);
         }
     }
 }

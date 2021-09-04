@@ -1,28 +1,28 @@
 @extends('layouts.top')
 
-<link href="{{ asset('css/dealingStatus.css') }}" rel="stylesheet">
+<link href="{{ asset('css/userInquiry.css') }}" rel="stylesheet">
 <script src="{{ asset('js/status.js') }}" defer></script>
 <title>お問い合わせ</title>
 
 @section('content')
 
-<div class="dealinginquiryArea">
+<div class="inquiryArea">
     <div class="row">
         <div class="col-md-12">
             <h1>お問い合わせ</h1>
             <form action="{{ action('userController@userInquiryPost', ['id' => $user->id]) }}" method="post" enctype="multipart/form-data">
             @csrf
-                <textarea class="form-control" name="inquiry" id="inquiry" rows="5" cols="5" placeholder="メッセージを入力してください．" required></textarea>
+                <textarea class="form-control" name="inquiry" id="inquiry" rows="5" cols="5" placeholder="お問い合わせ内容を入力してください．" required></textarea>
                 <div class="inquiryButton">
-                    <button type="submit" class="btn btn-danger" onClick="postAlert(event);return false;">メッセージを登録する</button>
+                    <button type="submit" class="btn btn-danger" onClick="postAlert(event);return false;">お問い合わせ内容を登録する</button>
                 </div>
             </form>
             
             <div class="row">
-                <div class="dealinginquirys col-md-12">
+                <div class="inquiries col-md-12">
                     @foreach($inquiries as $inquiry)
                         @if($inquiry->user_id == Auth::id())
-                            <div class="rightinquirys col-md-6 offset-md-6">
+                            <div class="rightInquiries col-md-6 offset-md-6">
                             @if(isset($inquiry->user_id))
                                 <h5>{{ $inquiry->inquiry }}</h5>
                             @else
@@ -44,7 +44,7 @@
                                 <p>{{ $inquiry->created_at }}</p>
                             </div>
                         @else
-                            <div class="leftinquirys col-md-6">
+                            <div class="leftInquiries col-md-6">
                                 @if(isset($inquiry->user_id))
                                     <h5>{{ $inquiry->inquiry }}</h5>
                                 @else
