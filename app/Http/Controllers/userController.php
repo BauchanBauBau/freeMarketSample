@@ -297,6 +297,9 @@ class userController extends Controller
         $user = Auth::id();
         
         //お問い合わせ
+        $inquiry = Inquiry::where('inquiryTo_id', '=', $user)
+        ->where('kidoku', '<', 1)
+        ->get();
 
         //コメントした商品
         $commentedItems = Item_comment::where('user_id', '!=', $user)
@@ -333,6 +336,7 @@ class userController extends Controller
         ->get();
 
         return view('user.userPage', [
+            'inquiry' => count($inquiry),
             'commentedItems' => count($commentedItems),
             'commentedItemsByWatcher' => count($commentedItemsByWatcher),
             'goodItems' => count($goodItems),
@@ -352,6 +356,7 @@ class userController extends Controller
                 ->get());
                 $user->save();
             }
+            
             return view('user.admin.userIndex', ['users' => $users]);
         }else{
             return redirect('/');
@@ -374,23 +379,26 @@ class userController extends Controller
 
         if(count($inquiries) > 0){ //既読にする
             if(Auth::id() == $superUser->id){
-                $latest = Inquiry::where('user_id', '=', $user->id)
-                ->orderBy('created_at', 'desc')->first();
-                if(isset($latest->kidoku)){
-                    $latest->kidoku = 1;
-                    $latest->save();
+                $midokus = Inquiry::where('user_id', '=', $user->id)
+                ->where('inquiryTo_id', '=', $superUser->id)
+                ->where('kidoku', '<', 1)->get();
+
+                foreach($midokus as $midok){
+                    $midok->kidoku = 1;
+                    $midok->save();
                 }
 
             }elseif(Auth::id() == $user->id){
-                $latest = Inquiry::where('user_id', '=', $superUser->id)
-                ->orderBy('created_at', 'desc')->first();
-                if(isset($latest->kidoku)){
-                    $latest->kidoku = 1;
-                    $latest->save();
+                $midokus = Inquiry::where('user_id', '=', $superUser->id)
+                ->where('inquiryTo_id', '=', $user->id)
+                ->where('kidoku', '<', 1)->get();
+                
+                foreach($midokus as $midok){
+                    $midok->kidoku = 1;
+                    $midok->save();
                 }
             }
         }
-
 
         return view('user.admin.userInquiry', ['user' => $user, 'superUser' => $superUser, 'inquiries' => $inquiries]);
     }

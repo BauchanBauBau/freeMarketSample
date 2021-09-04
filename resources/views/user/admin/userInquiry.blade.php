@@ -9,7 +9,7 @@
 <div class="inquiryArea">
     <div class="row">
         <div class="col-md-12">
-            <h1>お問い合わせ</h1>
+            <h1>お問い合わせ【{{ $user->nickName }}様】</h1>
             <form action="{{ action('userController@userInquiryPost', ['id' => $user->id]) }}" method="post" enctype="multipart/form-data">
             @csrf
                 <textarea class="form-control" name="inquiry" id="inquiry" rows="5" cols="5" placeholder="お問い合わせ内容を入力してください．" required></textarea>

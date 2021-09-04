@@ -12,6 +12,7 @@
                 <li>
                     <a href="{{ action('userController@userInquiryGet', 
                         ['id' => Auth::id()]) }}">お問い合わせ
+                        <span class="badge badge-danger">{{ $inquiry }}</span>
                     </a>
                 </li>
                 @endif

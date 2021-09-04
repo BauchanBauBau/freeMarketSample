@@ -6,9 +6,10 @@
 
 <div class="userIndex" style="margin-top: 3%">
     <div class="row">
-        <table class="table table-bordered col-md-8 offset-md-2" style="text-align: center">
+        <table class="table table-bordered col-md-10 offset-md-1" style="text-align: center">
             <thead>
                 <tr>
+                    <th>id</th>
                     <th>ユーザー名</th>
                     <th>出品数
                         <br>
@@ -21,10 +22,13 @@
             </thead>
             @foreach($users as $user)
             <tr>
-                <td class="col-md-3">
+                <td class="col-md-2">
+                    {{ $user->id }}
+                </td>
+                <td class="col-md-2">
                     <a href="{{ action('userController@userDealingEnd', ['id' => $user->id]) }}">{{ $user->nickName }}</a>
                 </td>
-                <td class="col-md-3">
+                <td class="col-md-2">
                     <a href="{{ action('userController@userRegisteredItem', ['id' => $user->id]) }}">{{ $user->items }}個</a>
                 </td>
                 <td class="col-md-2">
