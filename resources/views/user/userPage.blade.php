@@ -12,7 +12,9 @@
                 <li>
                     <a href="{{ action('userController@userInquiryGet', 
                         ['id' => Auth::id()]) }}">お問い合わせ
-                        <span class="badge badge-danger">{{ $inquiry }}</span>
+                        @if($inquiry > 0)
+                            <span class="badge badge-danger">{{ $inquiry }}</span>
+                        @endif
                     </a>
                 </li>
                 @endif
@@ -28,12 +30,18 @@
                 </li>
                 <li>
                     <a href="{{ action('userController@userCommentedItem',
-                        ['id' => Auth::id()]) }}"><small>（他のユーザーの商品で）</small>コメントした商品 【{{ $commentedItems }}個】
+                        ['id' => Auth::id()]) }}"><small>（他のユーザーの商品で）</small>コメントした商品
+                        @if($commentedItems > 0)
+                            <span class="badge badge-danger">{{ $commentedItems }}</span>
+                        @endif
                     </a>
                 </li>
                 <li>
                     <a href="{{ action('userController@userCommentedItemByWatcher',
-                        ['id' => Auth::id()]) }}"><small>（自分の商品で）</small>コメントが来た商品 【{{ $commentedItemsByWatcher }}個】
+                        ['id' => Auth::id()]) }}"><small>（自分の商品で）</small>コメントが来た商品
+                        @if($commentedItemsByWatcher > 0)
+                            <span class="badge badge-danger">{{ $commentedItemsByWatcher }}</span>
+                        @endif
                     </a>
                 </li>
                 <li>

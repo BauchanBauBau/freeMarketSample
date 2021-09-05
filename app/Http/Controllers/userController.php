@@ -305,13 +305,16 @@ class userController extends Controller
 
         //コメントした商品
         $commentedItems = Item_comment::where('user_id', '!=', $user)
-        ->where('watcher_id', '=', $user)
+        ->where('commentTo_id', '=', $user)
+        ->where('kidoku', '<', 1)
         ->where('commentDelete', '<', 1)
         ->where('buyed', '<', 1)
         ->get()->unique('item_id'); //「->unique('item_id')」で重複を防止する．
 
         //コメントが来た商品
         $commentedItemsByWatcher = Item_comment::where('user_id', '=', $user)
+        ->where('watcher_id', '!=', $user)
+        ->where('kidoku', '<', 1)
         ->where('commentDelete', '<', 1)
         ->where('buyed', '<', 1)
         ->get()->unique('item_id'); //「->unique('item_id')」で重複を防止する．
