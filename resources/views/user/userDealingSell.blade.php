@@ -10,6 +10,7 @@
     <h2 id="header2">該当する取引はありません．</h2>
     <div class="selectStatus">
         <form action="{{ action('userController@userDealingSell', ['id' => $user->id]) }}">
+            @csrf
             <select class="form-control col-md-4 offset-md-4" name="selectStatus" id="selectStatus">
                 <option value="0">表示内容を選択してください</option>
                 <option value="1">支払をお待ちください</option>

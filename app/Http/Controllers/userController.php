@@ -83,27 +83,57 @@ class userController extends Controller
     }
 
 
-    public function userCommentedItem() //他のユーザーが出品した商品で，自分がコメントしたものを表示する．
+    public function userCommentedItem(Request $request) //他のユーザーが出品した商品で，自分がコメントしたものを表示する．
     {
         $user = Auth::id();
-        $commentedItems = Item_comment::where('user_id', '!=', $user)
-        ->where('watcher_id', '=', $user)
-        ->where('commentDelete', '<', 1)
-        ->where('buyed', '<', 1)
-        ->get()->unique('item_id'); //「->unique('item_id')」で重複を防止する．
-        return view('user.userCommentedItem', ['commentedItems' => $commentedItems]);
+        if($request->input('status') == 0){
+            $commentedItems = Item_comment::where('user_id', '!=', $user)
+            ->where('commentTo_id', '=', $user)
+            ->where('kidoku', '<', 1)
+            ->where('commentDelete', '<', 1)
+            ->where('buyed', '<', 1)
+            ->get()->unique('item_id'); //「->unique('item_id')」で重複を防止する．
+            $status = 0;
+        }elseif($request->input('status') == 1){
+            $commentedItems = Item_comment::where('user_id', '!=', $user)
+            ->where('watcher_id', '=', $user)
+            ->where('commentDelete', '<', 1)
+            ->where('buyed', '<', 1)
+            ->get()->unique('item_id'); //「->unique('item_id')」で重複を防止する．
+            $status = 1;
+        }
+
+        return view('user.userCommentedItem', [
+            'user' => $user, 
+            'commentedItems' => $commentedItems,
+            'status' => $status
+        ]);
     }
 
-    public function userCommentedItemByWatcher() //自分が出品した商品で，他のユーザーからコメントがあったものを表示する．
+    public function userCommentedItemByWatcher(Request $request) //自分が出品した商品で，他のユーザーからコメントがあったものを表示する．
     {
-        $user = Auth::user();
-        $commentedItems = Item_comment::where('user_id', '=', $user->id)
-        ->where('commentDelete', '<', 1)
-        ->where('buyed', '<', 1)
-        ->get()->unique('item_id'); //「->unique('item_id')」で重複を防止する．
+        $user = Auth::id();
+        if($request->input('status') == 0){
+            $commentedItems = Item_comment::where('user_id', '=', $user)
+            ->where('watcher_id', '!=', $user)
+            ->where('kidoku', '<', 1)
+            ->where('commentDelete', '<', 1)
+            ->where('buyed', '<', 1)
+            ->get()->unique('item_id'); //「->unique('item_id')」で重複を防止する．
+            $status = 0;
+        }elseif($request->input('status') == 1){
+            $commentedItems = Item_comment::where('user_id', '=', $user)
+            ->where('commentDelete', '<', 1)
+            ->where('buyed', '<', 1)
+            ->get()->unique('item_id'); //「->unique('item_id')」で重複を防止する．
+            $status = 1;
+        }
+
         return view('user.userCommentedItemByWatcher', [
-            'commentedItems' => $commentedItems]
-        );
+            'user' => $user,
+            'commentedItems' => $commentedItems,
+            'status' => $status
+        ]);
     }
 
     public function userGood()

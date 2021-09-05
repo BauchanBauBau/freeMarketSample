@@ -3,14 +3,18 @@
     margin-top: 3%;
 }
 
-#header1{ /*userCheckedItem～userGood用*/
+#header1{ /*userCommentedItem～userItemGood用*/
     text-align: center;
-    margin: 5%;
+    margin: 3%;
 }
 
-#header2 { /*userCheckedItem～userGood用*/
+#header2 { /*userCommentedItem～userItemGood用*/
     text-align: center;
-    margin: 5%;
+    margin: 3%;
+}
+
+.status { /*userCommentedItem用*/
+    margin-top: 3%;
 }
 
 .selectStatus button{ /*userDealingBuyとuserDealingSell用*/
