@@ -190,15 +190,15 @@ $dealingStatus->evaluated > 0 && $dealingStatus->evaluated < 2)
     <div class="row">
         <div class="col-md-12">
             <h1>取引メッセージ</h1>
-            <form action="{{ action('dealingSellerController@dealingMessage', ['id' => $dealingStatus->id]) }}" method="post" enctype="multipart/form-data">
-            @csrf
-                @if($dealingStatus->evaluated < 2)
+            @if($dealingStatus->evaluated < 2)
+                <form action="{{ action('dealingSellerController@dealingMessage', ['id' => $dealingStatus->id]) }}" method="post" enctype="multipart/form-data">
+                @csrf
                     <textarea class="form-control" name="message" id="message" rows="5" cols="5" placeholder="メッセージを入力してください．" required></textarea>
                     <div class="messageButton">
                         <button type="submit" class="btn btn-danger" onClick="postAlert(event);return false;">メッセージを登録する</button>
                     </div>
-                @endif
-            </form>
+                </form>
+            @endif
             
             <div class="row">
                 <div class="dealingMessages col-md-12">
@@ -223,8 +223,13 @@ $dealingStatus->evaluated > 0 && $dealingStatus->evaluated < 2)
                                     </strong>
                                 </p>
                             @endif
-                                <p>{{ $message->created_at }}</p>
-                            @if($message->messageDelete < 1 && $dealingStatus->evaluated < 2 && $message->user_id == Auth::id())
+                            <p>
+                                @if($message->kidoku > 0)
+                                    <strong>（既読）</strong>
+                                @endif
+                                {{ $message->created_at }}
+                            </p>
+                            @if($message->kidoku < 1 && $message->messageDelete < 1 && $dealingStatus->evaluated < 2 && $message->user_id == Auth::id())
                                 <p>
                                     <form action="{{ action('dealingSellerController@dealingMessageDelete', 
                                         ['id' => $message->id]) }}" method="post">
@@ -254,7 +259,12 @@ $dealingStatus->evaluated > 0 && $dealingStatus->evaluated < 2)
                                         </strong>
                                     </p>
                                 @endif
-                                <p>{{ $message->created_at }}</p>
+                                <p>
+                                    @if($message->kidoku > 0)
+                                        <strong>（既読）</strong>
+                                    @endif
+                                    {{ $message->created_at }}
+                                </p>
                             </div>
                         @endif
                     @endforeach

@@ -42,7 +42,7 @@
                 itemメソッドであり，本メソッドの後ろにitemsテーブルのカラム名を指定する． 
                 （「$dealingStatus->item->user_id」とは出品者のidのこと）
             --}}
-            <a div class="card-deck col-md-3 mb-3" href="{{ action('itemController@itemDetail', ['id' => $dealingStatus->item->id]) }}">
+            <a div class="card-deck col-md-3 mb-3" href="{{ action('dealingBuyerController@statusBuyer', ['id' => $dealingStatus->id]) }}">
                 <div class="card">
                     <div class="cardImg">
                         @if(!isset($dealingStatus->item->image))

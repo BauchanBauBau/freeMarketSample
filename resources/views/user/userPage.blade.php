@@ -13,7 +13,7 @@
                     <a href="{{ action('userController@userInquiryGet', 
                         ['id' => Auth::id()]) }}">お問い合わせ
                         @if($inquiry > 0)
-                            <span class="badge badge-danger">{{ $inquiry }}</span>
+                            <span class="badge badge-danger">{{ $inquiry }}件の新着メッセージがあります</span>
                         @endif
                     </a>
                 </li>
@@ -32,7 +32,7 @@
                     <a href="{{ action('userController@userCommentedItem',
                         ['id' => Auth::id()]) }}"><small>（他のユーザーの商品で）</small>コメントした商品
                         @if($commentedItems > 0)
-                            <span class="badge badge-danger">{{ $commentedItems }}</span>
+                            <span class="badge badge-danger">{{ $commentedItems }}件の新着メッセージがあります</span>
                         @endif
                     </a>
                 </li>
@@ -40,7 +40,7 @@
                     <a href="{{ action('userController@userCommentedItemByWatcher',
                         ['id' => Auth::id()]) }}"><small>（自分の商品で）</small>コメントが来た商品
                         @if($commentedItemsByWatcher > 0)
-                            <span class="badge badge-danger">{{ $commentedItemsByWatcher }}</span>
+                            <span class="badge badge-danger">{{ $commentedItemsByWatcher }}件の新着メッセージがあります</span>
                         @endif
                     </a>
                 </li>
@@ -57,11 +57,17 @@
                 <li>
                     <a href="{{ action('userController@userDealingBuy',
                         ['id' => Auth::id()]) }}">取引中の商品（購入）【 {{ $dealingStatusBuy }}個】
+                        @if($dealingStatusBuyMessage > 0)
+                            <span class="badge badge-danger">{{ $dealingStatusBuyMessage }}件の新着メッセージがあります</span>
+                        @endif
                     </a>
                 </li> 
                 <li>
                     <a href="{{ action('userController@userDealingSell',
                         ['id' => Auth::id()]) }}">取引中の商品（販売） 【{{ $dealingStatusSell }}個】
+                    @if($dealingStatusSellMessage > 0)
+                        <span class="badge badge-danger">{{ $dealingStatusSellMessage }}件の新着メッセージがあります</span>
+                    @endif
                     </a>
                 </li>
                 <li>

@@ -364,11 +364,23 @@ class userController extends Controller
         $dealingStatusBuy = Dealing_status::where('buyer_id', '=', $user)
         ->where('evaluated', '<', 2)
         ->get();
- 
+        
+            //取引中の商品（購入）のメッセージ
+            $dealingStatusBuyMessage = Dealing_message::where('buyer_id', '=', $user)
+            ->where('kidoku', '<', 1)
+            ->where('messageDelete', '<', 1)
+            ->get();
+
         //取引中の商品（販売）
         $dealingStatusSell = Dealing_status::where('seller_id', '=', $user)
         ->where('evaluated', '<', 2)
         ->get();
+
+            //取引中の商品（販売）のメッセージ
+            $dealingStatusSellMessage = Dealing_message::where('seller_id', '=', $user)
+            ->where('kidoku', '<', 1)
+            ->where('messageDelete', '<', 1)
+            ->get();
 
         return view('user.userPage', [
             'inquiry' => count($inquiry),
@@ -377,7 +389,9 @@ class userController extends Controller
             'goodItems' => count($goodItems),
             'goodItemsByWatcher' => count($goodItemsByWatcher),
             'dealingStatusBuy' => count($dealingStatusBuy),
-            'dealingStatusSell' => count($dealingStatusSell)
+            'dealingStatusBuyMessage' => count($dealingStatusBuyMessage),
+            'dealingStatusSell' => count($dealingStatusSell),
+            'dealingStatusSellMessage' => count($dealingStatusSellMessage)
         ]);
     }
 

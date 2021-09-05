@@ -21,6 +21,19 @@ class dealingSellerController extends Controller
             $item = Item::find($dealingStatus->item_id);
             $messages = Dealing_message::where('dealingStatus_id', '=' ,$dealingStatus->id)->get();
             
+            if(count($messages) > 0){
+                //midokusは未読sである．
+                $midokus = Dealing_message::where('dealingStatus_id', '=' ,$dealingStatus->id)
+                ->where('user_id', '!=', $dealingStatus->seller_id)
+                ->where('kidoku', '<', 1)
+                ->where('messageDelete', '<', 1)
+                ->get();
+                foreach($midokus as $midoku){
+                    $midoku->kidoku = 1;
+                    $midoku->save();
+                }
+            }
+
             return view('dealingStatus.statusSeller', ['dealingStatus' => $dealingStatus, 'item' => $item, 'messages' => $messages]);
         
         }else{
@@ -82,6 +95,7 @@ class dealingSellerController extends Controller
         $Message->seller_id = $sellerId;
         $Message->buyer_id = $buyerId;
         $Message->user_id = $userId;
+        $Message->kidoku = 0;
         $Message->messageDelete = 0;
 
         $Message->save();
