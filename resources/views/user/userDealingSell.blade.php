@@ -33,8 +33,9 @@
         {{-- 以下では，他のユーザーが出品した商品に対して現在のユーザーがコメントをしているものを表示する． --}}
         @foreach($dealingStatuses as $dealingStatus)
             {{-- 
-                以下のitemはCapp\Item_comment.phpで定義したitemsテーブルを参照するための
-                itemメソッドであり，本メソッドの後ろにitemsテーブルのカラム名を指定する． 
+                以下（div class="card"から）のitemはapp\Item_comment.phpまたはapp\Dealing_message.phpで定義した
+                itemsテーブルを参照するためのitemメソッドであり，本メソッドの後ろに
+                itemsテーブルのカラム名を指定する． 
                 （「$dealingStatus->item->user_id」とは出品者のidのこと）
             --}}
             <a div class="card-deck col-md-3 mb-3" 
