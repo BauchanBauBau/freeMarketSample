@@ -40,7 +40,7 @@
             <tr>
               <td>出品者</td>
               <td>
-                @if(!isset($itemDetail->user->nickName))
+                @if(!isset($itemDetail->user->id))
                   出品したユーザー情報は削除されました．
                 @else
                   <a href="{{ action('userController@userRegisteredItem',
@@ -53,7 +53,7 @@
               <td>出品者の評価</td>
               <td>
                 {{-- 「$itemDetail->user->nickName」が存在しなければ出品したユーザー情報も存在しない --}}
-                @if(isset($itemDetail->user->nickName))
+                @if(isset($itemDetail->user->id))
                   @if($goodDealing + $badDealing > 0)
                     【良い：{{ $goodDealing }}件（{{ round($goodDealing / ($goodDealing + $badDealing) * 100, 0) }}％）】
                     【悪い：{{ $badDealing }}件（{{ round($badDealing / ($goodDealing + $badDealing) * 100, 0) }}）％】
@@ -104,7 +104,7 @@
             <tr>
               <td>発送元地域</td>
               <td>
-                @if(!isset($itemDetail->user->addressPref))
+                @if(!isset($itemDetail->user->id))
                   出品したユーザー情報は削除されました．
                 @else
                   {{ $itemDetail->user->addressPref }}
@@ -133,16 +133,16 @@
         @endif
       </h5>
       
-      @if($itemDetail->user_id != Auth::id())
+      @if($itemDetail->user_id != Auth::id() && Auth::user()->role_id !=1)
         @if($itemDetail->buyer_id < 1)
           <form action="{{ action('dealingBuyerController@buy', 
             ['id' => $itemDetail->id]) }}" method="post">
             @csrf
-            <button type="submit" class="btn btn-danger btn-lg btn-block" onClick="buyAlert(event);return false;">購入する></button>
+            <button type="submit" class="btn btn-danger btn-lg btn-block" onClick="buyAlert(event);return false;">購入する</button>
           </form>
         @elseif($itemDetail->buyer_id == Auth::id())
           <a href="{{ action('dealingBuyerController@statusBuyer',
-            ['id' => $dealingStatus->id]) }}" class="btn btn-primary btn-lg btn-block">取引場面へ
+            ['id' => $dealingStatus->id]) }}" class="btn btn-primary btn-lg btn-block">取引画面へ
           </a>
         @endif
       @else
@@ -170,7 +170,7 @@
         @elseif($itemDetail->user_id == Auth::id())
           <a href="{{ action('dealingSellerController@statusSeller',
             ['id' => $dealingStatus->id]) }}"
-            class="btn btn-primary btn-lg btn-block">取引場面へ
+            class="btn btn-primary btn-lg btn-block">取引画面へ
           </a>
         @endif
       @endif
@@ -238,7 +238,7 @@
                   <select class="form-control" name="commentTo_id" id="commentTo_id" required>
                     <option value="">選択してください</option>
                     @foreach($watchers as $watcher)
-                      @if(isset($watcher->watcher->nickName))
+                      @if(isset($watcher->watcher->id))
                         <option value="{{ $watcher->watcher_id }}">{{ $watcher->watcher->nickName }}</option>
                       @endif
                     @endforeach
@@ -269,7 +269,7 @@
               userメソッドであり，nickNameはusersテーブルのカラムである．
               なおユーザーが削除されても販売済みの商品は残るようにしてあるため，
               以下の記載が必要になる． --}}
-              @if(!isset($comment->watcher->nickName))
+              @if(!isset($comment->watcher->id))
                 <p>このユーザーは削除されました．</p>
               @else
                 <p>{{ $comment->watcher->nickName }}
@@ -311,7 +311,7 @@
               userメソッドであり，nickNameはusersテーブルのカラムである．
               なおユーザーが削除されても販売済みの商品は残るようにしてあるため，
               以下の記載が必要になる． --}}
-              @if(!isset($comment->watcher->nickName))
+              @if(!isset($comment->watcher->id))
                 <p>このユーザーは削除されました．</p>
               @else
                 <p>{{ $comment->watcher->nickName }}

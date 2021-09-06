@@ -16,7 +16,7 @@
             <a div class="card-deck col-md-3 mb-3" href="{{ action('itemController@itemDetail', ['id' => $goodItem->item->id]) }}">
                 <div class="card">
                     <div class="cardImg">
-                        @if(!isset($goodItem->item->image))
+                        @if(!isset($goodItem->item->id))
                             <div class="noImage">
                                 @if($goodItem->item->buyer_id < 1)
                                     <h5>No Image<br>画像がありません</h5>

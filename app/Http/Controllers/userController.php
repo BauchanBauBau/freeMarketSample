@@ -372,18 +372,35 @@ class userController extends Controller
         ]);
     }
 
-    public function userIndex(){ //管理ユーザー用
+    public function userIndex(Request $request){ //管理ユーザー用
         $superUser = User::where('role_id', '=', 1)->first();
         if(Auth::id() == $superUser->id){
-            $users = User::where('id', '!=', $superUser->id)->get();
-            foreach($users as $user){ //出品した商品の数を計算する．
-                $user->items = count(Item::where('user_id', '=', $user->id)
-                ->where('buyer_id', '<', 1)
-                ->get());
-                $user->save();
+            if($request->input('status') == 0){
+                $status = 0;
+                $users = Inquiry::where('inquiryTo_id', '=', $superUser->id)
+                ->where('kidoku', '<', 1)->get()->unique('user_id');
+            }elseif($request->input('status') == 1){
+                $status = 1;
+                $users = User::where('id', '!=', $superUser->id)
+                ->orderBy('items', 'desc')->get();
+                foreach($users as $user){ //出品した商品の数を計算する．
+                    $user->items = count(Item::where('user_id', '=', $user->id)
+                    ->where('buyer_id', '<', 1)
+                    ->get());
+                    $user->save();
+                }
+            }elseif($request->input('status') == 2){
+                $status = 2;
+                $users = User::where('id', '!=', $superUser->id)
+                ->orderBy('id', 'asc')->get();
+                foreach($users as $user){ //出品した商品の数を計算する．
+                    $user->items = count(Item::where('user_id', '=', $user->id)
+                    ->where('buyer_id', '<', 1)
+                    ->get());
+                    $user->save();
+                }
             }
-            
-            return view('user.admin.userIndex', ['users' => $users]);
+            return view('user.admin.userIndex', ['users' => $users, 'status' => $status]);
         }else{
             return redirect('/');
         }

@@ -106,7 +106,7 @@
                         <tr>
                             <td>出品者</td>
                             <td>
-                                @if(!isset($item->user->nickName))
+                                @if(!isset($item->user->id))
                                   出品したユーザー情報は削除されました．
                                 @else
                                   <a href="{{ action('userController@userRegisteredItem',
@@ -153,7 +153,7 @@
                         <tr>
                             <td>発送元地域</td>
                             <td>
-                                @if(!isset($item->user->addressPref))
+                                @if(!isset($item->user->id))
                                   出品したユーザー情報は削除されました．
                                 @else
                                   {{ $item->user->addressPref }}
@@ -210,7 +210,7 @@
                             @endif
                                 {{-- 以下のuserはapp\Dealing_message.phpで定義したusersテーブルを参照するための
                                 userメソッドであり，nickNameはusersテーブルのカラムである． --}}
-                            @if(!isset($message->user->nickName))
+                            @if(!isset($message->user->id))
                                 <p>このユーザーは削除されました．</p>
                             @else
                                 <p>{{ $message->user->nickName }}
@@ -246,7 +246,7 @@
                                 @endif
                                 {{-- 以下のuserはapp\Dealing_message.phpで定義したusersテーブルを参照するための
                                 userメソッドであり，nickNameはusersテーブルのカラムである． --}}
-                                @if(!isset($message->user->nickName))
+                                @if(!isset($message->user->id))
                                     <p>出品したユーザー情報は削除されました．</p>
                                 @else
                                     <p>{{ $message->user->nickName }}

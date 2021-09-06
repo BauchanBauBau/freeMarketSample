@@ -108,7 +108,7 @@ $dealingStatus->evaluated > 0 && $dealingStatus->evaluated < 2)
                         <tr>
                             <td>出品者</td>
                             <td>
-                                @if(!isset($item->user->nickName))
+                                @if(!isset($item->user->id))
                                   出品したユーザー情報は削除されました．
                                 @else
                                   <a href="{{ action('userController@userRegisteredItem',
@@ -155,7 +155,7 @@ $dealingStatus->evaluated > 0 && $dealingStatus->evaluated < 2)
                         <tr>
                             <td>発送元地域</td>
                             <td>
-                                @if(!isset($item->user->addressPref))
+                                @if(!isset($item->user->id))
                                   出品したユーザー情報は削除されました．
                                 @else
                                   {{ $item->user->addressPref }}
@@ -212,7 +212,7 @@ $dealingStatus->evaluated > 0 && $dealingStatus->evaluated < 2)
                             @endif
                                 {{-- 以下のuserはapp\Dealing_message.phpで定義したusersテーブルを参照するための
                                 userメソッドであり，nickNameはusersテーブルのカラムである． --}}
-                            @if(!isset($message->user->nickName))
+                            @if(!isset($message->user->id))
                                 <p>このユーザーは削除されました．</p>
                             @else
                                 <p>{{ $message->user->nickName }}
@@ -248,7 +248,7 @@ $dealingStatus->evaluated > 0 && $dealingStatus->evaluated < 2)
                                 @endif
                                 {{-- 以下のuserはapp\Dealing_message.phpで定義したusersテーブルを参照するための
                                 userメソッドであり，nickNameはusersテーブルのカラムである． --}}
-                                @if(!isset($message->user->nickName))
+                                @if(!isset($message->user->id))
                                     <p>出品したユーザー情報は削除されました．</p>
                                 @else
                                     <p>{{ $message->user->nickName }}

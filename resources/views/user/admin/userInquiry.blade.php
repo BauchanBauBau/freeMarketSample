@@ -30,7 +30,7 @@
                                 @endif
                                     {{-- 以下のuserはapp\Dealing_inquiry.phpで定義したusersテーブルを参照するための
                                     userメソッドであり，nickNameはusersテーブルのカラムである． --}}
-                                @if(!isset($inquiry->user->nickName))
+                                @if(!isset($inquiry->user->id))
                                     <p>このユーザーは削除されました．</p>
                                 @else
                                     <p>{{ $inquiry->user->nickName }}
@@ -57,7 +57,7 @@
                                 @endif
                                 {{-- 以下のuserはapp\Dealing_inquiry.phpで定義したusersテーブルを参照するための
                                 userメソッドであり，nickNameはusersテーブルのカラムである． --}}
-                                @if(!isset($inquiry->user->nickName))
+                                @if(!isset($inquiry->user->id))
                                     <p>ユーザー情報は削除されました．</p>
                                 @else
                                     <p>{{ $inquiry->user->nickName }}

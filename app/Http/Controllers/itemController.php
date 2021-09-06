@@ -21,20 +21,24 @@ class itemController extends Controller
 {
     public function itemIndex(Request $request)
     {   
-        $category = $request->input('category');
+        $categ = $request->input('category');
         
-        if($request->input('status') == null){
+        if($request->input('status') == ""){
+            $status = "";
             $items = Item::all();
         }elseif($request->input('status') == 0){
-            if(isset($category)){
+            $status = 0;
+            if(isset($categ)){
                 $items = Item::where('buyer_id', '<', 1)
                 ->where('category_id', '=', $request->input('category'))
                 ->get();
+                
             }else{
-                $items = Item::where('buyer_id', '<', 1)->get();  
+                $items = Item::where('buyer_id', '<', 1)->get();
             }
         }elseif($request->input('status') == 1){
-            if(isset($category)){
+            $status = 1;
+            if(isset($categ)){
                 $items = Item::where('buyer_id', '>', 0)
                 ->where('category_id', '=', $request->input('category'))
                 ->get();
@@ -45,7 +49,7 @@ class itemController extends Controller
 
         $categories = Category::all();
         
-        return view('item.itemIndex', ['items' => $items, 'categories' => $categories]);
+        return view('item.itemIndex', ['categ' => $categ, 'items' => $items, 'categories' => $categories, 'status' => $status]);
     }
 
     public function itemRegisterGet() //出品メソッドget用 Route::get('/itemRegister','mainController@itemRegist')->name('itemRegist')

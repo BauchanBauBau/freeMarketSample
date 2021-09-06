@@ -169,9 +169,9 @@
                                         @endif
                                     </td>
                                     <td>
-                                        @if($type == "buy" && isset($end->userSeller->nickName))
+                                        @if($type == "buy" && isset($end->userSeller->id))
                                             {{ $end->userSeller->nickName }} 様
-                                        @elseif($type == "sell" && isset($end->userBuyer->nickName))
+                                        @elseif($type == "sell" && isset($end->userBuyer->id))
                                             {{ $end->userBuyer->nickName }} 様
                                         @else
                                             出品したユーザー情報は削除されました．
