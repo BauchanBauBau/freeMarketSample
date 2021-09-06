@@ -21,7 +21,7 @@ class CreateDealingMessagesTable extends Migration
             $table->integer('buyer_id');
             $table->integer('user_id'); //質問者
             $table->string('message');
-            $table->intager('kidoku');
+            $table->integer('kidoku');
             $table->integer('messageDelete');
             $table->timestamps();
         });
