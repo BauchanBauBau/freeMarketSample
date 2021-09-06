@@ -16,6 +16,7 @@ class CreateDealingMessagesTable extends Migration
         Schema::create('dealing_messages', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('dealingStatus_id');
+            $table->integer('item_id');
             $table->integer('seller_id');
             $table->integer('buyer_id');
             $table->integer('user_id'); //質問者

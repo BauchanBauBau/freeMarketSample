@@ -86,53 +86,53 @@ class userController extends Controller
     public function userCommentedItem(Request $request) //他のユーザーが出品した商品で，自分がコメントしたものを表示する．
     {
         $user = Auth::id();
-        if($request->input('status') == 0){
+        if($request->input('selectStatus') == 0){
             $commentedItems = Item_comment::where('user_id', '!=', $user)
             ->where('commentTo_id', '=', $user)
             ->where('kidoku', '<', 1)
             ->where('commentDelete', '<', 1)
             ->where('buyed', '<', 1)
             ->get()->unique('item_id'); //「->unique('item_id')」で重複を防止する．
-            $status = 0;
-        }elseif($request->input('status') == 1){
+            $selectStatus = 0;
+        }elseif($request->input('selectStatus') == 1){
             $commentedItems = Item_comment::where('user_id', '!=', $user)
             ->where('watcher_id', '=', $user)
             ->where('commentDelete', '<', 1)
             ->where('buyed', '<', 1)
             ->get()->unique('item_id'); //「->unique('item_id')」で重複を防止する．
-            $status = 1;
+            $selectStatus = 1;
         }
 
         return view('user.userCommentedItem', [
             'user' => $user, 
             'commentedItems' => $commentedItems,
-            'status' => $status
+            'selectStatus' => $selectStatus
         ]);
     }
 
     public function userCommentedItemByWatcher(Request $request) //自分が出品した商品で，他のユーザーからコメントがあったものを表示する．
     {
         $user = Auth::id();
-        if($request->input('status') == 0){
+        if($request->input('selectStatus') == 0){
             $commentedItems = Item_comment::where('user_id', '=', $user)
             ->where('watcher_id', '!=', $user)
             ->where('kidoku', '<', 1)
             ->where('commentDelete', '<', 1)
             ->where('buyed', '<', 1)
             ->get()->unique('item_id'); //「->unique('item_id')」で重複を防止する．
-            $status = 0;
-        }elseif($request->input('status') == 1){
+            $selectStatus = 0;
+        }elseif($request->input('selectStatus') == 1){
             $commentedItems = Item_comment::where('user_id', '=', $user)
             ->where('commentDelete', '<', 1)
             ->where('buyed', '<', 1)
             ->get()->unique('item_id'); //「->unique('item_id')」で重複を防止する．
-            $status = 1;
+            $selectStatus = 1;
         }
 
         return view('user.userCommentedItemByWatcher', [
             'user' => $user,
             'commentedItems' => $commentedItems,
-            'status' => $status
+            'selectStatus' => $selectStatus
         ]);
     }
 
@@ -157,76 +157,53 @@ class userController extends Controller
     
     public function userDealingBuy(Request $request)
     {
-        $user = Auth::user();
+        $user = Auth::id();
         
-        if($request->input('selectStatus')==0){
-            $dealingStatuses = Dealing_status::where('buyer_id', '=', $user->id)
+        if($request->input('selectStatus') == 0){
+            $dealingStatuses = Dealing_message::where('user_id', '!=', $user)
+            ->where('buyer_id', '=', $user)
+            ->where('kidoku', '<', 1)
+            ->get();
+
+            $selectStatus = 0;
+        }elseif($request->input('selectStatus') == 1){
+            $dealingStatuses = Dealing_status::where('buyer_id', '=', $user)
             ->where('evaluated', '<', 2)
             ->get();
-        }elseif($request->input('selectStatus')==1){
-            $dealingStatuses = Dealing_status::where('buyer_id', '=', $user->id)
-            ->where('payed', '<', 1)
-            ->get(); //1は「支払いをしてください」．
-        }elseif($request->input('selectStatus')==2){
-            $dealingStatuses = Dealing_status::where('buyer_id', '=', $user->id)
-            ->where('payed', '>', 0)
-            ->where('shipped', '<', 1)
-            ->get(); //2は「発送をお待ちください」
-        }elseif($request->input('selectStatus')==3){
-            $dealingStatuses = Dealing_status::where('buyer_id', '=', $user->id)
-            ->where('payed', '>', 0)
-            ->where('shipped', '>', 0)
-            ->where('evaluated', '<', 1)
-            ->get(); //3は「受け取り商品が到着したら出品者を評価をしてください評価をしてください」
-        }elseif($request->input('selectStatus')==4){
-            $dealingStatuses = Dealing_status::where('buyer_id', '=', $user->id)
-            ->where('payed', '>', 0)
-            ->where('shipped', '>', 0)
-            ->where('evaluated', '>', 0)
-            ->where('evaluated', '<', 2)
-            ->get(); //4は「出品者からの評価をお待ちください」
+
+            $selectStatus = 1;
         }
 
         return view('user.userDealingBuy', [
         'user' => $user,
-        'dealingStatuses' => $dealingStatuses
+        'dealingStatuses' => $dealingStatuses,
+        'selectStatus' => $selectStatus
         ]);
     }
 
     public function userDealingSell(Request $request)
     {
-        $user = Auth::user();
+        $user = Auth::id();
         
-        if($request->input('selectStatus')==0){
-            $dealingStatuses = Dealing_status::where('seller_id', '=', $user->id)
+        if($request->input('selectStatus') == 0){
+            $dealingStatuses = Dealing_message::where('user_id', '!=', $user)
+            ->where('seller_id', '=', $user)
+            ->where('kidoku', '<', 1)
+            ->get();
+
+            $selectStatus = 0;
+        }elseif($request->input('selectStatus') == 1){
+            $dealingStatuses = Dealing_status::where('seller_id', '=', $user)
             ->where('evaluated', '<', 2)
             ->get();
-        }elseif($request->input('selectStatus')==1){
-            $dealingStatuses = Dealing_status::where('seller_id', '=', $user->id)
-            ->where('payed', '<', 1)->get();//1は「支払いをお待ちください」．
-        }elseif($request->input('selectStatus')==2){
-            $dealingStatuses = Dealing_status::where('seller_id', '=', $user->id)
-            ->where('payed', '>', 0)
-            ->where('shipped', '<', 1)
-            ->get();//2は「発送してください」．
-        }elseif($request->input('selectStatus')==3){
-            $dealingStatuses = Dealing_status::where('seller_id', '=', $user->id)
-            ->where('payed', '>', 0)
-            ->where('shipped', '>', 0)
-            ->where('evaluated', '<', 1)
-            ->get();//3は「出品者の評価をお待ちください」．
-        }elseif($request->input('selectStatus')==4){
-            $dealingStatuses = Dealing_status::where('seller_id', '=', $user->id)
-            ->where('payed', '>', 0)
-            ->where('shipped', '>', 0)
-            ->where('evaluated', '>', 0)
-            ->where('evaluated', '<', 2)
-            ->get();//4は「出品者の評価をしてください」．
+
+            $selectStatus = 1;
         }
 
         return view('user.userDealingSell', [
         'user' => $user,
-        'dealingStatuses' => $dealingStatuses
+        'dealingStatuses' => $dealingStatuses,
+        'selectStatus' => $selectStatus
         ]);
     }
 

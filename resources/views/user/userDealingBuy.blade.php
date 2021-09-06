@@ -9,26 +9,20 @@
 @if(count($dealingStatuses) < 1)
     <h2 id="header2">該当する取引はありません．</h2>
     <div class="selectStatus">
-        <form action="{{ action('userController@userDealingBuy', ['id' => $user->id]) }}">
+        <form action="{{ action('userController@userDealingBuy', ['id' => $user]) }}">
             <select class="form-control col-md-4 offset-md-4" name="selectStatus" id="selectStatus">
-                <option value="0">表示内容を選択してください</option>
-                <option value="1">支払をしてください</option>
-                <option value="2">発送をお待ちください</option>
-                <option value="3">商品が到着したら出品者を評価をしてください</option>
-                <option value="4">出品者からの評価をお待ちください</option>
+                <option value="0">出品者から新着のメッセージが来た取引</option>
+                <option value="1">取引中の商品全て（購入）</option>
             </select>
             <button type="submit" class="btn btn-primary col-md-4 offset-md-4">表示</button>
         </form>
     </div>
 @else
     <div class="selectStatus">
-        <form action="{{ action('userController@userDealingBuy', ['id' => $user->id]) }}">
+        <form action="{{ action('userController@userDealingBuy', ['id' => $user]) }}">
             <select class="form-control col-md-4 offset-md-4" name="selectStatus" id="selectStatus">
-                <option value="0">表示内容を選択してください</option>
-                <option value="1">支払をしてください</option>
-                <option value="2">発送をお待ちください</option>
-                <option value="3">商品が到着したら出品者を評価をしてください</option>
-                <option value="4">出品者からの評価をお待ちください</option>
+                <option value="0">出品者から新着のメッセージが来た取引</option>
+                <option value="1">取引中の商品全て（購入）</option>
             </select>
             <button type="submit" class="btn btn-primary col-md-4 offset-md-4">表示</button>
         </form>
@@ -42,7 +36,13 @@
                 itemメソッドであり，本メソッドの後ろにitemsテーブルのカラム名を指定する． 
                 （「$dealingStatus->item->user_id」とは出品者のidのこと）
             --}}
-            <a div class="card-deck col-md-3 mb-3" href="{{ action('dealingBuyerController@statusBuyer', ['id' => $dealingStatus->id]) }}">
+            <a div class="card-deck col-md-3 mb-3" 
+            @if($selectStatus == 0)
+                href="{{ action('dealingBuyerController@statusBuyer', ['id' => $dealingStatus->dealingStatus_id]) }}"
+            @elseif($selectStatus == 1)
+                href="{{ action('dealingBuyerController@statusBuyer', ['id' => $dealingStatus->id]) }}"
+            @endif
+            >
                 <div class="card">
                     <div class="cardImg">
                         @if(!isset($dealingStatus->item->image))

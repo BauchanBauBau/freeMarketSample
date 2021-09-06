@@ -16,7 +16,7 @@ class dealingSellerController extends Controller
     public function statusSeller(Request $request)
     {
         $dealingStatus = Dealing_status::find($request->id);
-
+        
         if($dealingStatus->seller_id == Auth::id()){
             $item = Item::find($dealingStatus->item_id);
             $messages = Dealing_message::where('dealingStatus_id', '=' ,$dealingStatus->id)->get();
@@ -86,12 +86,14 @@ class dealingSellerController extends Controller
 
         //下段で$Messageの要素を以下の変数の値に更新する．
         $dealingStatus = Dealing_status::find($request->id); //redirectでも使用する．
+        $itemId = $dealingStatus->item_id;
         $sellerId = $dealingStatus->seller_id;
         $buyerId = $dealingStatus->buyer_id;
         $userId = Auth::id();
 
         //$Messageの要素を上段の変数の値へ更新する．
         $Message->dealingStatus_id = $dealingStatus->id;
+        $Message->item_id = $itemId;
         $Message->seller_id = $sellerId;
         $Message->buyer_id = $buyerId;
         $Message->user_id = $userId;

@@ -11,4 +11,8 @@ class Dealing_message extends Model
     public function user(){
         return $this->belongsTo('App\User');
     }
+
+    public function item(){
+        return $this->belongsTo('App\Item');
+    }
 }
