@@ -25,25 +25,36 @@ class itemController extends Controller
         
         if($request->input('status') == ""){
             $status = "";
-            $items = Item::all();
+            if(isset($categ)){
+                $items = Item::where('category_id', '=', $categ)
+                ->orderBy('created_at', 'desc')
+                ->get();
+            }else{
+                $items = Item::orderBy('created_at', 'desc')->get();
+            }
         }elseif($request->input('status') == 0){
             $status = 0;
             if(isset($categ)){
                 $items = Item::where('buyer_id', '<', 1)
-                ->where('category_id', '=', $request->input('category'))
-                ->get();
-                
+                ->where('category_id', '=', $categ)
+                ->orderBy('created_at', 'desc')
+                ->get();  
             }else{
-                $items = Item::where('buyer_id', '<', 1)->get();
+                $items = Item::where('buyer_id', '<', 1)
+                ->orderBy('created_at', 'desc')
+                ->get();
             }
         }elseif($request->input('status') == 1){
             $status = 1;
             if(isset($categ)){
                 $items = Item::where('buyer_id', '>', 0)
-                ->where('category_id', '=', $request->input('category'))
+                ->where('category_id', '=', $categ)
+                ->orderBy('created_at', 'desc')
                 ->get();
             }else{
-                $items = Item::where('buyer_id', '>', 0)->get(); 
+                $items = Item::where('buyer_id', '>', 0)
+                ->orderBy('created_at', 'desc')
+                ->get(); 
             }
         }
 
