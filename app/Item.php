@@ -8,7 +8,7 @@ class Item extends Model
 {
     public static $rules = array(
         'price' => 'required|integer|min:0',
-        'days' => 'required|integer|between:1,7',
+        'days' => 'required|integer|between:0,7',
     );
 
     protected $guarded = ['id'];

@@ -48,10 +48,10 @@
                     @else
                         <div class="img">
                             @if($dealingStatus->item->buyer_id < 1)
-                                <img class="img-thumbnail" src="{{ asset('storage/image/' . $dealingStatus->item->image) }}">
+                                <img class="img-thumbnail" src="{{ $dealingStatus->item->image }}">
                                 <p class="list-group-item">{{ number_format($dealingStatus->item->price) }}円</p>
                             @else
-                                <img class="img-thumbnail" src="{{ asset('storage/image/' . $dealingStatus->item->image) }}">
+                                <img class="img-thumbnail" src="{{ $dealingStatus->item->image }}">
                                 <h1><strong>Sold out</strong></h1>
                                 <p class="list-group-item">{{ number_format($dealingStatus->item->price) }}円</p>
                             @endif

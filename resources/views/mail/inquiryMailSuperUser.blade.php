@@ -5,7 +5,7 @@
 
     <p>{{ $superUser->nickName }}（管理者）様</p>
     <br>
-    <p>{{ $inquirer->nickName }}様から以下のようなお問い合わせが届いておりますので，
+    <p>ユーザーid{{ $inquirer->id }}番の{{ $inquirer->nickName }}様から以下のようなお問い合わせが届いておりますので，
         確認をお願いいたします．</p>
     <br>
     <p>

@@ -8,23 +8,22 @@
     <div class="row">
         <div class="col-md-12">
             <form action="{{ action('itemController@itemIndex') }}" class="col-md-6 offset-md-3" method="GET">
-                @csrf
-                    <div class="form-group">
-                        <label for="status">販売状況</label>
-                        <select class="form-control" name="status" id="status">
-                            <option value="" selected>選択してください</option>
-                            <option value="0" @if($status == 0) selected @endif>販売中</option>
-                            <option value="1" @if($status == 1) selected @endif>販売済み</option>
-                        </select>
-                        <label for="category">カテゴリー</label>
-                        <select class="form-control" name="category" id="category">
-                            <option value="">選択してください</option>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}" @if($categ == $category->id) selected @endif>{{ $category->name }}</option>
-                            @endforeach
-                        </select>
-                        <button type="submit" class="btn btn-block btn-dark" onclick="a();">表示</button>
-                    </div>
+                <div class="form-group">
+                    <label for="status">販売状況</label>
+                    <select class="form-control" name="status" id="status">
+                        <option value="" selected>選択してください</option>
+                        <option value="0" @if($status == 0) selected @endif>販売中</option>
+                        <option value="1" @if($status == 1) selected @endif>販売済み</option>
+                    </select>
+                    <label for="category">カテゴリー</label>
+                    <select class="form-control" name="category" id="category">
+                        <option value="">選択してください</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}" @if($categ == $category->id) selected @endif>{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                    <button type="submit" class="btn btn-block btn-dark" onclick="a();">表示</button>
+                </div>
             </form>
         </div>
     </div>

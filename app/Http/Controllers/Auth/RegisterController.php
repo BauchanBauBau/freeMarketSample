@@ -92,7 +92,7 @@ class RegisterController extends Controller
             'addressPref' => $data['addressPref'],
             'addressCity' => $data['addressCity'],
             'addressOther' => $data['addressOther'],
-            'items' => 0,
+            'items' => 0, //userIndexでの出品数
         ]);
     }
 }

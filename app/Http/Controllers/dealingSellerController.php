@@ -57,7 +57,7 @@ class dealingSellerController extends Controller
             $dealingStatus->save();
 
                 //メール送信
-                $buyer = User::find($item->buyer);
+                $buyer = User::find($item->buyer_id);
                 Mail::send('mail.sellerMailShipped', [ //sellerに対してメールを送信する
                     "item" => $item,
                     "dealingStatus" => $dealingStatus,

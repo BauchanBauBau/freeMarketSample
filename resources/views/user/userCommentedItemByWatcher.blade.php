@@ -41,10 +41,10 @@
                     @else
                         <div class="img">
                             @if($commentedItem->item->buyer_id < 1)
-                                <img class="img-thumbnail" src="{{ asset('storage/image/' . $commentedItem->item->image) }}">
+                                <img class="img-thumbnail" src="{{ $commentedItem->item->image }}">
                                 <p class="list-group-item">{{ number_format($commentedItem->item->price) }}円</p>
                             @else
-                                <img class="img-thumbnail" src="{{ asset('storage/image/' . $commentedItem->item->image) }}">
+                                <img class="img-thumbnail" src="{{ $commentedItem->item->image }}">
                                 <h1><strong>Sold out</strong></h1>
                                 <p class="list-group-item">{{ number_format($commentedItem->item->price) }}円</p>
                             @endif
