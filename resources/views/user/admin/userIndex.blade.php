@@ -1,11 +1,17 @@
 @extends('layouts.top')
 
+<link href="{{ asset('css/user/userIndex.css') }}" rel="stylesheet">
 <script src="{{ asset('js/user.js') }}" defer></script>
 <title>ユーザー管理</title>
 @section('content')
 <div class="menu">
     <div class="row">
         <div class="col-md-12">
+            <div class="voyager">
+                <a class="btn btn-danger offset-md-5" href="/admin">管理画面（voyager）</a>
+                <h5 class="offset-md-3">ユーザーの削除，商品の削除は管理画面（voyager）で行わないこと！</h5>
+                <h5 class="offset-md-3">（削除用のメソッドで条件に応じた削除が行われるため）</h5>
+            </div>
             <form action="{{ action('userController@userIndex') }}" class="col-md-6 offset-md-3" method="GET">
                 <div class="form-group">
                     <label for="status">表示内容を選択してください</label>

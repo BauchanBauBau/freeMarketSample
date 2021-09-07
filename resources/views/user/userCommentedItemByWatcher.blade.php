@@ -4,25 +4,14 @@
 <title>コメントが来た商品</title>
 
 @section('content')
-
-<br>
 <h1 id="header1"><small>（自分の商品で）</small>コメントが来た商品一覧
 @if(count($commentedItems) > 0)（{{ count($commentedItems) }}件）@endif</h1>
-<h4 style="text-align: center">
-    （
-    @if($selectStatus == 0)
-        質問者から新着のコメントが来た商品
-    @else
-        コメントが来た商品全て
-    @endif
-    ）
-</h4>
 <div class="selectStatus form-group col-md-4 offset-md-4">
     <form action="{{ action('userController@userCommentedItemByWatcher', ['id' => $user]) }}">
         <label for="selectStatus">表示内容を選択してください</label>
         <select class="form-control" name="selectStatus" id="selectStatus">
-            <option value="0">質問者から新着のコメントが来た商品</option>
-            <option value="1">コメントが来た商品全て</option>
+            <option value="0" @if($selectStatus == 0) selected @endif>質問者から新着のコメントが来た商品</option>
+            <option value="1" @if($selectStatus == 1) selected @endif>コメントが来た商品全て</option>
         </select>
         <button type="submit" class="btn btn-block btn-primary">表示</button>
     </form>

@@ -368,6 +368,14 @@ class itemController extends Controller
             $items = $query->get();
         }
         
-        return view('item.itemSearch', ['items' => $items]);
+        return view('item.itemSearch', [
+            'name' => $name,
+            'condition' => $condition,
+            'status' => $status,
+            'priceMin' => $priceMin,
+            'priceMax' => $priceMax,
+            'sellerName' => $sellerName,
+            'items' => $items
+        ]);
     }
 }

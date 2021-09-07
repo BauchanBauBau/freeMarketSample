@@ -4,20 +4,20 @@
 <title>出品した商品</title>
 
 @section('content')
-@if(count($items) < 1 && ($status == "all" || $status == "selling" || $status = "soldOut"))
+@if(count($items) < 1 && ($status == 0 || $status == 1 || $status = 2))
     <div class="select">
-        @if($status == "all")
+        @if($status == 0)
             <h2 class="header"><a href="{{ action('userController@userDealingEnd', ['id' => $user->id]) }}">{{ $user->nickName }}</a>様が出品した商品はありません．</h2>
-        @elseif($status == "selling")
+        @elseif($status == 1)
             <h2 class="header"><a href="{{ action('userController@userDealingEnd', ['id' => $user->id]) }}">{{ $user->nickName }}</a>様が出品した商品で「販売中」のものはありません．</h2>
-        @elseif($status == "soldOut")
+        @elseif($status == 2)
             <h2 class="header"><a href="{{ action('userController@userDealingEnd', ['id' => $user->id]) }}">{{ $user->nickName }}</a>様が出品した商品で「販売済み」のものはありません．</h2>
         @endif
         <form action="{{ action('userController@userRegisteredItem', ['id' => $user]) }}">
             <select class="form-control col-md-4 offset-md-4" name="selectStatus" id="selectStatus">
-                <option value="0">全て</option>
-                <option value="1">販売中</option>
-                <option value="2">販売済み</option>
+                <option value="0" @if($status == 0) selected @endif>全て</option>
+                <option value="1" @if($status == 1) selected @endif>販売中</option>
+                <option value="2" @if($status == 2) selected @endif>販売済み</option>
             </select>
             <button type="submit" class="btn btn-primary col-md-4 offset-md-4">表示</button>
         </form>
@@ -26,9 +26,9 @@
     <div class="select">
         <h2><a href="{{ action('userController@userDealingEnd', ['id' => $user->id]) }}">{{ $user->nickName }}</a>
             様が出品した商品
-            @if($status == "all")（全て）
-            @elseif($status == "selling")（販売中）
-            @elseif($status == "soldOut")（販売済み）
+            @if($status == 0)（全て）
+            @elseif($status == 1)（販売中）
+            @elseif($status == 2)（販売済み）
             @endif
             【{{ count($items) }}個】
         </h2>

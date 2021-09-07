@@ -9,10 +9,9 @@
     <div class="row">
         <div class="col-md-12">
             <form action="{{ action('itemController@itemSearch') }}" class="col-md-6 offset-md-3" method="GET">
-                @csrf
                 <div class="form-group">
                     <label for="name">商品名</label>
-                    <input class="form-control" type="search" name="name" id="name" value="{{ old('name') }}" placeholder="商品名">
+                    <input class="form-control" type="search" name="name" id="name" value="{{ $name }}" placeholder="商品名">
                 </div>
                 <button type="button" class="btn btn-block btn-primary" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                     <label for="shippingNumber"><strong>検索詳細設定</strong></label>
@@ -22,37 +21,37 @@
                         <div class="form-group">
                             <label for="condition">商品の状態</label>
                             <select class="form-control" name="condition" id="condition">
-                                <option value="">選択してください</option>
-                                <option value="0">新品・未使用</option>
-                                <option value="1">新品・未使用に近い</option>
-                                <option value="2">目立った傷や汚れ無し</option>
-                                <option value="3">傷や汚れ有り</option>
-                                <option value="4">全体的に状態が悪い</option>
+                                <option value="null" @if($condition == "null") selected @endif>選択してください</option>
+                                <option value="0" @if($condition == 0) selected @endif>新品・未使用</option>
+                                <option value="1" @if($condition == 1) selected @endif>新品・未使用に近い</option>
+                                <option value="2" @if($condition == 2) selected @endif>目立った傷や汚れ無し</option>
+                                <option value="3" @if($condition == 3) selected @endif>傷や汚れ有り</option>
+                                <option value="4" @if($condition == 4) selected @endif>全体的に状態が悪い</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="status">販売状況</label>
                             <select class="form-control" name="status" id="status">
-                                <option value="">選択してください</option>
-                                <option value="0">販売中</option>
-                                <option value="1">販売済み</option>
+                                <option value="null" @if($status == "null") selected @endif>選択してください</option>
+                                <option value="0" @if($status == 0) selected @endif>販売中</option>
+                                <option value="1" @if($status == 1) selected @endif>販売済み</option>
                             </select>
                         </div>
   
                         <div class="price row">
                             <div class="form-group  col-md-6">
                                 <label for="priceMin">最低価格</label>
-                                <input class="form-control" type="number" placeholder="最低価格" id="priceMin" name="priceMin">
+                                <input class="form-control" type="number" placeholder="最低価格" id="priceMin" name="priceMin" value="{{ $priceMin }}">
                             </div>
                             <div class="form-group  col-md-6">
                                 <label for="priceMax">最高価格</label>
-                                <input class="form-control" type="number" placeholder="最高価格" id="priceMax" name="priceMax">
+                                <input class="form-control" type="number" placeholder="最高価格" id="priceMax" name="priceMax" value="{{ $priceMax }}">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="sellerName">出品者名</label>
-                            <input class="form-control" type="search" name="sellerName" id="sellerName" placeholder="出品者名">
+                            <input class="form-control" type="search" name="sellerName" id="sellerName" placeholder="出品者名" value="{{ $sellerName }}">
                         </div>
                     </div>
                 </div>       

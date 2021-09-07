@@ -8,18 +8,18 @@
 @if(count($ends) < 1)
     <div class="select">
         <h2><a href="{{ action('userController@userRegisteredItem', ['id' => $user->id]) }}">{{ $user->nickName }}</a>様の終了した取引
-            @if($type == "all")（全て）
-            @elseif($type == "buy")（購入）
-            @elseif($type == "sell")（販売）
+            @if($type == 0)（全て）
+            @elseif($type == 1)（購入）
+            @elseif($type == 2)（販売）
             @endif
             【{{ count($ends) }}件】
         </h2>
         <h2>該当する取引はありません．</h2>
         <form action="{{ action('userController@userDealingEnd', ['id' => $user]) }}">
             <select class="form-control col-md-4 offset-md-4" name="selectDealing" id="selectDealing">
-                <option value="0">全て</option>
-                <option value="1">購入</option>
-                <option value="2">販売</option>
+                <option value="0" @if($type == 0) selected @endif>全て</option>
+                <option value="1" @if($type == 1) selected @endif>購入</option>
+                <option value="2" @if($type == 2) selected @endif>販売</option>
             </select>
             <button type="submit" class="btn btn-primary col-md-4 offset-md-4">表示</button>
         </form>
@@ -27,9 +27,9 @@
 @else
     <div class="select">
         <h2><a href="{{ action('userController@userRegisteredItem', ['id' => $user->id]) }}">{{ $user->nickName }}</a>様の終了した取引
-            @if($type == "all")（全て）
-            @elseif($type == "buy")（購入）
-            @elseif($type == "sell")（販売）
+            @if($type == 0)（全て）
+            @elseif($type == 1)（購入）
+            @elseif($type == 2)（販売）
             @endif
             【{{ count($ends) }}件】
         </h2>
@@ -77,7 +77,7 @@
                         </tbody>
                     </table>
                 </a div>
-                @if($type == "all")
+                @if($type == 0)
                     @if(isset($end->userSeller->id))
                         @if($end->seller_id != $user->id && $end->seller_id != $user->id)
                             <a div class="col-md-9" href="{{ action('userController@userRegisteredItem', ['id' => $end->userSeller->id]) }}">
@@ -154,24 +154,24 @@
                             </table>
                         </a div>
                 @else
-                    @if($type == "buy" && isset($end->userSeller->id))
+                    @if($type == 1 && isset($end->userSeller->id))
                         <a div class="col-md-9" href="{{ action('userController@userRegisteredItem', ['id' => $end->userSeller->id]) }}">
                     @endif        
-                    @if($type == "sell" && isset($end->userBuyer->id))
+                    @if($type == 2 && isset($end->userBuyer->id))
                         <a div class="col-md-9" href="{{ action('userController@userRegisteredItem', ['id' => $end->userBuyer->id]) }}">
                     @endif
                         <table id="table2" class="table table-bordered col-md-9">
                             <tbody>
                                 <tr>
                                     <td>
-                                        @if($type == "buy")出品者
-                                        @elseif($type == "sell")購入者
+                                        @if($type == 1)出品者
+                                        @elseif($type == 2)購入者
                                         @endif
                                     </td>
                                     <td>
-                                        @if($type == "buy" && isset($end->userSeller->id))
+                                        @if($type == 1 && isset($end->userSeller->id))
                                             {{ $end->userSeller->nickName }} 様
-                                        @elseif($type == "sell" && isset($end->userBuyer->id))
+                                        @elseif($type == 2 && isset($end->userBuyer->id))
                                             {{ $end->userBuyer->nickName }} 様
                                         @else
                                             出品したユーザー情報は削除されました．
@@ -180,15 +180,15 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        @if($type == "buy")出品者からの評価
-                                        @elseif($type == "sell")購入者からの評価
+                                        @if($type == 1)出品者からの評価
+                                        @elseif($type == 2)購入者からの評価
                                         @endif
                                     </td>
-                                    <td>@if($type == "buy")
+                                    <td>@if($type == 1)
                                             @if($end->buyerEvaluation == 0 )良い
                                             @else 悪い
                                             @endif
-                                        @elseif($type == "sell")
+                                        @elseif($type == 2)
                                             @if($end->sellerEvaluation == 0 )良い
                                             @else 悪い
                                             @endif
@@ -197,16 +197,16 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        @if($type == "buy")出品者からのコメント
-                                        @elseif($type == "sell")購入者からのコメント
+                                        @if($type == 1)出品者からのコメント
+                                        @elseif($type == 2)購入者からのコメント
                                         @endif
                                     </td>
                                     <td>
-                                        @if($type == "buy")
+                                        @if($type == 1)
                                             @if(isset($end->buyerComment)){{ $end->buyerComment }}
                                             @else
                                                 コメントはありません．                                            @endif
-                                        @elseif($type == "sell")
+                                        @elseif($type == 2)
                                             @if($end->sellerComment){{ $end->sellerComment }}
                                             @else
                                                 コメントはありません．

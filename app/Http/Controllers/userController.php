@@ -160,18 +160,16 @@ class userController extends Controller
         $user = Auth::id();
         
         if($request->input('selectStatus') == 0){
+            $selectStatus = 0;
             $dealingStatuses = Dealing_message::where('user_id', '!=', $user)
             ->where('buyer_id', '=', $user)
             ->where('kidoku', '<', 1)
             ->get();
-
-            $selectStatus = 0;
         }elseif($request->input('selectStatus') == 1){
+            $selectStatus = 1;
             $dealingStatuses = Dealing_status::where('buyer_id', '=', $user)
             ->where('evaluated', '<', 2)
             ->get();
-
-            $selectStatus = 1;
         }
 
         return view('user.userDealingBuy', [
@@ -186,18 +184,16 @@ class userController extends Controller
         $user = Auth::id();
         
         if($request->input('selectStatus') == 0){
+            $selectStatus = 0;
             $dealingStatuses = Dealing_message::where('user_id', '!=', $user)
             ->where('seller_id', '=', $user)
             ->where('kidoku', '<', 1)
             ->get();
-
-            $selectStatus = 0;
         }elseif($request->input('selectStatus') == 1){
+            $selectStatus = 1;
             $dealingStatuses = Dealing_status::where('seller_id', '=', $user)
             ->where('evaluated', '<', 2)
             ->get();
-
-            $selectStatus = 1;
         }
 
         return view('user.userDealingSell', [
@@ -212,7 +208,7 @@ class userController extends Controller
         $user = User::find($request->id);
 
         if($request->input('selectDealing') == 0){
-            $type = "all";
+            $type = 0; //全て
 
             $goodBuy = count(Evaluation::where('buyer_id', '=', $user->id)
             ->where('buyerEvaluation', '<', 1)->get());
@@ -233,7 +229,7 @@ class userController extends Controller
             ->get();
 
         }elseif($request->input('selectDealing') == 1){
-            $type = "buy";
+            $type = 1; //購入
             $good = count(Evaluation::where('buyer_id', '=', $user->id)
             ->where('buyerEvaluation', '<', 1)->get());
             
@@ -243,7 +239,7 @@ class userController extends Controller
             $ends = Evaluation::where('buyer_id', '=', $user->id)->get();
 
         }elseif($request->input('selectDealing') == 2){
-            $type = "sell";
+            $type = 2; //販売
             $good = count(Evaluation::where('seller_id', '=', $user->id)
             ->where('sellerEvaluation', '<', 1)->get());
 
@@ -267,14 +263,14 @@ class userController extends Controller
     {
         $user = User::find($request->id);
         if($request->input('selectStatus') == 0){
-            $status = "all";
+            $status = 0; //全て
             $items = Item::where('user_id', '=', $user->id)->get();
         }elseif($request->input('selectStatus') == 1){
-            $status = "selling";
+            $status = 1; //販売中
             $items = Item::where('user_id', '=', $user->id)
             ->where('buyer_id', '=', 0)->get();
         }elseif($request->input('selectStatus') == 2){
-            $status = "soldOut";
+            $status = 2; //売り切れ
             $items = Item::where('user_id', '=', $user->id)
             ->where('buyer_id', '!=', 0)->get();
         }
