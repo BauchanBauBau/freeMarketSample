@@ -89,7 +89,7 @@
                             @elseif($item->condition == 3)<p class="list-group-item">傷や汚れ有り</p>
                             @elseif($item->condition == 4)<p class="list-group-item">全体的に状態が悪い</p>
                         @endif
-                        <p class="list-group-item">{{ $item->days }}日以内に<br>{{ $item->userAddress }}から発送</p>
+                        <p class="list-group-item">{{ $item->days }}日以内に<br>{{ $item->user->addressPref }}から発送</p>
                     </div>
                 </div>
             </a div>
