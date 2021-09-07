@@ -49,7 +49,12 @@ class itemController extends Controller
 
         $categories = Category::all();
         
-        return view('item.itemIndex', ['categ' => $categ, 'items' => $items, 'categories' => $categories, 'status' => $status]);
+        return view('item.itemIndex', [
+            'categ' => $categ, 
+            'items' => $items, 
+            'categories' => $categories, 
+            'status' => $status
+        ]);
     }
 
     public function itemRegisterGet() //出品メソッドget用 Route::get('/itemRegister','mainController@itemRegist')->name('itemRegist')
@@ -87,6 +92,7 @@ class itemController extends Controller
 
     public function itemDetail(Request $request)
     {   
+        $superUser = User::where('role_id', '=', 1)->first();
         $itemDetail = Item::find($request->id);
         $category = Category::find($itemDetail->category_id); //該当する商品のカテゴリー名を表示
         $comments = Item_comment::where('item_id','=', $itemDetail->id)->get(); //該当する商品の商品のコメントを表示
@@ -143,16 +149,17 @@ class itemController extends Controller
         $badDealing = $badBuy + $badSell;
 
 
-        return view('item.itemDetail',
-        ['itemDetail' => $itemDetail,
-         'category' => $category,
-         'comments' => $comments,
-         'watchers' => $watchers,
-         'goods' => $goods,
-         'goodCount' => $goodCount,
-         'dealingStatus' => $dealingStatus,
-         'goodDealing' => $goodDealing,
-         'badDealing' => $badDealing
+        return view('item.itemDetail', [
+        'superUser' => $superUser,
+        'itemDetail' => $itemDetail,
+        'category' => $category,
+        'comments' => $comments,
+        'watchers' => $watchers,
+        'goods' => $goods,
+        'goodCount' => $goodCount,
+        'dealingStatus' => $dealingStatus,
+        'goodDealing' => $goodDealing,
+        'badDealing' => $badDealing
         ]);
     }
 

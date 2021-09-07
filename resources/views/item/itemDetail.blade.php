@@ -133,40 +133,48 @@
         @endif
       </h5>
       
-      @if($itemDetail->user_id != Auth::id() && Auth::user()->role_id !=1)
-        @if($itemDetail->buyer_id < 1)
-          <form action="{{ action('dealingBuyerController@buy', 
-            ['id' => $itemDetail->id]) }}" method="post">
-            @csrf
-            <button type="submit" class="btn btn-danger btn-lg btn-block" onClick="buyAlert(event);return false;">購入する</button>
-          </form>
-        @elseif($itemDetail->buyer_id == Auth::id())
-          <a href="{{ action('dealingBuyerController@statusBuyer',
-            ['id' => $dealingStatus->id]) }}" class="btn btn-primary btn-lg btn-block">取引画面へ
-          </a>
-        @endif
-      @else
-        @if($itemDetail->buyer_id < 1)
+      @if($itemDetail->buyer_id < 1)
+        @if(Auth::id() == $superUser->id)
           <a href="{{ action('itemController@itemEditGet',
             ['id' => $itemDetail->id]) }}"
             class="btn btn-success btn-lg btn-block">
-            @if(Auth::user()->role_id == 1)
               <strong>管理者として</strong>商品を編集する
-            @else
-              商品を編集する
-            @endif
           </a>
           <form action="{{ action('itemController@itemDelete', 
             ['id' => $itemDetail->id]) }}" method="post">
             @csrf
             <button type="submit" class="btn btn-danger" onClick="deleteAlert(event);return false;">
-              @if(Auth::user()->role_id == 1)
-                <strong>管理者として</strong>商品を削除する
-              @else
-                商品を削除する
-              @endif
+              <strong>管理者として</strong>商品を削除する
             </button>
           </form>
+        @else
+          @if($itemDetail->user_id != Auth::id())
+            <form action="{{ action('dealingBuyerController@buy', 
+              ['id' => $itemDetail->id]) }}" method="post">
+              @csrf
+              <button type="submit" class="btn btn-danger btn-lg btn-block" onClick="buyAlert(event);return false;">購入する</button>
+            </form>
+          @elseif($itemDetail->user_id == Auth::id())
+            <a href="{{ action('itemController@itemEditGet',
+              ['id' => $itemDetail->id]) }}"
+              class="btn btn-success btn-lg btn-block">
+              商品を編集する
+            </a>
+            <form action="{{ action('itemController@itemDelete', 
+              ['id' => $itemDetail->id]) }}" method="post">
+              @csrf
+              <button type="submit" class="btn btn-danger" onClick="deleteAlert(event);return false;">
+                商品を削除する
+              </button>
+            </form>
+          @endif
+        @endif
+      @elseif($itemDetail->buyer_id > 0)
+        @if($itemDetail->buyer_id == Auth::id())
+          <a href="{{ action('dealingBuyerController@statusBuyer',
+            ['id' => $dealingStatus->id]) }}" class="btn btn-primary btn-lg btn-block">
+            取引画面へ
+          </a>
         @elseif($itemDetail->user_id == Auth::id())
           <a href="{{ action('dealingSellerController@statusSeller',
             ['id' => $dealingStatus->id]) }}"
