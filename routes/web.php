@@ -19,8 +19,7 @@ Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-
-//トップ画面．
+//ホーム画面．
 Route::get('/','itemController@itemIndex')->name('itemIndex');
 
 //商品検索
@@ -32,8 +31,8 @@ Route::post('/itemRegister','itemController@itemRegisterPost')->name('itemRegist
 
 //個別商品ページ
 Route::get('/itemDetail/{id}', 'itemController@itemDetail')->name('itemDetail');
-Route::post('/itemDetail/{id}', 'itemController@itemDetailComment')->name('itemDetailComment'); //itemDetailから商品のコメントを登録するために設置．
-Route::post('/itemDetail/good/{id}', 'itemController@itemDetailGood')->name('itemDetailGood'); //itemDetailで「いいね」を登録するために設置．
+Route::post('/itemDetail/{id}', 'itemController@itemDetailComment')->name('itemDetailComment'); //itemDetailから商品のコメントを登録する．
+Route::post('/itemDetail/good/{id}', 'itemController@itemDetailGood')->name('itemDetailGood'); //itemDetailで「いいね」を登録する．
 
 //商品削除
 Route::post('/itemDelete/{id}', 'itemController@itemDelete')->name('itemDelete')->middleware('verified');
@@ -51,19 +50,18 @@ Route::get('/userInfo/{id}', 'userController@userInfo')->name('userInfo')->middl
 Route::get('/userEdit/{id}', 'userController@userEditGet')->name('userEditGet')->middleware('verified');
 Route::post('/userEdit/{id}', 'userController@userEditPost')->name('userEditPost')->middleware('verified');
 Route::post('/userDelelte/{id}', 'userController@userDelete')->name('userDelete')->middleware('verified');
-Route::get('/userPage/{id}', 'userController@userPage')->name('userPage')->middleware('verified');//出品した商品で「いいね」されたものを表示する．
+Route::get('/userPage/{id}', 'userController@userPage')->name('userPage')->middleware('verified');
 
 //ユーザーが商品にコメントを登録したり，いいねをした商品へのリンクを表示するページ
-Route::get('/userCommentedItem/{id}', 'userController@userCommentedItem')->name('userCommentedItem')->middleware('verified');//コメントした商品を表示する．
-Route::get('/userCommentedItemByWatcher/{id}', 'userController@userCommentedItemByWatcher')->name('userCommentedItemByWatcher')->middleware('verified');//出品した商品でコメントがあったものを表示する．
-Route::get('/userGood/{id}', 'userController@userGood')->name('userGood')->middleware('verified');//「いいね」した商品を表示する．
-Route::get('/userGoodByWatcher/{id}', 'userController@userGoodByWatcher')->name('userGoodByWatcher')->middleware('verified');//出品した商品で「いいね」されたものを表示する．
+Route::get('/userCommentedItem/{id}', 'userController@userCommentedItem')->name('userCommentedItem')->middleware('verified');
+Route::get('/userCommentedItemByWatcher/{id}', 'userController@userCommentedItemByWatcher')->name('userCommentedItemByWatcher')->middleware('verified');
+Route::get('/userGood/{id}', 'userController@userGood')->name('userGood')->middleware('verified');
+Route::get('/userGoodByWatcher/{id}', 'userController@userGoodByWatcher')->name('userGoodByWatcher')->middleware('verified');
 Route::get('/userDealingBuy/{id}', 'userController@userDealingBuy')->name('userDealingBuy')->middleware('verified');
 Route::get('/userDealingSell/{id}', 'userController@userDealingSell')->name('userDealingSell')->middleware('verified');
 Route::get('/userDealingEnd/{id}', 'userController@userDealingEnd')->name('userDealingEnd')->middleware('verified');
 Route::get('/userDealingEnd/{id}', 'userController@userDealingEnd')->name('userDealingEnd')->middleware('verified');
 Route::get('/userRegisteredItem/{id}', 'userController@userRegisteredItem')->name('userRegisteredItem');
-
 
 //購入用メソッド
 Route::post('/buy/{id}', 'dealingBuyerController@buy')->name('buy')->middleware('verified');
@@ -73,9 +71,9 @@ Route::get('/statusBuyer/{id}', 'dealingBuyerController@statusBuyer')->name('sta
 Route::get('/statusSeller/{id}', 'dealingSellerController@statusSeller')->name('statusSeller')->middleware('verified');
 Route::post('/statusBuyerPayed/{id}', 'dealingBuyerController@statusBuyerPayed')->name('statusBuyerPaid')->middleware('verified');
 Route::post('/statusSellerShipped/{id}', 'dealingSellerController@statusSellerShipped')->name('statusSellerShipped')->middleware('verified');
+Route::post('/statusSkip/{id}', 'dealingBuyerController@statusSkip')->name('statusSkip')->middleware('verified');//取引スキップ
 //（注意）取引メッセージはコード量の少ないdealingSellerControllerへ記載している．
-Route::post('/dealingMessage/{id}', 'dealingSellerController@dealingMessage')->name('dealingMessage')->middleware('verified');//取引中のメッセージ
-Route::post('/statusSkip/{id}', 'dealingBuyerController@statusSkip')->name('statusSkip')->middleware('verified');
+Route::post('/dealingMessage/{id}', 'dealingSellerController@dealingMessage')->name('dealingMessage')->middleware('verified');//取引メッセージ
 
 //出品者・購入者の評価
 Route::post('/buyerEvaluation/{id}', 'dealingEvaluationController@buyerEvaluation')->name('buyerEvaluation')->middleware('verified');

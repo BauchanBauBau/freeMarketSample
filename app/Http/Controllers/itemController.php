@@ -57,14 +57,14 @@ class itemController extends Controller
         ]);
     }
 
-    public function itemRegisterGet() //出品メソッドget用 Route::get('/itemRegister','mainController@itemRegist')->name('itemRegist')
+    public function itemRegisterGet() //出品メソッドget用
     {   
         $categories = Category::get();
 
         return view('item.itemRegister', ['categories' => $categories]); //['○○○.blade.php側で用いる変数名' => $○○○.blade.php側へ渡す変数]
     }
 
-    public function itemRegisterPost(Request $request) //出品メソッドpost用 Route::post('/itemRegister','mainController@itemRegister')->name('itemRegister')
+    public function itemRegisterPost(Request $request) //出品メソッドpost用
     {   
         $this->validate($request, Item::$rules);
 
@@ -132,7 +132,7 @@ class itemController extends Controller
         $dealingStatus = Dealing_status::where('item_id', '=', $itemDetail->id)
         ->where('seller_id', '=', $itemDetail->user_id)
         ->where('buyer_id', '=', $itemDetail->buyer_id)
-        ->first(); //該当する商品が購入された場合，取引画面へ遷移するために，dealing_statusesテーブルにおける当該取引のIDを取得する変数．
+        ->first(); //該当する商品が購入された場合，取引画面へ遷移するために，dealing_statusesテーブルにおける当該取引のidを取得する変数．
 
         $goodBuy = count(Evaluation::where('buyer_id', '=', $itemDetail->user_id)
         ->where('buyerEvaluation', '<', 1)->get());
@@ -164,6 +164,7 @@ class itemController extends Controller
     }
 
     public function itemDelete(Request $request){
+        
         $itemDetail = Item::find($request->id);
         
         Item_comment::where('item_id', '=', $itemDetail->id)->delete();
@@ -181,11 +182,7 @@ class itemController extends Controller
     public function itemDetailGood(Request $request) //いいね用のメソッド      
     {  
         $itemDetail = Item::find($request->id);//最後のreturn redirect()->route('itemDetail', ['id' => $itemDetail->id]);用
-        /*
-        以下$goodsIndividualは，Item_goodsテーブルのitem_idカラムの値とitemsテーブルのidが一致し，
-        且つItem_goodsテーブルのwatcherカラムの値とitemsテーブルのuser_idカラムの値が一致するデータを取得し，
-        そのデータの個数を計算する．
-        */
+
         $goodsIndividual = count(Item_good::where('item_id', '=', $itemDetail->id)
         ->where('watcher_id','=', Auth::id())->get());
 
@@ -207,7 +204,7 @@ class itemController extends Controller
             return redirect()->route('itemDetail', ['id' => $itemDetail->id]);
         }else{
             $itemGood = Item_good::where('item_id', '=', $itemDetail->id)->get();
-            if(!is_null($itemGood)){
+            if(isset($itemGood)){
             Item_good::where('item_id', '=', $itemDetail->id)->delete();
             }
             return redirect()->route('itemDetail', ['id' => $itemDetail->id]);
@@ -240,17 +237,15 @@ class itemController extends Controller
 
         $comment->save();
         
-        //メール送信
-        $seller = User::find($itemDetail->user_id);
-        $sellerMailAddress = $seller->email;
-
-        $watcher = User::find($comment->watcher_id);
-        $watcherMailAddress = $watcher->email;
-
-        $commentTo = $request->input('commentTo_id');
-        $commentTo_id = User::find($commentTo);
-
             //メール送信
+            $seller = User::find($itemDetail->user_id);
+            $sellerMailAddress = $seller->email;
+
+            $watcher = User::find($comment->watcher_id);
+            $watcherMailAddress = $watcher->email;
+
+            $commentTo = $request->input('commentTo_id');
+            $commentTo_id = User::find($commentTo);
             if(Auth::id() != $itemDetail->user_id){ //sellerに対してメールを送信する
                 Mail::send('mail.commentMailSeller', [
                     "watcher" => $watcher,

@@ -31,7 +31,7 @@ class userController extends Controller
         ->where('seller_id', '=', $user->id)->get());
 
         $dealing = $dealingBuy + $dealingSell;
-
+        
         return view('user.userInfo', ['user' => $user, 'dealing' => $dealing]);
     }
 
@@ -306,7 +306,7 @@ class userController extends Controller
         ->where('kidoku', '<', 1)
         ->get();
 
-        //コメントした商品
+        //（他のユーザーが出品した商品に）コメントした商品
         $commentedItems = Item_comment::where('user_id', '!=', $user)
         ->where('commentTo_id', '=', $user)
         ->where('kidoku', '<', 1)
@@ -314,7 +314,7 @@ class userController extends Controller
         ->where('buyed', '<', 1)
         ->get()->unique('item_id'); //「->unique('item_id')」で重複を防止する．
 
-        //コメントが来た商品
+        //（自分が出品した商品で）コメントが来た商品
         $commentedItemsByWatcher = Item_comment::where('user_id', '=', $user)
         ->where('watcher_id', '!=', $user)
         ->where('kidoku', '<', 1)
