@@ -50,7 +50,7 @@ Route::get('/userInfo/{id}', 'userController@userInfo')->name('userInfo')->middl
 Route::get('/userEdit/{id}', 'userController@userEditGet')->name('userEditGet')->middleware('verified');
 Route::post('/userEdit/{id}', 'userController@userEditPost')->name('userEditPost')->middleware('verified');
 Route::post('/userDelelte/{id}', 'userController@userDelete')->name('userDelete')->middleware('verified');
-Route::get('/userPage/{id}', 'userController@userPage')->name('userPage')->middleware('verified');
+Route::get('/userPage/{id}', 'userController@userPage')->name('userPage')->middleware('auth');
 
 //ユーザーが商品にコメントを登録したり，いいねをした商品へのリンクを表示するページ
 Route::get('/userCommentedItem/{id}', 'userController@userCommentedItem')->name('userCommentedItem')->middleware('verified');
@@ -83,7 +83,7 @@ Route::post('/sellerEvaluation/{id}', 'dealingEvaluationController@sellerEvaluat
 Route::get('/userIndex', 'userController@userIndex')->name('userIndex')->middleware('verified');
 
 //お問い合わせ用
-Route::get('/userInquiry/{id}', 'userController@userInquiryGet')->name('userInquiryGet')->middleware('verified');
+Route::get('/userInquiry/{id}', 'userController@userInquiryGet')->name('userInquiryGet')->middleware('auth');
 Route::post('/userInquiry/{id}', 'userController@userInquiryPost')->name('userInquiryPost')->middleware('auth');
 
 Route::group(['prefix' => 'admin'], function () {

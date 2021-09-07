@@ -4,6 +4,25 @@
 <title>Home 商品一覧</title>
 
 @section('content')
+@if (!Auth::id())
+<div class="bbs">
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <p>ご覧いただきありがとうございます．</p>
+            <p>商品の購入機能，商品へのコメント投稿機能をお試しいただく場合，
+                お手数ですが<a class="nav-link" href="{{ route('register') }}" style="display: inline">ユーザー登録</a>
+                及びメールでのユーザー認証を<br>お願いいたします
+                （ご登録いただいたメールアドレスは，コメントやメッセージへの回答に利用いたします）．
+            </p>
+            <p>本サイトは以下のような仕様のため，安心してお試しいただけます．</p>
+            <p>・決済機能は搭載しておらず，料金は一切かかりません．</p>
+            <p>・商品購入後の出品者とのやりとりをスキップするボタンを用意しております．</p>
+            <p>お問い合わせは，ログイン後，ユーザー名が表示されているボタンの「ユーザーページ」
+                ==>>「お問い合わせ」からお願いいたします．</p>
+        </div>
+    </div>
+</div>
+@endif
 <div class="menu">
     <div class="row">
         <div class="col-md-12">
