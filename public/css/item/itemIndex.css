@@ -1,4 +1,4 @@
-.bbs {
+.bbs { /*itemIndex用*/
     margin-top: 3%;
 }
 
@@ -9,7 +9,7 @@
 
 #header1{ /*userCommentedItem～userItemGood用*/
     text-align: center;
-    margin: 5%;
+    margin-top: 3%;
 }
 
 #header2 { /*userCommentedItem～userItemGood用*/

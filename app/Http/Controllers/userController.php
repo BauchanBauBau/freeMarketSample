@@ -71,7 +71,9 @@ class userController extends Controller
 
         Item_good::where('user_id', '=', $userDel->id)->delete();
 
-        Inquiry::where('user_id', '=', $userDel->id)->delete();
+        Inquiry::where('user_id', '=', $userDel->id)
+        ->orWhere('inquiryTo_id', '=', $userDel->id)
+        ->delete();
 
         $userDel->delete();
         if(url('userIndex')){
