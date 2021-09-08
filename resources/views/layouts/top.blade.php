@@ -9,7 +9,11 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
+@if(Request::routeIs('itemIndex'))
 <header class="sticky-top">
+@else
+<header>
+@endif
     <div class="container">
         <div class="row">
             <div class="col-md-12">
