@@ -28,7 +28,7 @@
 </div>
 <div class="userIndex" style="margin-top: 3%">
     <div class="row">
-        <table class="table table-bordered col-md-10 offset-md-1" style="text-align: center">
+        <table class="table table-bordered col-md-8 offset-md-2" style="text-align: center">
             <thead>
                 <tr>
                     <th>id</th>
@@ -44,14 +44,14 @@
             </thead>
             @foreach($users as $user)
             <tr>
-                <td class="col-md-2">
+                <td class="col-md-1">
                     @if($status < 1)
                         {{ $user->user->id }}
                     @else
                         {{ $user->id }}
                     @endif
                 </td>
-                <td class="col-md-2">
+                <td class="col-md-3">
                     @if($status < 1)
                         <a href="{{ action('userController@userDealingEnd', 
                             ['id' => $user->user->id]) }}">{{ $user->user->nickName }}

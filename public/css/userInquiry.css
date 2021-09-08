@@ -1,6 +1,11 @@
 .inquiryArea h1 {
     margin-top: 5%;
-    margin-bottom: 5%;
+    text-align: center;
+}
+
+.inquiryArea h4 {
+    margin-top: 3%;
+    margin-bottom: 3%;
     text-align: center;
 }
 
