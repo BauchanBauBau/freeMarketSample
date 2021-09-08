@@ -5,10 +5,10 @@
 
 @section('content')
 <br>
-<h1 id="header1">「いいね」した商品一覧
-@if(count($goodItems) > 0)（{{ count($goodItems) }}件）</h1>
+<h2 id="header1">「いいね」した商品一覧
+@if(count($goodItems) > 0)（{{ count($goodItems) }}件）</h2>
 @elseif(count($goodItems) < 1)
-    <h2 id="header2">「いいね」した商品はありません</h2>
+    <h4 id="header2">「いいね」した商品はありません</h4>
 @endif
 @if(count($goodItems) > 0)
     <div class="row">

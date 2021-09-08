@@ -5,7 +5,7 @@
 
 @section('content')
 <br>
-<h1 id="header1">
+<h2 id="header1">
     <small>
         （他のユーザーの商品で）
     </small>
@@ -14,7 +14,7 @@
     @if(count($commentedItems) > 0)
         （{{ count($commentedItems) }}件）
     @endif
-</h1>
+</h2>
     <div class="selectStatus form-group col-md-4 offset-md-4">
         <form action="{{ action('userController@userCommentedItem', ['id' => $user]) }}">
             <label for="selectStatus">表示内容を選択してください</label>
@@ -26,7 +26,7 @@
         </form>
     </div>
 @if(count($commentedItems) < 1)
-    <h2 id="header2">条件に該当する商品はありません</h2>
+    <h4 id="header2">条件に該当する商品はありません</h4>
 @endif
 <div class="row"> 
     @foreach($commentedItems as $commentedItem)

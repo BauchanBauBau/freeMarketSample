@@ -7,14 +7,14 @@
 
 @if(count($ends) < 1)
     <div class="select">
-        <h2><a href="{{ action('userController@userRegisteredItem', ['id' => $user->id]) }}">{{ $user->nickName }}</a>様の終了した取引
+        <h3><a href="{{ action('userController@userRegisteredItem', ['id' => $user->id]) }}">{{ $user->nickName }}</a>様の終了した取引
             @if($type == 0)（全て）
             @elseif($type == 1)（購入）
             @elseif($type == 2)（販売）
             @endif
             【{{ count($ends) }}件】
-        </h2>
-        <h2>該当する取引はありません．</h2>
+        </h3>
+        <h5>該当する取引はありません．</h5>
         <form action="{{ action('userController@userDealingEnd', ['id' => $user]) }}">
             <select class="form-control col-md-4 offset-md-4" name="selectDealing" id="selectDealing">
                 <option value="0" @if($type == 0) selected @endif>全て</option>
@@ -26,20 +26,20 @@
     </div>
 @else
     <div class="select">
-        <h2><a href="{{ action('userController@userRegisteredItem', ['id' => $user->id]) }}">{{ $user->nickName }}</a>様の終了した取引
+        <h3><a href="{{ action('userController@userRegisteredItem', ['id' => $user->id]) }}">{{ $user->nickName }}</a>様の終了した取引
             @if($type == 0)（全て）
             @elseif($type == 1)（購入）
             @elseif($type == 2)（販売）
             @endif
             【{{ count($ends) }}件】
-        </h2>
-        <h4>
+        </h3>
+        <h5>
             （
             評価
             【良い：{{ $good }}件（{{ round($good / ($good + $bad) * 100, 0) }}％）】
             【悪い：{{ $bad }}件（{{ round($bad / ($good + $bad) * 100, 0) }}％）】
             ）
-        </h4>
+        </h5>
         <form action="{{ action('userController@userDealingEnd', ['id' => $user]) }}">
             <select class="form-control col-md-4 offset-md-4" name="selectDealing" id="selectDealing">
                 <option value="0">全て</option>

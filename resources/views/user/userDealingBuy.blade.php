@@ -4,9 +4,9 @@
 <title>取引中の商品</title>
 
 @section('content')
-<h1 id="header1">取引中の商品（購入）【{{ count($dealingStatuses) }}件】</h1>
+<h2 id="header1">取引中の商品（購入）【{{ count($dealingStatuses) }}件】</h2>
 @if(count($dealingStatuses) < 1)
-    <h2 id="header2">該当する取引はありません．</h2>
+    <h4 id="header2">該当する取引はありません．</h4>
 @endif
 <div class="selectStatus">
     <form action="{{ action('userController@userDealingBuy', ['id' => $user]) }}">
