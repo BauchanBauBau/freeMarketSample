@@ -55,9 +55,37 @@ class userController extends Controller
         }
         $form = $request->all();
 
+            //バリデーション
+            $nickName = $request->input('nickName');
+            $duplicateNickName = User::where('id', '!=', $user->id)
+            ->where('nickName', '=', $nickName)->first();
+            
+            $email = $request->input('email');
+            $duplicateEmail = User::where('id', '!=', $user->id)
+            ->where('email', '=', $email)->first();
+
+            $validatedData = $request->validate([
+                'postalCode' => ['required', 'regex:/^[0-9]{3}-[0-9]{4}$/','string'],
+            ]);
+
+            if(isset($duplicateNickName) && isset($duplicateEmail)){
+                $validatedData = $request->validate([
+                    'nickName' => ['required', 'string', 'max:50', 'unique:users'],
+                    'email' => ['required', 'string', 'email', 'max:50', 'unique:users'],
+                ]);
+            }elseif(isset($duplicateNickName)){
+                $validatedData = $request->validate([
+                    'nickName' => ['required', 'string', 'max:50', 'unique:users'],
+                ]);
+            }elseif(isset($duplicateEmail)){
+                $validatedData = $request->validate([
+                    'email' => ['required', 'string', 'email', 'max:50', 'unique:users'],
+                ]);
+            }
+
         $user->fill($form)->save();
 
-        return redirect('/');
+        return redirect()->route('userPage', ['id' => $user->id]);
     }
 
     public function userDelete(Request $request){

@@ -228,6 +228,14 @@
     <div class="col-md-12">
       @if(count($watchers) > 0)
         <h1 style="text-align: center">コメント</h1>
+        <form action="{{ action('itemController@itemDetail', ['id' => $itemDetail->id]) }}" method="GET">
+          <label for="status">コメントの並び順</label>
+          <select name="status" id="status">
+            <option value="0" @if($status == 0) selected @endif>新しい順</option>
+            <option value="1" @if($status == 1) selected @endif>古い順</option>
+          </select>
+          <button type="submit">並び替え</button>
+        </form>
       @else
         <h1 style="text-align: center">コメントはありません．</h1>
       @endif

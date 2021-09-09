@@ -19,7 +19,17 @@ class dealingSellerController extends Controller
         
         if($dealingStatus->seller_id == Auth::id()){
             $item = Item::find($dealingStatus->item_id);
-            $messages = Dealing_message::where('dealingStatus_id', '=' ,$dealingStatus->id)->get();
+            if($request->input('status') == 1){
+                $status = 1;
+                $messages = Dealing_message::where('dealingStatus_id', '=' ,$dealingStatus->id)
+                ->orderBy('created_at', 'asc')
+                ->get();
+            }else{
+                $status = 0;
+                $messages = Dealing_message::where('dealingStatus_id', '=' ,$dealingStatus->id)
+                ->orderBy('created_at', 'desc')
+                ->get();
+            }
             
             if(count($messages) > 0){
                 //midokusは未読sである．
@@ -34,7 +44,12 @@ class dealingSellerController extends Controller
                 }
             }
 
-            return view('dealingStatus.statusSeller', ['dealingStatus' => $dealingStatus, 'item' => $item, 'messages' => $messages]);
+            return view('dealingStatus.statusSeller', [
+                'dealingStatus' => $dealingStatus, 
+                'item' => $item, 
+                'status' => $status,
+                'messages' => $messages
+            ]);
         
         }else{
             return redirect('/');

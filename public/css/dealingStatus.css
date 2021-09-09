@@ -87,6 +87,16 @@ statusBuyer.blade.php共同で使用している*/
     text-align: center;
 }
 
+.dealingMessageArea h4 {
+    margin-bottom: 5%;
+    text-align: center;
+}
+
+.dealingMessageArea form {
+    margin-bottom: 5%;
+    text-align: center;
+}
+
 .messageButton {
     margin: 2%;
     text-align: center;

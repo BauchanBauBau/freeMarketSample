@@ -106,7 +106,15 @@ class itemController extends Controller
         $superUser = User::where('role_id', '=', 1)->first();
         $itemDetail = Item::find($request->id);
         $category = Category::find($itemDetail->category_id); //該当する商品のカテゴリー名を表示
-        $comments = Item_comment::where('item_id','=', $itemDetail->id)->get(); //該当する商品の商品のコメントを表示
+        if($request->input('status') == 1){
+            $status = 1;
+            $comments = Item_comment::where('item_id','=', $itemDetail->id)
+            ->orderBy('created_at', 'asc')->get(); //該当する商品の商品のコメントを表示
+        }else{
+            $status = 0;
+            $comments = Item_comment::where('item_id','=', $itemDetail->id)
+            ->orderBy('created_at', 'desc')->get(); //該当する商品の商品のコメントを表示
+        }
 
         if(count($comments) > 0){ //既読にする
             if(Auth::id() == $itemDetail->user_id){
@@ -164,6 +172,7 @@ class itemController extends Controller
         'superUser' => $superUser,
         'itemDetail' => $itemDetail,
         'category' => $category,
+        'status' => $status,
         'comments' => $comments,
         'watchers' => $watchers,
         'goods' => $goods,
