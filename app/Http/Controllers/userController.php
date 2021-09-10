@@ -532,7 +532,7 @@ class userController extends Controller
 
                     $message
                     ->to($inquirer->email)
-                    ->subject("お問い合わせの回答がありました．");
+                    ->subject("お問い合わせがあります．");
                 });
 
             }
