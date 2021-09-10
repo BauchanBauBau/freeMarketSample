@@ -442,9 +442,19 @@ class userController extends Controller
             $user = Auth::user();
         }
 
-        $inquiries = Inquiry::where('user_id', '=', $user->id)
-        ->orWhere('inquiryTo_id', '=', $user->id)
-        ->get();
+        if($request->input('status') == 1){
+            $status = 1;
+            $inquiries = Inquiry::where('user_id', '=', $user->id)
+            ->orWhere('inquiryTo_id', '=', $user->id)
+            ->orderBy('created_at', 'asc')
+            ->get();
+        }else{
+            $status = 0;
+            $inquiries = Inquiry::where('user_id', '=', $user->id)
+            ->orWhere('inquiryTo_id', '=', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        }
 
         if(count($inquiries) > 0){ //既読にする
             if(Auth::id() == $superUser->id){
@@ -470,7 +480,12 @@ class userController extends Controller
             }
         }
 
-        return view('user.admin.userInquiry', ['user' => $user, 'superUser' => $superUser, 'inquiries' => $inquiries]);
+        return view('user.admin.userInquiry', [
+            'user' => $user, 
+            'superUser' => $superUser, 
+            'status' => $status,
+            'inquiries' => $inquiries
+        ]);
     }
 
     public function userInquiryPost(Request $request){

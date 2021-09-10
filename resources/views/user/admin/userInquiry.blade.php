@@ -19,6 +19,21 @@
                 </div>
             </form>
             
+        @if(count($inquiries) < 1)
+            <h4>メッセージはありません</h4>
+        @else
+            <div class="status">
+                <form action="{{ action('userController@userInquiryGet', ['id' => $user->id]) }}" method="GET">
+                    <label for="status">メッセージの並び順</label>
+                    <select name="status" id="status">
+                        <option value="0" @if($status == 0) selected @endif>新しい順</option>
+                        <option value="1" @if($status == 1) selected @endif>古い順</option>
+                    </select>
+                    <button type="submit">並び替え</button>
+                </form>
+            </div>
+        @endif
+
             <div class="row">
                 <div class="inquiries col-md-12">
                     @foreach($inquiries as $inquiry)
