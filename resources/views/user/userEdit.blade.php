@@ -10,11 +10,11 @@
         <div class="row">
             <div class="col-md-12">
                 @if ($errors->any())
-                    <div class="alert">
-                        @foreach ($errors->all() as $error)
-                            <p>{{ $error }}</p>
-                        @endforeach
-                    </div>
+                <div class="alert text-white bg-danger">
+                    @foreach ($errors->all() as $error)
+                        <h5>・{{ $error }}</h5>
+                    @endforeach
+                </div>
                 @endif
                 <h1>ユーザー情報編集</h1>
                 <form action="{{ action('userController@userEditPost', ['id' => Auth::id()]) }}" method="post" enctype="multipart/form-data">

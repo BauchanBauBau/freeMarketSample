@@ -157,6 +157,9 @@ return [
         'addressCity'    => '住所（市区町村）',
         'addressOther'   => '住所（番地等）',
         'password'       => 'パスワード',
+
+        //商品登録
+        'price' => "価格",
     ],
 
 ];

@@ -7,12 +7,18 @@
 
 <br>
 <h1 style="text-align:center">商品登録</h1>
-
+@if ($errors->any())
+<div class="alert text-white bg-danger">
+    @foreach ($errors->all() as $error)
+        <h5>・{{ $error }}</h5>
+    @endforeach
+</div>
+@endif
 <form action="{{ action('itemController@itemRegisterPost') }}" method="post" enctype="multipart/form-data">
 @csrf
   <div class="form-group">
     <label for="name">商品名 <span class="badge badge-danger">必須</span></label>
-    <input type="text" class="form-control" name="name" id="name" placeholder="商品名" required>
+    <input type="text" class="form-control" name="name" id="name" placeholder="商品名" value="{{ old('name') }}" required>
   </div>
   <div class="form-group row">
     <label class="col-md-2" for="image">商品画像</label>
@@ -26,14 +32,14 @@
       <label for="category_id">カテゴリー選択 <span class="badge badge-danger">必須</span></label>
       <select class="form-control" name="category_id" id="category_id">
         @foreach($categories as $category)
-          <option value="{{ $category->id }}">{{ $category->name }}</option>
+          <option value="{{ $category->id }}" @if(old('category_id') == $category->id) selected @endif>{{ $category->name }}</option>
         @endforeach
       </select>
     </div>
   </div>
   <div class="form-group">
     <label for="description">商品説明</label>
-    <textarea class="form-control" name="description" id="description" rows="10" cols="10" placeholder="商品についての説明を400字以内で入力してください（必須ではありません）．"></textarea>
+    <textarea class="form-control" name="description" id="description" rows="10" cols="10" placeholder="商品についての説明を400字以内で入力してください（必須ではありません）．">{{ old('description') }}</textarea>
   </div>
   <div class="form-group row">
     <div class="col-md-3">
@@ -50,7 +56,7 @@
   <div class="form-group row">
     <div class="col-md-2">
       <label for="price">販売価格(単位：円) <span class="badge badge-danger">必須</span></label>
-      <input type="number" class="form-control" name="price" id="price" required>
+      <input type="number" class="form-control" name="price" id="price" value="{{ old('price') }}" required>
     </div>
   </div>
   <div class="form-group row">

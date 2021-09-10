@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Item extends Model
 {
     public static $rules = array(
-        'price' => 'required|integer|min:0',
-        'days' => 'required|integer|between:0,7',
+        'price' => 'required|integer|min:1',
     );
 
     protected $guarded = ['id'];
