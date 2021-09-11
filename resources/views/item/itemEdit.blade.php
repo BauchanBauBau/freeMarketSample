@@ -94,13 +94,13 @@
     <div class="col-md-2">
       <label for="days">発送までの日数 <span class="badge badge-danger">必須</span></label>
       <select class="form-control" name="days" id="days">
-        <option value="0" @if($item->days == 0) selected @endif>1日</option>
-        <option value="1" @if($item->days == 1) selected @endif>2日</option>
-        <option value="2" @if($item->days == 2) selected @endif>3日</option>
-        <option value="3" @if($item->days == 3) selected @endif>4日</option>
-        <option value="4" @if($item->days == 4) selected @endif>5日</option>
-        <option value="5" @if($item->days == 5) selected @endif>6日</option>
-        <option value="6" @if($item->days == 6) selected @endif>7日</option>
+        <option value="1" @if($item->days == 1) selected @endif>1日</option>
+        <option value="2" @if($item->days == 2) selected @endif>2日</option>
+        <option value="3" @if($item->days == 3) selected @endif>3日</option>
+        <option value="4" @if($item->days == 4) selected @endif>4日</option>
+        <option value="5" @if($item->days == 5) selected @endif>5日</option>
+        <option value="6" @if($item->days == 6) selected @endif>6日</option>
+        <option value="7" @if($item->days == 7) selected @endif>7日</option>
       </select>
     </div>
   </div>

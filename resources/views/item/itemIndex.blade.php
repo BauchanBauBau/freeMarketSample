@@ -41,7 +41,7 @@
                             <option value="{{ $category->id }}" @if($categ == $category->id) selected @endif>{{ $category->name }}</option>
                         @endforeach
                     </select>
-                    <button type="submit" class="btn btn-block btn-dark" onclick="a();">表示</button>
+                    <button type="submit" class="btn btn-block btn-dark">表示</button>
                 </div>
             </form>
         </div>
@@ -97,10 +97,3 @@
     </div>
 </div>
 @endsection
-<script>
-function a(){
-var val = document.getElementById("status").value
-console.log(val)
-}
-
-</script>
