@@ -58,7 +58,7 @@ class itemController extends Controller
             }
         }
 
-        $categories = Category::all();
+        $categories = Category::orderBy('id', 'asc')->get();
         
         return view('item.itemIndex', [
             'categ' => $categ, 
@@ -316,7 +316,9 @@ class itemController extends Controller
     {   
         $item = Item::find($request->id);
         $selectedCategory = Category::find($item->category_id);
-        $categories = Category::where('id','!=', $selectedCategory->id)->get(); //$selectedCategoryで取得したデータ以外のデータ取得する
+        $categories = Category::where('id','!=', $selectedCategory->id)
+        ->orderBy('id', 'asc')
+        ->get(); //$selectedCategoryで取得したデータ以外のデータ取得する
         $user = User::find($item->user_id);
         return view('item.itemEdit', ['item' => $item, 'selectedCategory' => $selectedCategory, 'categories' => $categories, 'user' => $user]);
     }
