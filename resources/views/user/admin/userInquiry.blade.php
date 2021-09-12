@@ -10,7 +10,14 @@
     <div class="row">
         <div class="col-md-12">
             <h1>お問い合わせ</h1>
-            <h4>（{{ $user->nickName }}様）</h4>
+            <h4>
+                （
+                @if (Auth::user()->role_id == 1)
+                   id：{{ $user->id }}番 ，
+                @endif
+                    {{ $user->nickName }}様
+                ）
+            </h4>
             <form action="{{ action('userController@userInquiryPost', ['id' => $user->id]) }}" method="post" enctype="multipart/form-data">
             @csrf
                 <textarea class="form-control" name="inquiry" id="inquiry" rows="5" cols="5" placeholder="お問い合わせ内容を入力してください．" required></textarea>

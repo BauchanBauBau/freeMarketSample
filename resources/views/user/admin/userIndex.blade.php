@@ -16,9 +16,10 @@
                 <div class="form-group">
                     <label for="status">表示内容を選択してください</label>
                     <select class="form-control" name="status" id="status">
-                        <option value="0" @if($status == 0) selected @endif>コメントがあったユーザー</option>
+                        <option value="0" @if($status == 0) selected @endif>新着のコメントがあったユーザー</option>
                         <option value="1" @if($status == 1) selected @endif>全てのユーザー（出品数の多い順）</option>
-                        <option value="2" @if($status == 2) selected @endif>全てのユーザー</option>
+                        <option value="2" @if($status == 2) selected @endif>全てのユーザー（出品数の少ない順）</option>
+                        <option value="3" @if($status == 3) selected @endif>全てのユーザー</option>
                     </select>
                     <button type="submit" class="btn btn-block btn-dark">表示</button>
                 </div>

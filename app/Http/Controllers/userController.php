@@ -420,6 +420,16 @@ class userController extends Controller
             }elseif($request->input('status') == 2){
                 $status = 2;
                 $users = User::where('id', '!=', $superUser->id)
+                ->orderBy('items', 'asc')->get();
+                foreach($users as $user){ //出品した商品の数を計算する．
+                    $user->items = count(Item::where('user_id', '=', $user->id)
+                    ->where('buyer_id', '<', 1)
+                    ->get());
+                    $user->save();
+                }
+            }elseif($request->input('status') == 3){
+                $status = 3;
+                $users = User::where('id', '!=', $superUser->id)
                 ->orderBy('id', 'asc')->get();
                 foreach($users as $user){ //出品した商品の数を計算する．
                     $user->items = count(Item::where('user_id', '=', $user->id)

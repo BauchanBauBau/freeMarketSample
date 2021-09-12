@@ -73,6 +73,11 @@
                         </ul>
                     </div>
                 </nav>
+                <nav class="navbar navbar-expand-lg navbar-light bg-light offset-md-3">
+                    <h5>
+                        <a href="https://youtu.be/kXgJijsCzmQ" target="_blank" rel="noreferrer noopener">☆『フ・リ・マ☆Sample』の説明動画（youtube）はこ・ち・ら☆</a>
+                    </h5>
+                </nav>
             </div>
         </div>
     </div>
