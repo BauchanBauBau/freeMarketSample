@@ -17,7 +17,7 @@
                 </div>
                 @endif
                 <h1>ユーザー情報編集</h1>
-                <form action="{{ action('userController@userEditPost', ['id' => Auth::id()]) }}" method="post" enctype="multipart/form-data">
+                <form action="{{ action('userController@userEditPost', ['id' => $user->id]) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <table class="table table-bordered col-md-8 offset-md-2">
                         <tbody>

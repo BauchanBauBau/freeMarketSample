@@ -68,19 +68,21 @@ class userController extends Controller
                 'postalCode' => ['required', 'regex:/^[0-9]{3}-[0-9]{4}$/','string'],
             ]);
 
-            if(isset($duplicateNickName) && isset($duplicateEmail)){
-                $validatedData = $request->validate([
-                    'nickName' => ['required', 'string', 'max:50', 'unique:users'],
-                    'email' => ['required', 'string', 'email', 'max:50', 'unique:users'],
-                ]);
-            }elseif(isset($duplicateNickName)){
-                $validatedData = $request->validate([
-                    'nickName' => ['required', 'string', 'max:50', 'unique:users'],
-                ]);
-            }elseif(isset($duplicateEmail)){
-                $validatedData = $request->validate([
-                    'email' => ['required', 'string', 'email', 'max:50', 'unique:users'],
-                ]);
+            if($user->role_id != 1){
+                if(isset($duplicateNickName) && isset($duplicateEmail)){
+                    $validatedData = $request->validate([
+                        'nickName' => ['required', 'string', 'max:50', 'unique:users'],
+                        'email' => ['required', 'string', 'email', 'max:50', 'unique:users'],
+                    ]);
+                }elseif(isset($duplicateNickName)){
+                    $validatedData = $request->validate([
+                        'nickName' => ['required', 'string', 'max:50', 'unique:users'],
+                    ]);
+                }elseif(isset($duplicateEmail)){
+                    $validatedData = $request->validate([
+                        'email' => ['required', 'string', 'email', 'max:50', 'unique:users'],
+                    ]);
+                }
             }
 
         $user->fill($form)->save();
