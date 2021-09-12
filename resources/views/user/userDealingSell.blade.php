@@ -35,7 +35,7 @@
         >
             <div class="card">
                 <div class="cardImg">
-                    @if(!isset($dealingStatus->item->id))
+                    @if(!isset($dealingStatus->item->image))
                         <div class="noImage">
                             @if($dealingStatus->item->buyer_id < 1)
                                 <h5>No Image<br>画像がありません</h5>
