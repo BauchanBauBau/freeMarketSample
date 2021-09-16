@@ -31,8 +31,8 @@
                     <label for="status">販売状況</label>
                     <select class="form-control" name="status" id="status">
                         <option value="" selected>選択してください</option>
-                        <option value="0" @if($status == 0) selected @endif>販売中</option>
-                        <option value="1" @if($status == 1) selected @endif>販売済み</option>
+                        <option value="0" @if($selectStatus == 0) selected @endif>販売中</option>
+                        <option value="1" @if($selectStatus == 1) selected @endif>販売済み</option>
                     </select>
                     <label for="category">カテゴリー</label>
                     <select class="form-control" name="category" id="category">

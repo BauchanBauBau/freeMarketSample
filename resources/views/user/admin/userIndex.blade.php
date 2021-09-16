@@ -16,10 +16,10 @@
                 <div class="form-group">
                     <label for="status">表示内容を選択してください</label>
                     <select class="form-control" name="status" id="status">
-                        <option value="0" @if($status == 0) selected @endif>新着のコメントがあったユーザー</option>
-                        <option value="1" @if($status == 1) selected @endif>全てのユーザー（出品数の多い順）</option>
-                        <option value="2" @if($status == 2) selected @endif>全てのユーザー（出品数の少ない順）</option>
-                        <option value="3" @if($status == 3) selected @endif>全てのユーザー</option>
+                        <option value="0" @if($selectStatus == 0) selected @endif>新着のコメントがあったユーザー</option>
+                        <option value="1" @if($selectStatus == 1) selected @endif>全てのユーザー（出品数の多い順）</option>
+                        <option value="2" @if($selectStatus == 2) selected @endif>全てのユーザー（出品数の少ない順）</option>
+                        <option value="3" @if($selectStatus == 3) selected @endif>全てのユーザー</option>
                     </select>
                     <button type="submit" class="btn btn-block btn-dark">表示</button>
                 </div>
@@ -46,14 +46,14 @@
             @foreach($users as $user)
             <tr>
                 <td class="col-md-1">
-                    @if($status < 1)
+                    @if($selectStatus < 1)
                         {{ $user->user->id }}
                     @else
                         {{ $user->id }}
                     @endif
                 </td>
                 <td class="col-md-3">
-                    @if($status < 1)
+                    @if($selectStatus < 1)
                         <a href="{{ action('userController@userDealingEnd', 
                             ['id' => $user->user->id]) }}">{{ $user->user->nickName }}
                         </a>
@@ -64,7 +64,7 @@
                     @endif
                 </td>
                 <td class="col-md-2">
-                    @if($status < 1)
+                    @if($selectStatus < 1)
                         <a href="{{ action('userController@userRegisteredItem', 
                             ['id' => $user->user->id]) }}">{{ $user->user->items }}個
                         </a>
@@ -75,7 +75,7 @@
                     @endif
                 </td>
                 <td class="col-md-2">
-                    @if($status < 1)
+                    @if($selectStatus < 1)
                         <a href="{{ action('userController@userInfo', 
                             ['id' => $user->user->id]) }}" class="btn btn-success">編集
                         </a>
@@ -86,7 +86,7 @@
                     @endif
                 </td>
                 <td class="col-md-2">
-                    @if($status < 1)
+                    @if($selectStatus < 1)
                         <a href="{{ action('userController@userInquiryGet', 
                             ['id' => $user->user->id]) }}" class="btn btn-success">問い合わせ
                         </a>
@@ -97,7 +97,7 @@
                     @endif
                 </td>
                 <td class="col-md-2">
-                    @if($status < 1)
+                    @if($selectStatus < 1)
                         <form action="{{ action('userController@userDelete', ['id' => $user->user->id]) }}" method="post">
                     @else
                         <form action="{{ action('userController@userDelete', ['id' => $user->id]) }}" method="post">

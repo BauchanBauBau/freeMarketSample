@@ -39,7 +39,7 @@
   </div>
   <div class="form-group">
     <label for="description">商品説明</label>
-    <textarea class="form-control" name="description" id="description" rows="10" cols="10" placeholder="商品についての説明を400字以内で入力してください（必須ではありません）．">{{ old('description') }}</textarea>
+    <textarea class="form-control" name="description" id="description" rows="10" cols="10" placeholder="商品についての説明を400字以内で入力してください（必須ではありません）">{{ old('description') }}</textarea>
   </div>
   <div class="form-group row">
     <div class="col-md-3">

@@ -21,7 +21,7 @@
                         <div class="form-group">
                             <label for="condition">商品の状態</label>
                             <select class="form-control" name="condition" id="condition">
-                                <option value="null" @if($condition == "null") selected @endif>選択してください</option>
+                                <option value="null" @if($condition == null) selected @endif>選択してください</option>
                                 <option value="0" @if($condition == 0) selected @endif>新品・未使用</option>
                                 <option value="1" @if($condition == 1) selected @endif>新品・未使用に近い</option>
                                 <option value="2" @if($condition == 2) selected @endif>目立った傷や汚れ無し</option>
@@ -32,7 +32,7 @@
                         <div class="form-group">
                             <label for="status">販売状況</label>
                             <select class="form-control" name="status" id="status">
-                                <option value="null" @if($status == "null") selected @endif>選択してください</option>
+                                <option value="null" @if($status == null) selected @endif>選択してください</option>
                                 <option value="0" @if($status == 0) selected @endif>販売中</option>
                                 <option value="1" @if($status == 1) selected @endif>販売済み</option>
                             </select>
@@ -65,7 +65,7 @@
                         <div class="cardImg">
                             @if(!isset($item->image))
                             <div class="noImage">
-                                @if($item->buyer == 0)
+                                @if($item->buyer_id == 0)
                                     <h5>No Image<br>画像がありません</h5>
                                     <p class="list-group-item">{{ number_format($item->price) }}円</p>
                                 @else
@@ -75,7 +75,7 @@
                             </div>
                             @else
                             <div class="img">
-                                @if($item->buyer == 0)
+                                @if($item->buyer_id == 0)
                                     <img class="img-thumbnail" src="{{ $item->image }}">
                                     <p class="list-group-item">{{ number_format($item->price) }}円</p>
                                 @else

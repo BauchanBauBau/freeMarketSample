@@ -11,16 +11,17 @@
         <div class="col-md-12">
             <h1>お問い合わせ</h1>
             <h4>
-                （
                 @if (Auth::user()->role_id == 1)
-                   id：{{ $user->id }}番 ，
-                @endif
+                    （
+                    id：{{ $user->id }}番 ，
                     {{ $user->nickName }}様
-                ）
+                    ）
+                @endif
+
             </h4>
             <form action="{{ action('userController@userInquiryPost', ['id' => $user->id]) }}" method="post" enctype="multipart/form-data">
             @csrf
-                <textarea class="form-control" name="inquiry" id="inquiry" rows="5" cols="5" placeholder="お問い合わせ内容を入力してください．" required></textarea>
+                <textarea class="form-control" name="inquiry" id="inquiry" rows="5" cols="5" placeholder="お問い合わせ内容を入力してください" required></textarea>
                 <div class="inquiryButton">
                     <button type="submit" class="btn btn-danger" onClick="postAlert(event);return false;">お問い合わせ内容を登録する</button>
                 </div>
@@ -33,8 +34,8 @@
                 <form action="{{ action('userController@userInquiryGet', ['id' => $user->id]) }}" method="GET">
                     <label for="status">メッセージの並び順</label>
                     <select name="status" id="status">
-                        <option value="0" @if($status == 0) selected @endif>新しい順</option>
-                        <option value="1" @if($status == 1) selected @endif>古い順</option>
+                        <option value="0" @if($selectStatus == 0) selected @endif>新しい順</option>
+                        <option value="1" @if($selectStatus == 1) selected @endif>古い順</option>
                     </select>
                     <button type="submit">並び替え</button>
                 </form>
@@ -49,12 +50,12 @@
                                 @if(isset($inquiry->user_id))
                                     <h5>{{ $inquiry->inquiry }}</h5>
                                 @else
-                                    <h5>メッセージを削除しました．</h5>
+                                    <h5>メッセージを削除しました</h5>
                                 @endif
                                     {{-- 以下のuserはapp\Dealing_inquiry.phpで定義したusersテーブルを参照するための
                                     userメソッドであり，nickNameはusersテーブルのカラムである． --}}
                                 @if(!isset($inquiry->user->id))
-                                    <p>このユーザーは削除されました．</p>
+                                    <p>このユーザーは削除されました</p>
                                 @else
                                     <p>{{ $inquiry->user->nickName }}
                                         <strong>
@@ -76,12 +77,12 @@
                                 @if(isset($inquiry->user_id))
                                     <h5>{{ $inquiry->inquiry }}</h5>
                                 @else
-                                    <h5>メッセージを削除しました．</h5>
+                                    <h5>メッセージを削除しました</h5>
                                 @endif
                                 {{-- 以下のuserはapp\Dealing_inquiry.phpで定義したusersテーブルを参照するための
                                 userメソッドであり，nickNameはusersテーブルのカラムである． --}}
                                 @if(!isset($inquiry->user->id))
-                                    <p>ユーザー情報は削除されました．</p>
+                                    <p>ユーザー情報は削除されました</p>
                                 @else
                                     <p>{{ $inquiry->user->nickName }}
                                         <strong>

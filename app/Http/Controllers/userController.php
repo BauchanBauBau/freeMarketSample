@@ -117,22 +117,23 @@ class userController extends Controller
 
     public function userCommentedItem(Request $request) //他のユーザーが出品した商品で，自分がコメントしたものを表示する．
     {
+        $status = $request->input('selectStatus');
         $user = Auth::id();
-        if($request->input('selectStatus') == 0){
+        if($status == 0){
+            $selectStatus = 0;
             $commentedItems = Item_comment::where('user_id', '!=', $user)
             ->where('commentTo_id', '=', $user)
             ->where('kidoku', '<', 1)
             ->where('commentDelete', '<', 1)
             ->where('buyed', '<', 1)
             ->get()->unique('item_id'); //「->unique('item_id')」で重複を防止する．
-            $selectStatus = 0;
-        }elseif($request->input('selectStatus') == 1){
+        }elseif($status == 1){
+            $selectStatus = 1;
             $commentedItems = Item_comment::where('user_id', '!=', $user)
             ->where('watcher_id', '=', $user)
             ->where('commentDelete', '<', 1)
             ->where('buyed', '<', 1)
             ->get()->unique('item_id'); //「->unique('item_id')」で重複を防止する．
-            $selectStatus = 1;
         }
 
         return view('user.userCommentedItem', [
@@ -143,22 +144,23 @@ class userController extends Controller
     }
 
     public function userCommentedItemByWatcher(Request $request) //自分が出品した商品で，他のユーザーからコメントがあったものを表示する．
-    {
+    {   
+        $status = $request->input('selectStatus');
         $user = Auth::id();
-        if($request->input('selectStatus') == 0){
+        if($status == 0){
+            $selectStatus = 0;
             $commentedItems = Item_comment::where('user_id', '=', $user)
             ->where('watcher_id', '!=', $user)
             ->where('kidoku', '<', 1)
             ->where('commentDelete', '<', 1)
             ->where('buyed', '<', 1)
             ->get()->unique('item_id'); //「->unique('item_id')」で重複を防止する．
-            $selectStatus = 0;
-        }elseif($request->input('selectStatus') == 1){
+        }elseif($status == 1){
+            $selectStatus = 1;
             $commentedItems = Item_comment::where('user_id', '=', $user)
             ->where('commentDelete', '<', 1)
             ->where('buyed', '<', 1)
             ->get()->unique('item_id'); //「->unique('item_id')」で重複を防止する．
-            $selectStatus = 1;
         }
 
         return view('user.userCommentedItemByWatcher', [
@@ -189,15 +191,15 @@ class userController extends Controller
     
     public function userDealingBuy(Request $request)
     {
+        $status = $request->input('selectStatus');
         $user = Auth::id();
-        
-        if($request->input('selectStatus') == 0){
+        if($status == 0){
             $selectStatus = 0;
             $dealingStatuses = Dealing_message::where('user_id', '!=', $user)
             ->where('buyer_id', '=', $user)
             ->where('kidoku', '<', 1)
             ->get();
-        }elseif($request->input('selectStatus') == 1){
+        }elseif($status == 1){
             $selectStatus = 1;
             $dealingStatuses = Dealing_status::where('buyer_id', '=', $user)
             ->where('evaluated', '<', 2)
@@ -213,15 +215,15 @@ class userController extends Controller
 
     public function userDealingSell(Request $request)
     {
+        $status = $request->input('selectStatus');
         $user = Auth::id();
-        
-        if($request->input('selectStatus') == 0){
+        if($status == 0){
             $selectStatus = 0;
             $dealingStatuses = Dealing_message::where('user_id', '!=', $user)
             ->where('seller_id', '=', $user)
             ->where('kidoku', '<', 1)
             ->get();
-        }elseif($request->input('selectStatus') == 1){
+        }elseif($status == 1){
             $selectStatus = 1;
             $dealingStatuses = Dealing_status::where('seller_id', '=', $user)
             ->where('evaluated', '<', 2)
@@ -237,10 +239,10 @@ class userController extends Controller
 
     public function userDealingEnd(Request $request)
     {
+        $status = $request->input('selectDealing');
         $user = User::find($request->id);
-
-        if($request->input('selectDealing') == 0){
-            $type = 0; //全て
+        if($status == 0){
+            $selectStatus = 0; //全て
 
             $goodBuy = count(Evaluation::where('buyer_id', '=', $user->id)
             ->where('buyerEvaluation', '<', 1)->get());
@@ -260,8 +262,9 @@ class userController extends Controller
             ->orWhere('seller_id', '=', $user->id)
             ->get();
 
-        }elseif($request->input('selectDealing') == 1){
-            $type = 1; //購入
+        }elseif($status == 1){
+            $selectStatus = 1; //購入
+
             $good = count(Evaluation::where('buyer_id', '=', $user->id)
             ->where('buyerEvaluation', '<', 1)->get());
             
@@ -270,8 +273,9 @@ class userController extends Controller
 
             $ends = Evaluation::where('buyer_id', '=', $user->id)->get();
 
-        }elseif($request->input('selectDealing') == 2){
-            $type = 2; //販売
+        }elseif($status == 2){
+            $selectStatus = 2; //販売
+
             $good = count(Evaluation::where('seller_id', '=', $user->id)
             ->where('sellerEvaluation', '<', 1)->get());
 
@@ -283,26 +287,27 @@ class userController extends Controller
         }
 
         return view('user.userDealingEnd', [
-        'user' => $user,
-        'type' => $type,
-        'good' => $good,
-        'bad' => $bad,
-        'ends' => $ends
+            'user' => $user,
+            'selectStatus' => $selectStatus,
+            'good' => $good,
+            'bad' => $bad,
+            'ends' => $ends
         ]);
     }
 
     public function userRegisteredItem(Request $request)
-    {
+    {   
+        $status = $request->input('selectStatus');
         $user = User::find($request->id);
-        if($request->input('selectStatus') == 0){
-            $status = 0; //全て
+        if($status == 0){
+            $selectStatus = 0; //全て
             $items = Item::where('user_id', '=', $user->id)->get();
-        }elseif($request->input('selectStatus') == 1){
-            $status = 1; //販売中
+        }elseif($status == 1){
+            $selectStatus = 1; //販売中
             $items = Item::where('user_id', '=', $user->id)
             ->where('buyer_id', '=', 0)->get();
-        }elseif($request->input('selectStatus') == 2){
-            $status = 2; //売り切れ
+        }elseif($status == 2){
+            $selectStatus = 2; //売り切れ
             $items = Item::where('user_id', '=', $user->id)
             ->where('buyer_id', '!=', 0)->get();
         }
@@ -323,7 +328,7 @@ class userController extends Controller
 
         return view('user.userRegisteredItem', [
             'user' => $user,
-            'status' => $status,
+            'selectStatus' => $selectStatus,
             'items' => $items,
             'good' => $good,
             'bad' => $bad
@@ -401,14 +406,15 @@ class userController extends Controller
     }
 
     public function userIndex(Request $request){ //管理ユーザー用
+        $status = $request->input('status');
         $superUser = User::where('role_id', '=', 1)->first();
         if(Auth::id() == $superUser->id){
-            if($request->input('status') == 0){
-                $status = 0;
+            if($status == 0){
+                $selectStatus = 0;
                 $users = Inquiry::where('inquiryTo_id', '=', $superUser->id)
                 ->where('kidoku', '<', 1)->get()->unique('user_id');
-            }elseif($request->input('status') == 1){
-                $status = 1;
+            }elseif($status == 1){
+                $selectStatus = 1;
                 $users = User::where('id', '!=', $superUser->id)
                 ->orderBy('items', 'desc')->get();
                 foreach($users as $user){ //出品した商品の数を計算する．
@@ -417,8 +423,8 @@ class userController extends Controller
                     ->get());
                     $user->save();
                 }
-            }elseif($request->input('status') == 2){
-                $status = 2;
+            }elseif($status == 2){
+                $selectStatus = 2;
                 $users = User::where('id', '!=', $superUser->id)
                 ->orderBy('items', 'asc')->get();
                 foreach($users as $user){ //出品した商品の数を計算する．
@@ -427,8 +433,8 @@ class userController extends Controller
                     ->get());
                     $user->save();
                 }
-            }elseif($request->input('status') == 3){
-                $status = 3;
+            }elseif($status == 3){
+                $selectStatus = 3;
                 $users = User::where('id', '!=', $superUser->id)
                 ->orderBy('id', 'asc')->get();
                 foreach($users as $user){ //出品した商品の数を計算する．
@@ -438,7 +444,7 @@ class userController extends Controller
                     $user->save();
                 }
             }
-            return view('user.admin.userIndex', ['users' => $users, 'status' => $status]);
+            return view('user.admin.userIndex', ['users' => $users, 'selectStatus' => $selectStatus]);
         }else{
             return redirect('/');
         }
@@ -446,22 +452,22 @@ class userController extends Controller
     }
 
     public function userInquiryGet(Request $request){
+        $status = $request->input('status');
         $superUser = User::where('role_id', '=', 1)->first();
-
         if(Auth::id() == $superUser->id){
             $user = User::find($request->id);
         }else{
             $user = Auth::user();
         }
 
-        if($request->input('status') == 1){
-            $status = 1;
+        if($status == 1){
+            $selectStatus = 1;
             $inquiries = Inquiry::where('user_id', '=', $user->id)
             ->orWhere('inquiryTo_id', '=', $user->id)
             ->orderBy('created_at', 'asc')
             ->get();
         }else{
-            $status = 0;
+            $selectStatus = 0;
             $inquiries = Inquiry::where('user_id', '=', $user->id)
             ->orWhere('inquiryTo_id', '=', $user->id)
             ->orderBy('created_at', 'desc')
@@ -495,7 +501,7 @@ class userController extends Controller
         return view('user.admin.userInquiry', [
             'user' => $user, 
             'superUser' => $superUser, 
-            'status' => $status,
+            'selectStatus' => $selectStatus,
             'inquiries' => $inquiries
         ]);
     }

@@ -22,9 +22,9 @@ class itemController extends Controller
     public function itemIndex(Request $request)
     {   
         $categ = $request->input('category');
-        
-        if($request->input('status') == ""){
-            $status = "";
+        $status = $request->input('status');
+        if($status == ""){
+            $selectStatus = "";
             if(isset($categ)){
                 $items = Item::where('category_id', '=', $categ)
                 ->orderBy('created_at', 'desc')
@@ -32,8 +32,8 @@ class itemController extends Controller
             }else{
                 $items = Item::orderBy('created_at', 'desc')->get();
             }
-        }elseif($request->input('status') == 0){
-            $status = 0;
+        }elseif($status == 0){
+            $selectStatus = 0;
             if(isset($categ)){
                 $items = Item::where('buyer_id', '<', 1)
                 ->where('category_id', '=', $categ)
@@ -44,8 +44,8 @@ class itemController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->get();
             }
-        }elseif($request->input('status') == 1){
-            $status = 1;
+        }elseif($status == 1){
+            $selectStatus = 1;
             if(isset($categ)){
                 $items = Item::where('buyer_id', '>', 0)
                 ->where('category_id', '=', $categ)
@@ -64,7 +64,7 @@ class itemController extends Controller
             'categ' => $categ, 
             'items' => $items, 
             'categories' => $categories, 
-            'status' => $status
+            'selectStatus' => $selectStatus
         ]);
     }
 
@@ -106,12 +106,13 @@ class itemController extends Controller
         $superUser = User::where('role_id', '=', 1)->first();
         $itemDetail = Item::find($request->id);
         $category = Category::find($itemDetail->category_id); //該当する商品のカテゴリー名を表示
-        if($request->input('status') == 1){
-            $status = 1;
+        $status = $request->input('status');
+        if($status == 1){
+            $selectStatus = 1;
             $comments = Item_comment::where('item_id','=', $itemDetail->id)
             ->orderBy('created_at', 'asc')->get(); //該当する商品の商品のコメントを表示
         }else{
-            $status = 0;
+            $selectStatus = 0;
             $comments = Item_comment::where('item_id','=', $itemDetail->id)
             ->orderBy('created_at', 'desc')->get(); //該当する商品の商品のコメントを表示
         }
@@ -172,7 +173,7 @@ class itemController extends Controller
         'superUser' => $superUser,
         'itemDetail' => $itemDetail,
         'category' => $category,
-        'status' => $status,
+        'selectStatus' => $selectStatus,
         'comments' => $comments,
         'watchers' => $watchers,
         'goods' => $goods,
@@ -385,7 +386,7 @@ class itemController extends Controller
             }
         }
 
-        if(!isset($name) && !isset($condition) && !isset($status) && !isset($priceMin) && !isset($priceMax) && !isset($sellerName))
+        if(empty($name) && empty($condition) && empty($status) && empty($priceMin) && empty($priceMax) && empty($sellerName))
         {
             $items = null;
         }else{

@@ -70,7 +70,6 @@ class dealingBuyerController extends Controller
                 ->subject("商品「" . $item->name . "」を購入しました．取引を開始してください．");
             });
 
-
         return redirect()->route('itemDetail', ['id' => $item->id]);
     }
 
@@ -80,13 +79,14 @@ class dealingBuyerController extends Controller
 
         if($dealingStatus->buyer_id == Auth::id()){
             $item = Item::find($dealingStatus->item_id);
-            if($request->input('status') == 1){
-                $status = 1;
+            $status = $request->input('status');
+            if($status == 1){
+                $selectStatus = 1;
                 $messages = Dealing_message::where('dealingStatus_id', '=' ,$dealingStatus->id)
                 ->orderBy('created_at', 'asc')
                 ->get();
             }else{
-                $status = 0;
+                $selectStatus = 0;
                 $messages = Dealing_message::where('dealingStatus_id', '=' ,$dealingStatus->id)
                 ->orderBy('created_at', 'desc')
                 ->get();
@@ -108,7 +108,7 @@ class dealingBuyerController extends Controller
             return view('dealingStatus.statusBuyer', [
                 'dealingStatus' => $dealingStatus, 
                 'item' => $item, 
-                'status' => $status,
+                'selectStatus' => $selectStatus,
                 'messages' => $messages
             ]);
         

@@ -41,7 +41,7 @@
               <td>出品者</td>
               <td>
                 @if(!isset($itemDetail->user->id))
-                  出品したユーザー情報は削除されました．
+                  出品したユーザー情報は削除されました
                 @else
                   <a href="{{ action('userController@userRegisteredItem',
                     ['id' => $itemDetail->user_id]) }}">{{ $itemDetail->user->nickName }}
@@ -58,10 +58,10 @@
                     【良い：{{ $goodDealing }}件（{{ round($goodDealing / ($goodDealing + $badDealing) * 100, 0) }}％）】
                     【悪い：{{ $badDealing }}件（{{ round($badDealing / ($goodDealing + $badDealing) * 100, 0) }}）％】
                   @elseif($goodDealing + $badDealing < 1)
-                    まだ評価がありません．
+                    まだ評価がありません
                   @endif
                 @else
-                  出品したユーザー情報は削除されました．
+                  出品したユーザー情報は削除されました
                 @endif
               </td>
             </tr>
@@ -105,7 +105,7 @@
               <td>発送元地域</td>
               <td>
                 @if(!isset($itemDetail->user->id))
-                  出品したユーザー情報は削除されました．
+                  出品したユーザー情報は削除されました
                 @else
                   {{ $itemDetail->user->addressPref }}
                 @endif
@@ -199,10 +199,10 @@
     <div class="col-md-6">
       @guest
         @if($itemDetail->buyer_id < 1)
-          <p>{{ count($goods) }}人が「いいね」をしました．</p>
+          <p>{{ count($goods) }}人が「いいね」をしました</p>
           <a href="{{ route('login') }}" class="btn btn-danger">ログインして「いいね」をする</a>
         @else
-          <p>{{ count($goods) }}人が「いいね」をしました．</p>
+          <p>{{ count($goods) }}人が「いいね」をしました</p>
         @endif
       @else
         @if(count($goodCount) < 1 && $itemDetail->buyer_id < 1 && Auth::id() != $itemDetail->user_id)
@@ -217,7 +217,7 @@
               <button type="submit" class="btn btn-danger">「いいね」を取り消す</button>
           </form>
         @else
-          <p>{{ count($goods) }}人が「いいね」をしました．</p>
+          <p>{{ count($goods) }}人が「いいね」をしました</p>
         @endif
       @endguest
     </div>
@@ -228,16 +228,8 @@
     <div class="col-md-12">
       @if(count($watchers) > 0)
         <h1 style="text-align: center">コメント</h1>
-        <form action="{{ action('itemController@itemDetail', ['id' => $itemDetail->id]) }}" method="GET">
-          <label for="status">コメントの並び順</label>
-          <select name="status" id="status">
-            <option value="0" @if($status == 0) selected @endif>新しい順</option>
-            <option value="1" @if($status == 1) selected @endif>古い順</option>
-          </select>
-          <button type="submit">並び替え</button>
-        </form>
       @else
-        <h1 style="text-align: center">コメントはありません．</h1>
+        <h1 style="text-align: center">コメントはありません</h1>
       @endif
       <form action="{{ action('itemController@itemDetailComment', ['id' => $itemDetail->id]) }}" method="post" enctype="multipart/form-data">
         @csrf
@@ -261,16 +253,27 @@
                   </select>
                 </div>
               </div>
-              <textarea class="form-control" name="comment" id="comment" rows="5" cols="5" placeholder="コメントを入力してください．" required></textarea>
+              <textarea class="form-control" name="comment" id="comment" rows="5" cols="5" placeholder="コメントを入力してください" required></textarea>
               <button type="submit" class="btn btn-danger" onClick="postAlert(event);return false;">コメントを登録する</button>
             @elseif($itemDetail->user_id != Auth::id() || count($watchers) > 0)
-              <textarea class="form-control" name="comment" id="comment" rows="5" cols="5" placeholder="コメントを入力してください．" required></textarea>
+              <textarea class="form-control" name="comment" id="comment" rows="5" cols="5" placeholder="コメントを入力してください" required></textarea>
               <button type="submit" class="btn btn-danger" onClick="postAlert(event);return false;">コメントを登録する</button>
             @endif
           @endif   
         @endguest
       </form>
       
+      @if(count($watchers) > 0)
+        <form action="{{ action('itemController@itemDetail', ['id' => $itemDetail->id]) }}" method="GET">
+          <label for="status">コメントの並び順</label>
+          <select name="status" id="status">
+            <option value="0" @if($selectStatus == 0) selected @endif>新しい順</option>
+            <option value="1" @if($selectStatus == 1) selected @endif>古い順</option>
+          </select>
+          <button type="submit">並び替え</button>
+        </form>
+      @endif
+
       <div class="row">
         <div class="itemComments col-md-12">
         @foreach($comments as $comment)
@@ -279,14 +282,14 @@
               @if($comment->commentDelete < 1)
                 <h5>{{ $comment->comment }}</h5>
               @else
-                <h5>コメントを削除しました．</h5>
+                <h5>コメントを削除しました</h5>
               @endif
               {{-- 以下のuserはCapp\Item_comment.phpで定義したusersテーブルを参照するための
               userメソッドであり，nickNameはusersテーブルのカラムである．
               なおユーザーが削除されても販売済みの商品は残るようにしてあるため，
               以下の記載が必要になる． --}}
               @if(!isset($comment->watcher->id))
-                <p>このユーザーは削除されました．</p>
+                <p>このユーザーは削除されました</p>
               @else
                 <p>{{ $comment->watcher->nickName }}
                   <strong>
@@ -321,14 +324,14 @@
               @if($comment->commentDelete < 1)
                 <h5>{{ $comment->comment }}</h5>
               @else
-                <h5>コメントを削除しました．</h5>
+                <h5>コメントを削除しました</h5>
               @endif
               {{-- 以下のuserはCapp\Item_comment.phpで定義したusersテーブルを参照するための
               userメソッドであり，nickNameはusersテーブルのカラムである．
               なおユーザーが削除されても販売済みの商品は残るようにしてあるため，
               以下の記載が必要になる． --}}
               @if(!isset($comment->watcher->id))
-                <p>このユーザーは削除されました．</p>
+                <p>このユーザーは削除されました</p>
               @else
                 <p>{{ $comment->watcher->nickName }}
                   <strong>

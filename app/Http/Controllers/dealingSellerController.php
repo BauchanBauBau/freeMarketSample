@@ -19,13 +19,14 @@ class dealingSellerController extends Controller
         
         if($dealingStatus->seller_id == Auth::id()){
             $item = Item::find($dealingStatus->item_id);
-            if($request->input('status') == 1){
-                $status = 1;
+            $status = $request->input('status');
+            if($status == 1){
+                $selectStatus = 1;
                 $messages = Dealing_message::where('dealingStatus_id', '=' ,$dealingStatus->id)
                 ->orderBy('created_at', 'asc')
                 ->get();
             }else{
-                $status = 0;
+                $selectStatus = 0;
                 $messages = Dealing_message::where('dealingStatus_id', '=' ,$dealingStatus->id)
                 ->orderBy('created_at', 'desc')
                 ->get();
@@ -47,7 +48,7 @@ class dealingSellerController extends Controller
             return view('dealingStatus.statusSeller', [
                 'dealingStatus' => $dealingStatus, 
                 'item' => $item, 
-                'status' => $status,
+                'selectStatus' => $selectStatus,
                 'messages' => $messages
             ]);
         
@@ -83,7 +84,6 @@ class dealingSellerController extends Controller
                     ->to($buyer->email)
                     ->subject("商品「" . $item->name . "」が発送されました．");
                 });
-
 
             return redirect()->route('statusSeller', ['id' => $dealingStatus->id]);
         }else{
