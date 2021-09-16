@@ -207,9 +207,9 @@ class userController extends Controller
         }
 
         return view('user.userDealingBuy', [
-        'user' => $user,
-        'dealingStatuses' => $dealingStatuses,
-        'selectStatus' => $selectStatus
+            'user' => $user,
+            'dealingStatuses' => $dealingStatuses,
+            'selectStatus' => $selectStatus
         ]);
     }
 
@@ -231,9 +231,9 @@ class userController extends Controller
         }
 
         return view('user.userDealingSell', [
-        'user' => $user,
-        'dealingStatuses' => $dealingStatuses,
-        'selectStatus' => $selectStatus
+            'user' => $user,
+            'dealingStatuses' => $dealingStatuses,
+            'selectStatus' => $selectStatus
         ]);
     }
 

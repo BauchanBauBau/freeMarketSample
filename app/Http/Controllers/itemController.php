@@ -168,19 +168,18 @@ class itemController extends Controller
         $goodDealing = $goodBuy + $goodSell;
         $badDealing = $badBuy + $badSell;
 
-
         return view('item.itemDetail', [
-        'superUser' => $superUser,
-        'itemDetail' => $itemDetail,
-        'category' => $category,
-        'selectStatus' => $selectStatus,
-        'comments' => $comments,
-        'watchers' => $watchers,
-        'goods' => $goods,
-        'goodCount' => $goodCount,
-        'dealingStatus' => $dealingStatus,
-        'goodDealing' => $goodDealing,
-        'badDealing' => $badDealing
+            'superUser' => $superUser,
+            'itemDetail' => $itemDetail,
+            'category' => $category,
+            'selectStatus' => $selectStatus,
+            'comments' => $comments,
+            'watchers' => $watchers,
+            'goods' => $goods,
+            'goodCount' => $goodCount,
+            'dealingStatus' => $dealingStatus,
+            'goodDealing' => $goodDealing,
+            'badDealing' => $badDealing
         ]);
     }
 
@@ -226,7 +225,7 @@ class itemController extends Controller
         }else{
             $itemGood = Item_good::where('item_id', '=', $itemDetail->id)->get();
             if(isset($itemGood)){
-            Item_good::where('item_id', '=', $itemDetail->id)->delete();
+                Item_good::where('item_id', '=', $itemDetail->id)->delete();
             }
             return redirect()->route('itemDetail', ['id' => $itemDetail->id]);
         }
