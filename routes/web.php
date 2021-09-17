@@ -59,8 +59,7 @@ Route::get('/userGood/{id}', 'userController@userGood')->name('userGood')->middl
 Route::get('/userGoodByWatcher/{id}', 'userController@userGoodByWatcher')->name('userGoodByWatcher')->middleware('verified');
 Route::get('/userDealingBuy/{id}', 'userController@userDealingBuy')->name('userDealingBuy')->middleware('verified');
 Route::get('/userDealingSell/{id}', 'userController@userDealingSell')->name('userDealingSell')->middleware('verified');
-Route::get('/userDealingEnd/{id}', 'userController@userDealingEnd')->name('userDealingEnd')->middleware('verified');
-Route::get('/userDealingEnd/{id}', 'userController@userDealingEnd')->name('userDealingEnd')->middleware('verified');
+Route::get('/userDealingEnd/{id}', 'userController@userDealingEnd')->name('userDealingEnd');
 Route::get('/userRegisteredItem/{id}', 'userController@userRegisteredItem')->name('userRegisteredItem');
 
 //購入用メソッド
