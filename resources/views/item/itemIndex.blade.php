@@ -6,6 +6,20 @@
 @section('content')
 @if (!Auth::id())
 <div class="bbs">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light offset-md-2">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>
+                    <a href="https://youtu.be/kXgJijsCzmQ" target="_blank" rel="noreferrer noopener">☆『フ・リ・マ☆Sample』の説明動画（youtube）はこ・ち・ら☆</a>
+                </h5>
+            </div>
+            <div class="col-md-6">
+                <h5>
+                    <a href="http://18.183.235.132/" target="_blank" rel="noreferrer noopener">AWSのEC2にもデプロイしました<br>（まだhttpsではありません）</a>
+                </h5>
+            </div>
+        </div>
+    </nav>
     <div class="row">
         <div class="col-md-10 offset-md-1">
             <p>ご覧いただきありがとうございます．</p>
